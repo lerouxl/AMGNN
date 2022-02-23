@@ -1,0 +1,3 @@
+raw_data: "data/thermomechanical"
+processed_data: "data/prepro_thermomechanical"
+project: "AMGNN"
