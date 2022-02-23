@@ -1,0 +1,10 @@
+wandb
+pdoc
+pytorch
+tqdm
+scipy
+torch-scatter
+torch-sparse
+torch-cluster
+torch-spline-conv
+torch-geometric
