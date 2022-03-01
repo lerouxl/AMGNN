@@ -1,20 +1,19 @@
-import torch
 import torch.nn as nn
-from torch_geometric.nn import MessagePassing
-from torch_geometric.utils import add_self_loops, degree
 import wandb
 from model.GNCConv import GCNConv
+from dataloader.arc_dataset import ARCDataset
+
 
 class model():
     """Main class of AMGNN. This class will deal with the model loading, training, testing, validation and logings"""
 
     def __init__(self):
         self.configuration = wandb.config
-        self.network = NeuralNetwork(self.configuration.hidden_channels, self.configuration.out_channels)
 
     def build(self):
         """Create the neural network using wandb parameters"""
-        pass
+        self.network = NeuralNetwork(self.configuration.hidden_channels, self.configuration.out_channels)
+
 
     def train(self):
         """Train the neural network"""
@@ -30,7 +29,7 @@ class model():
 
     def load_data(self):
         """Load and preprocess the dataset"""
-        pass
+        self.dataset = ARCDataset(self.configuration.raw_data, )
 
 
 class NeuralNetwork(nn.Module):
