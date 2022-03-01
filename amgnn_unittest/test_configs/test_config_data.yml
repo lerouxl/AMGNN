@@ -1,0 +1,6 @@
+raw_data: "data/thermomechanical"
+processed_data: "data/prepro_thermomechanical"
+project: "AMGNN"
+# What simulated components to use as input.
+# Can be ["part", "baseplate", "supports"], part should always be here
+used_components: ["part", "supports"]
