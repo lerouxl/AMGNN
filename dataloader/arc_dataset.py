@@ -7,6 +7,7 @@ import wandb
 from torch_geometric.data import Dataset
 from torch_geometric.data import Data
 from Simufact_ARC_reader.ARC_CSV import Arc_reader
+from dataloader.simulation_files import extract_simulation_folder
 from tqdm import tqdm
 from scipy.spatial import KDTree
 from xml.dom import minidom
@@ -83,12 +84,7 @@ class ARCDataset(Dataset):
         Each folder represent a simulation.
         :return list of all folders name in the raw directory.
         """
-        folders_simu = list()
-
-        for file in self.raw_paths:
-            #: Folder name just bellow raw
-            folders_simu.append(list(Path(file).parents)[3].name)
-        folders_simu = list(dict.fromkeys(folders_simu))
+        folders_simu = extract_simulation_folder(self.raw_paths)
 
         return folders_simu
 
