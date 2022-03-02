@@ -1,20 +1,19 @@
 import os.path as osp
 from pathlib import Path
-
-import numpy as np
+import torch_geometric as tg
+import gzip
+import shutil
+import logging
 import torch
 import wandb
 from torch_geometric.data import Dataset
 from torch_geometric.data import Data
 from Simufact_ARC_reader.ARC_CSV import Arc_reader
-from dataloader.simulation_files import extract_simulation_folder
+from dataloader import simulation_files
+from utils.merge_ARC import merge_ARC
 from tqdm import tqdm
-from scipy.spatial import KDTree
 from xml.dom import minidom
-import torch_geometric as tg
-import gzip
-import shutil
-import logging
+
 
 
 class ARCDataset(Dataset):
@@ -84,7 +83,7 @@ class ARCDataset(Dataset):
         Each folder represent a simulation.
         :return list of all folders name in the raw directory.
         """
-        folders_simu = extract_simulation_folder(self.raw_paths)
+        folders_simu = simulation_files.extract_simulation_folder(self.raw_paths)
 
         return folders_simu
 
@@ -170,48 +169,59 @@ class ARCDataset(Dataset):
         simufact_folders = self._simufact_folders()
         printing_information = self.get_meta_parameters(simufact_folders)
 
-        tqdm_bar = tqdm(self.raw_paths)  # iterate on all files
-        for raw_path in tqdm_bar:
+        tqdm_bar = tqdm( simulation_files.organise_files(self.raw_paths))  # iterate on all files
+        for raw_paths in tqdm_bar
+            step_arcs = list()
+            for raw_path in raw_paths:
+                file_name = raw_path.stem
+                tqdm_bar.set_description(f"Processing {file_name}")
+                # Read data from `raw_path`.
+                raw_path = Path(raw_path)
 
-            file_name = Path(raw_path).stem
-            tqdm_bar.set_description(f"Processing {file_name}")
-            # Read data from `raw_path`.
-            raw_path = Path(raw_path)
+                # Create an Arc_readet object to read the csv and create a graph
+                arc = Arc_reader(name=file_name)
 
-            # Create an Arc_readet object to read the csv and create a graph
-            arc = Arc_reader(name=file_name)
+                # Read a csv dump
+                arc.load_csv(raw_path)
 
-            # Read a csv dump
-            arc.load_csv(raw_path)
+                # Extract the point cloud coordinate
+                arc.get_coordinate()
 
-            # Extract the point cloud coordinate
-            arc.get_coordinate()
+                # Add at each point all extract data
+                arc.get_point_cloud_data(display=False)
+                step_arcs.append(arc)
+            step_name = f"{simulation_files.extract_the_simulation_folder(raw_path)}_{simulation_files.extract_step_folder(raw_path)}"
 
-            # Add at each point all extract data
-            arc.get_point_cloud_data(display=False)
+            # Merge the listed files for this part and simulation step
+            arc = merge_ARC(step_arcs)
 
+            # Extract features
             coordinates = torch.tensor(arc.coordinate, dtype=torch.float)
-            part_edge_index, lenght = self.create_edge_list_and_lenght(arc.coordinate)
+            part_edge_index, length = self.create_edge_list_and_lenght(arc.coordinate)
             part_edge_index = torch.tensor(part_edge_index, dtype=torch.long).t().contiguous()
-            lenght = torch.tensor(lenght, dtype=torch.float)
+            length = torch.tensor(length, dtype=torch.float)
+            #TODO: How to load the previous step?
+
+            # Extract labels
+            # TODO: Add X_DIS, Y_DIS and Z_DIS
             y = torch.tensor(arc.data.TOTDISP, dtype=torch.float)
 
             # transform into an undirected graph:
-            part_edge_index, lenght = tg.utils.to_undirected(edge_index=part_edge_index, edge_attr=lenght, reduce='add')
+            part_edge_index, length = tg.utils.to_undirected(edge_index=part_edge_index, edge_attr=length, reduce='add')
 
             data = Data(x=coordinates,
                         edge_index=part_edge_index,
-                        edge_attr=lenght,
+                        edge_attr=length,
                         y=y)
 
-            if self.pre_filter is not None and not self.pre_filter(data):
-                continue
+                if self.pre_filter is not None and not self.pre_filter(data):
+                    continue
 
-            if self.pre_transform is not None:
-                data = self.pre_transform(data)
+                if self.pre_transform is not None:
+                    data = self.pre_transform(data)
 
-            torch.save(data, osp.join(self.processed_dir, f'{file_name}.pt'))
-            idx += 1
+                torch.save(data, osp.join(self.processed_dir, f'{step_name}.pt'))
+                idx += 1
 
     def len(self) -> int:
         """
@@ -228,29 +238,6 @@ class ARCDataset(Dataset):
         """
         data = torch.load(osp.join(self.processed_dir, self.processed_file_names[idx]))
         return data
-
-    ## Compute nearest point
-    def create_edge_list_and_lenght(self, coordinates: np.array):
-        """
-        Take a list of coordinates and compute the neighbours of each coordinates points (edges) and their length
-        using the KD tree query
-        """
-        tree = KDTree(coordinates)
-        part_edge_index = []
-        lenght = []
-
-        # Query the kd-tree for nearest neighbors.
-        for pt_id, pt in enumerate(coordinates):
-
-            distances_neighbors, neighbor_index = tree.query(pt,
-                                                             k=self.neighbour_k, eps=0, p=2,
-                                                             distance_upper_bound=self.distance_upper_bound, workers=1)
-
-            for neigh in neighbor_index:
-                part_edge_index.append([pt_id, neigh])
-                lenght.append(coordinates[pt_id] - coordinates[neigh])
-
-        return part_edge_index, lenght
 
 
 if __name__ == "__main__":
