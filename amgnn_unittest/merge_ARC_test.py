@@ -1,7 +1,7 @@
 """Test merge_ARC.py"""
 
 import unittest
-from utils.merge_ARC import merge_ARC
+from utils.merge_ARC import merge_arc
 from Simufact_ARC_reader.ARC_CSV import Arc_reader
 import numpy as np
 from amgnn_unittest.create_test_data import create_two_cubes, create_ARC_object
@@ -10,7 +10,7 @@ from amgnn_unittest.create_test_data import create_two_cubes, create_ARC_object
 class Test_merge_ARC(unittest.TestCase):
     box1, box2 = create_two_cubes((1, 1, 1), [0, 0, 1.5])
     arc1, arc2 = [create_ARC_object(b, str(i)) for i, b in enumerate([box1, box2])]
-    merged_box = merge_ARC([arc1, arc2])
+    merged_box = merge_arc([arc1, arc2])
 
     def test_number_points(self):
         """

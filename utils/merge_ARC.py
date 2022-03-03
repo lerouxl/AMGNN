@@ -5,20 +5,20 @@ from typing import List
 import numpy as np
 import copy
 from Simufact_ARC_reader.ARC_CSV import Arc_reader
-import wandb
 
-def merge_ARC(arc_files: List ):
+
+def merge_arc(arc_files: List[Arc_reader]) -> Arc_reader:
     """
     Merge ARC files and reconstruct the data matrix.
     :param arc_files: list of arc files.
-    :return:
+    :return: merged ARCs files as an Arc_reader object
     """
     merged = copy.deepcopy(arc_files[0])
     merged.name = "merged_file"
 
     for arc_file in arc_files[1:]:
         # Add the new coordinates
-        merged.coordinate = np.append(merged.coordinate, arc_file.coordinate,0)
+        merged.coordinate = np.append(merged.coordinate, arc_file.coordinate, 0)
 
         data_attributes = [attr for attr in dir(merged.data) if not str(attr).startswith("__")]
         for data_attribute in data_attributes:
