@@ -43,5 +43,19 @@ class Test_merge_ARC(unittest.TestCase):
                 self.assertTrue((arc_origin.data.XDIS[i] == self.merged_box.data.XDIS[j]).all(), "XDIS is not ok")
                 self.assertTrue((arc_origin.data.TEMPTURE[i] == self.merged_box.data.TEMPTURE[j]).all(), "TEMPTURE is not ok")
 
+    def test_metadata(self):
+        """
+        Check that the metadata vector are created
+        :return:
+        """
+        self.assertEqual(self.merged_box.metaparameters.power_W.shape[0], self.merged_box.coordinate.shape[0])
+        self.assertEqual(self.merged_box.metaparameters.layerThickness_m.shape[0], self.merged_box.coordinate.shape[0])
+        self.assertEqual(self.merged_box.metaparameters.process_step.shape[0], self.merged_box.coordinate.shape[0])
+        self.assertEqual(self.merged_box.metaparameters.speed_m_s.shape[0], self.merged_box.coordinate.shape[0])
+        self.assertEqual(self.merged_box.metaparameters.time_steps_length_s.shape[0], self.merged_box.coordinate.shape[0])
+        self.assertEqual(self.merged_box.metaparameters.time_steps_s.shape[0], self.merged_box.coordinate.shape[0])
+
+
+
 # if __name__ == '__main__':
 #    unittest.main()

@@ -26,6 +26,9 @@ def create_ARC_object(mesh, name:str ="arc_file") -> Arc_reader:
     :return: Arc reader object
     """
     arc_obj = Arc_reader(name)
+    # Give the fake object the type extrcated from it's name
+    # It can be supports, part or baseplate
+    arc_obj.arc_type = arc_obj._get_arc_type(name)
     arc_obj.coordinate = mesh.vertices
     numbers_of_vertices = arc_obj.coordinate.shape[0]
     # Generate dummy data
@@ -39,6 +42,14 @@ def create_ARC_object(mesh, name:str ="arc_file") -> Arc_reader:
         else:
             data = np.random.uniform(low=0, high=10, size=numbers_of_vertices)
         setattr(arc_obj.data, name, data)
+
+    # Generate meta data
+    arc_obj.metaparameters.layerThickness_m = np.random.randint(0,10) * 1e-5
+    arc_obj.metaparameters.power_W = np.random.randint(1,4) * 100.0
+    arc_obj.metaparameters.process_step = np.random.randint(0,100)
+    arc_obj.metaparameters.speed_m_s = np.random.randint(5,15) * 0.1
+    arc_obj.metaparameters.time_steps_length_s = np.random.random(1)[0]
+    arc_obj.metaparameters.time_steps_s = np.random.random(1)[0] * 1000
 
     return arc_obj
 
