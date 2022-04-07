@@ -5,12 +5,13 @@ from utils.merge_ARC import merge_arc
 from Simufact_ARC_reader.ARC_CSV import Arc_reader
 import numpy as np
 from amgnn_unittest.create_test_data import create_two_cubes, create_ARC_object
+import copy
 
 
 class Test_merge_ARC(unittest.TestCase):
     box1, box2 = create_two_cubes((1, 1, 1), [0, 0, 1.5])
     arc1, arc2 = [create_ARC_object(b, str(i)) for i, b in enumerate([box1, box2])]
-    merged_box = merge_arc([arc1, arc2])
+    merged_box = merge_arc([copy.deepcopy(arc1), copy.deepcopy(arc2)])
 
     def test_number_points(self):
         """
@@ -45,9 +46,32 @@ class Test_merge_ARC(unittest.TestCase):
 
     def test_metadata(self):
         """
-        Check that the metadata vector are created
+        Check that the metadata vector are created with the good value
         :return:
         """
+
+        for power in self.merged_box.metaparameters.power_W[0:8]:
+            self.assertEqual(self.arc1.metaparameters.power_W, power)
+        for power in self.merged_box.metaparameters.power_W[8:-1]:
+            self.assertEqual(self.arc2.metaparameters.power_W, power)
+
+        for power in self.merged_box.metaparameters.layerThickness_m[0:8]:
+            self.assertEqual(self.arc1.metaparameters.layerThickness_m, power)
+        for power in self.merged_box.metaparameters.layerThickness_m[8:-1]:
+            self.assertEqual(self.arc2.metaparameters.layerThickness_m, power)
+
+        for power in self.merged_box.metaparameters.speed_m_s[0:8]:
+            self.assertEqual(self.arc1.metaparameters.speed_m_s, power)
+        for power in self.merged_box.metaparameters.speed_m_s[8:-1]:
+            self.assertEqual(self.arc2.metaparameters.speed_m_s, power)
+
+
+    def test_metadata_size(self):
+        """
+        Check that the metadata vector are good size
+        :return:
+        """
+
         self.assertEqual(self.merged_box.metaparameters.power_W.shape[0], self.merged_box.coordinate.shape[0])
         self.assertEqual(self.merged_box.metaparameters.layerThickness_m.shape[0], self.merged_box.coordinate.shape[0])
         self.assertEqual(self.merged_box.metaparameters.process_step.shape[0], self.merged_box.coordinate.shape[0])
