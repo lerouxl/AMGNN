@@ -66,7 +66,7 @@ def extract_the_simulation_folder(file: Union[str, Path]) -> str:
     :return: name of the simulation folder
     """
     file = Path(file)
-    return str(list(Path(file).parents)[3].name)
+    return str(list(file.parents)[3].name)
 
 
 def remove_baseplate_from_list(files: List[Path]) -> List[Path]:
@@ -98,6 +98,8 @@ def extract_simulation_folder(raw_files: List[Path]) -> List[str]:
 
     for file in raw_files:
         #: Folder name just bellow raw
+        if file.name == "raw":
+            continue
         simulation_folders.append(extract_the_simulation_folder(file))
     simulation_folders = list(dict.fromkeys(simulation_folders))
 

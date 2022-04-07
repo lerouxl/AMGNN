@@ -6,14 +6,16 @@ import shutil
 import logging
 import torch
 import wandb
+import numpy as np
 from torch_geometric.data import Dataset
 from torch_geometric.data import Data
-from Simufact_ARC_reader.ARC_CSV import Arc_reader
 from dataloader import simulation_files
-from utils.merge_ARC import merge_ARC
+from utils.load_arc import load_arcs_list
+from utils.save_arc import save_arc, load_arc
+from utils.merge_ARC import merge_arc
 from tqdm import tqdm
 from xml.dom import minidom
-
+from utils import features
 
 
 class ARCDataset(Dataset):
@@ -30,12 +32,16 @@ class ARCDataset(Dataset):
         :param transform:
         :param pre_transform:
         """
+        if type(root) is str:
+            root = Path(root)
+
         self.neighbour_k = neighbour_k
         self.distance_upper_bound = distance_upper_bound
+        self.tmp_arc_folder = root / "tmp_arc"
 
         #: List all simufact folder in raw
         # simufact_folders = self._simufact_folders()
-        super().__init__(root, transform, pre_transform)
+        super().__init__(str(root), transform, pre_transform)
 
     @property
     def raw_file_names(self):
@@ -83,7 +89,8 @@ class ARCDataset(Dataset):
         Each folder represent a simulation.
         :return list of all folders name in the raw directory.
         """
-        folders_simu = simulation_files.extract_simulation_folder(self.raw_paths)
+        self.all_arc_files = list(Path(self.raw_dir).rglob("Process_FV_*.csv"))
+        folders_simu = simulation_files.extract_simulation_folder(self.all_arc_files)
 
         return folders_simu
 
@@ -167,44 +174,85 @@ class ARCDataset(Dataset):
 
         #: List all simufact folder in raw
         simufact_folders = self._simufact_folders()
-        printing_information = self.get_meta_parameters(simufact_folders)
+        # printing_information = self.get_meta_parameters(simufact_folders)
 
-        tqdm_bar = tqdm( simulation_files.organise_files(self.raw_paths))  # iterate on all files
-        for raw_paths in tqdm_bar
-            step_arcs = list()
-            for raw_path in raw_paths:
-                file_name = raw_path.stem
-                tqdm_bar.set_description(f"Processing {file_name}")
-                # Read data from `raw_path`.
-                raw_path = Path(raw_path)
+        # Merge same simulation/step ARC csv and save the results in a temporary folder.
+        # The ARC_reader object is saved with pickle
 
-                # Create an Arc_readet object to read the csv and create a graph
-                arc = Arc_reader(name=file_name)
+        # Pre processing
+        for simu in tqdm(simufact_folders):
+            # for one simulation
+            # extract all files for this simulaiton folder
+            simu_arc_files = [p for p in self.all_arc_files if str(simu) == p.parents[3].stem]
 
-                # Read a csv dump
-                arc.load_csv(raw_path)
+            # Organise the files per simulation step
+            step_files = simulation_files.organise_files(simu_arc_files)
 
-                # Extract the point cloud coordinate
-                arc.get_coordinate()
+            for i, raw_path in enumerate(step_files):
 
-                # Add at each point all extract data
-                arc.get_point_cloud_data(display=False)
-                step_arcs.append(arc)
-            step_name = f"{simulation_files.extract_the_simulation_folder(raw_path)}_{simulation_files.extract_step_folder(raw_path)}"
+                #TODO: to remove
+                if i>5:
+                    break
+                arc = load_arcs_list(raw_path)
+                arc.load_meta_parameters(
+                    increment_id=i, build_path=None, increments_path=None
+                )
 
-            # Merge the listed files for this part and simulation step
-            arc = merge_ARC(step_arcs)
+                arc = load_arcs_list(raw_path)
+                arc.load_meta_parameters(
+                    increment_id= i, build_path = None, increments_path = None
+                )
+
+                # Change data type to remove unecesary precision
+                arc.coordinate = arc.coordinate.astype('float16')
+                arc.data.XDIS, arc.data.YDIS, arc.data.ZDIS = arc.data.XDIS.astype('float16'), arc.data.YDIS.astype(
+                    'float16'), arc.data.ZDIS.astype('float16')
+                arc.data.TEMPTURE = arc.data.TEMPTURE.astype('float16')
+
+                # Clear raw_data
+                arc.raw_data = None
+
+                # Clear data
+                for dat in dir(arc.data):
+                    if (dat in ["XDIS", "YDIS", "ZDIS", "TEMPTURE"]) or dat.startswith("__"):
+                        pass
+                    else:
+                        setattr(arc.data, dat, None)
+
+                arc.original_coordinate = arc.coordinate - np.stack([arc.data.XDIS, arc.data.YDIS, arc.data.ZDIS], axis=1)
+                arc.original_coordinate = arc.original_coordinate.astype('float16')
+
+                # Previous arc file
+                if i == 0:
+                    previous_file = None
+                    is_first_step = True
+                else:
+                    previous_file = f"{simulation_files.extract_the_simulation_folder(step_files[i - 1][0])}_at_step_{simulation_files.extract_step_folder(step_files[i - 1][0])}"
+                    is_first_step = False
+                arc.previous_file = previous_file
+                arc.is_first_step = is_first_step
+                step_name = f"{simulation_files.extract_the_simulation_folder(raw_path[0])}_at_step_{simulation_files.extract_step_folder(raw_path[0])}"
+                save_arc(arc, self.tmp_arc_folder, step_name)
+
+
+        # Processing
+        tmp_files = list(self.tmp_arc_folder.glob(".pkl"))
+        for raw_path in tqdm(tmp_files):
+            arc = load_arc(raw_path)
+            # Stop if this is the initialisation file
+            if arc.is_first_step:
+                continue
+
+            previous_arc = load_arc(raw_path.parent / arc.previous_file)
 
             # Extract features
-            coordinates = torch.tensor(arc.coordinate, dtype=torch.float)
-            part_edge_index, length = self.create_edge_list_and_lenght(arc.coordinate)
-            part_edge_index = torch.tensor(part_edge_index, dtype=torch.long).t().contiguous()
-            length = torch.tensor(length, dtype=torch.float)
-            #TODO: How to load the previous step?
+            features.arc_features_extraction(arc=arc, past_arc=previous_arc,neighbour_k=wandb.config.neighbour_k,\
+                                             distance_upper_bound=wandb.config.neighbour_radius)
+
+
 
             # Extract labels
             # TODO: Add X_DIS, Y_DIS and Z_DIS
-            y = torch.tensor(arc.data.TOTDISP, dtype=torch.float)
 
             # transform into an undirected graph:
             part_edge_index, length = tg.utils.to_undirected(edge_index=part_edge_index, edge_attr=length, reduce='add')
@@ -214,14 +262,14 @@ class ARCDataset(Dataset):
                         edge_attr=length,
                         y=y)
 
-                if self.pre_filter is not None and not self.pre_filter(data):
-                    continue
+            if self.pre_filter is not None and not self.pre_filter(data):
+                continue
 
-                if self.pre_transform is not None:
-                    data = self.pre_transform(data)
+            if self.pre_transform is not None:
+                data = self.pre_transform(data)
 
-                torch.save(data, osp.join(self.processed_dir, f'{step_name}.pt'))
-                idx += 1
+            torch.save(data, osp.join(self.processed_dir, f'{step_name}.pt'))
+            idx += 1
 
     def len(self) -> int:
         """
@@ -241,7 +289,12 @@ class ARCDataset(Dataset):
 
 
 if __name__ == "__main__":
-    DATA_PATH = "ARC_files"
+    import wandb
+    from utils.config import read_config
+    # Initialise wandb
+    configuration = read_config(Path("configs"))
+    wandb.init(mode="offline", config=configuration)
+    DATA_PATH = Path("data/thermomechanical")
     arcdataset = ARCDataset(DATA_PATH)
 
     # Add file name and step to the data?
