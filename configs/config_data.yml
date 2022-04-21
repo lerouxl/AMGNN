@@ -1,6 +1,13 @@
 raw_data: "data/thermomechanical"
 processed_data: "data/prepro_thermomechanical"
 project: "AMGNN"
+float_type: "float16"
+pooling_process: 2
+default_powder_temperature: 25
+scaling_temperature: 3000 # Temperature used to scale the temperature (T/scaling_temperature)
+scaling_power: 1000
+scaling_speed: 1500
+scaling_size: 50 # max coordinate value in mm
 # What simulated components to use as input.
 # Can be ["part", "baseplate", "supports"], part should always be here
 # used_components: ["part", "supports"]

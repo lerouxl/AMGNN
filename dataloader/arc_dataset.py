@@ -1,21 +1,13 @@
 import os.path as osp
 from pathlib import Path
-import torch_geometric as tg
-import gzip
-import shutil
-import logging
 import torch
-import wandb
-import numpy as np
 from torch_geometric.data import Dataset
-from torch_geometric.data import Data
 from dataloader import simulation_files
-from utils.load_arc import load_arcs_list
-from utils.save_arc import save_arc, load_arc
-from utils.merge_ARC import merge_arc
-from tqdm import tqdm
-from xml.dom import minidom
-from utils import features
+from dataloader.file_preprocessing import preprocess_folder
+from dataloader.printing_parameters import get_simulation_parameters
+from dataloader.file_processing import processing_file
+from itertools import repeat
+from multiprocessing import Pool
 
 
 class ARCDataset(Dataset):
@@ -69,19 +61,6 @@ class ARCDataset(Dataset):
         files = [str(f.name) for f in files]
         return files
 
-    @staticmethod
-    def unzip_file(file: Path) -> None:
-        """
-        Unzip a gz file. This is used as Simufact is saving important xml data in zipped folder.
-        The unziped file will be save at the same place of the gz file with the same name without the gz extension.
-        :param file: Path to the file to unzip.
-        """
-        file = Path(file)
-        logging.info(f"Dataset preprocessing : Unziping {str(file)}")
-        with gzip.open(file, 'rb') as f_in:
-            with open(file.parent / file.stem, 'wb') as f_out:
-                shutil.copyfileobj(f_in, f_out)
-
     def _simufact_folders(self) -> list[str]:
         """
         List all simulation folders from the raw folder.
@@ -109,56 +88,17 @@ class ARCDataset(Dataset):
             - In contact with the baseplate
 
         :param simufact_folders: list of all simulation folder in raw folder.
-        :return: meta_parameters: dictionary with an entry for every simulation folder containing a dict with all meta parameters.
+        :return: meta_parameters: dictionary with an entry for every simulation folder containing a dict with all meta
+        parameters.
         """
         meta_parameters = dict()
 
         # For each simulation
         for sfolder in simufact_folders:
-            simulation_parameters = dict()
             # Where the simulation folders are
-            spath = Path(self.raw_dir) / Path(sfolder) / Path("Process")
+            process_path = Path(self.raw_dir) / Path(sfolder) / Path("Process")
 
-            # Get material
-            materiel_path = spath / Path("Material") / Path("material.xml")
-            xml_file = minidom.parse(str(materiel_path))
-            assert xml_file.lastChild.tagName == 'sfMaterialData'
-            simulation_parameters["powder_name"] = xml_file.lastChild.getElementsByTagName('name')[
-                0].firstChild.nodeValue
-
-            # Get time
-            increment_path = spath / "_Results_" / "Meta" / "Increments.xml"
-            # If Increments.xml.gz was not extracted,it should be extracted
-            if not increment_path.exists():
-                # Unzip the file
-                self.unzip_file(increment_path.parent / (increment_path.name + ".gz"))
-            # Extract information: time steps
-            xml_file = minidom.parse(str(increment_path))
-            assert xml_file.firstChild.tagName == 'Increments'
-            increments = xml_file.firstChild.getElementsByTagName("Increment")
-            increments_dict = dict()
-            for increment in increments:
-                increment_number = int(increment.getAttribute("Number"))
-                increment_time = float(increment.getElementsByTagName("Time")[0].firstChild.nodeValue)
-                increments_dict[increment_number] = increment_time
-            simulation_parameters["time_step"] = increments_dict
-
-            # Get laser and layer parameters
-            build_path = spath / "Stages" / "Build.xml"
-
-            # Extract information: Laser power, speed and layer thickness
-            xml_file = minidom.parse(str(build_path))
-            assert xml_file.firstChild.tagName == 'stageInfoFile'
-            parameter_xml = \
-                xml_file.getElementsByTagName("stageInfoFile")[0].getElementsByTagName("stage")[0].getElementsByTagName(
-                    "standardParameter")[0]
-            parameters_dict = dict()
-            parameters_dict["power"] = float(parameter_xml.getElementsByTagName("power")[0].firstChild.nodeValue)
-            parameters_dict["speed"] = float(parameter_xml.getElementsByTagName("speed")[0].firstChild.nodeValue)
-            parameters_dict["layer_thickness"] = float(
-                parameter_xml.getElementsByTagName("layerThickness")[0].firstChild.nodeValue)
-
-            simulation_parameters["printing_parameters"] = parameters_dict
+            simulation_parameters = get_simulation_parameters(process_path)
 
             meta_parameters[sfolder] = simulation_parameters
 
@@ -170,8 +110,6 @@ class ARCDataset(Dataset):
         The graph is then saved as a pt file.
         :return: None
         """
-        idx = 0
-
         #: List all simufact folder in raw
         simufact_folders = self._simufact_folders()
         # printing_information = self.get_meta_parameters(simufact_folders)
@@ -180,96 +118,20 @@ class ARCDataset(Dataset):
         # The ARC_reader object is saved with pickle
 
         # Pre processing
-        for simu in tqdm(simufact_folders):
-            # for one simulation
-            # extract all files for this simulaiton folder
-            simu_arc_files = [p for p in self.all_arc_files if str(simu) == p.parents[3].stem]
-
-            # Organise the files per simulation step
-            step_files = simulation_files.organise_files(simu_arc_files)
-
-            for i, raw_path in enumerate(step_files):
-
-                #TODO: to remove
-                if i>5:
-                    break
-                arc = load_arcs_list(raw_path)
-                arc.load_meta_parameters(
-                    increment_id=i, build_path=None, increments_path=None
-                )
-
-                arc = load_arcs_list(raw_path)
-                arc.load_meta_parameters(
-                    increment_id= i, build_path = None, increments_path = None
-                )
-
-                # Change data type to remove unecesary precision
-                arc.coordinate = arc.coordinate.astype('float16')
-                arc.data.XDIS, arc.data.YDIS, arc.data.ZDIS = arc.data.XDIS.astype('float16'), arc.data.YDIS.astype(
-                    'float16'), arc.data.ZDIS.astype('float16')
-                arc.data.TEMPTURE = arc.data.TEMPTURE.astype('float16')
-
-                # Clear raw_data
-                arc.raw_data = None
-
-                # Clear data
-                for dat in dir(arc.data):
-                    if (dat in ["XDIS", "YDIS", "ZDIS", "TEMPTURE"]) or dat.startswith("__"):
-                        pass
-                    else:
-                        setattr(arc.data, dat, None)
-
-                arc.original_coordinate = arc.coordinate - np.stack([arc.data.XDIS, arc.data.YDIS, arc.data.ZDIS], axis=1)
-                arc.original_coordinate = arc.original_coordinate.astype('float16')
-
-                # Previous arc file
-                if i == 0:
-                    previous_file = None
-                    is_first_step = True
-                else:
-                    previous_file = f"{simulation_files.extract_the_simulation_folder(step_files[i - 1][0])}_at_step_{simulation_files.extract_step_folder(step_files[i - 1][0])}"
-                    is_first_step = False
-                arc.previous_file = previous_file
-                arc.is_first_step = is_first_step
-                step_name = f"{simulation_files.extract_the_simulation_folder(raw_path[0])}_at_step_{simulation_files.extract_step_folder(raw_path[0])}"
-                save_arc(arc, self.tmp_arc_folder, step_name)
-
+        preprocessing_done = len(list(self.tmp_arc_folder.glob("*.pkl"))) > 0
+        if not preprocessing_done:
+            with Pool(wandb.config.pooling_process) as pool:
+                pool.starmap(preprocess_folder, zip(simufact_folders, repeat(self.all_arc_files),
+                                                    repeat(self.tmp_arc_folder)))
+            # for simu in tqdm(simufact_folders):
+            #    preprocess_folder(simu, self.all_arc_files, self.tmp_arc_folder)
 
         # Processing
-        tmp_files = list(self.tmp_arc_folder.glob(".pkl"))
-        for raw_path in tqdm(tmp_files):
-            arc = load_arc(raw_path)
-            # Stop if this is the initialisation file
-            if arc.is_first_step:
-                continue
-
-            previous_arc = load_arc(raw_path.parent / arc.previous_file)
-
-            # Extract features
-            features.arc_features_extraction(arc=arc, past_arc=previous_arc,neighbour_k=wandb.config.neighbour_k,\
-                                             distance_upper_bound=wandb.config.neighbour_radius)
-
-
-
-            # Extract labels
-            # TODO: Add X_DIS, Y_DIS and Z_DIS
-
-            # transform into an undirected graph:
-            part_edge_index, length = tg.utils.to_undirected(edge_index=part_edge_index, edge_attr=length, reduce='add')
-
-            data = Data(x=coordinates,
-                        edge_index=part_edge_index,
-                        edge_attr=length,
-                        y=y)
-
-            if self.pre_filter is not None and not self.pre_filter(data):
-                continue
-
-            if self.pre_transform is not None:
-                data = self.pre_transform(data)
-
-            torch.save(data, osp.join(self.processed_dir, f'{step_name}.pt'))
-            idx += 1
+        tmp_files = list(self.tmp_arc_folder.glob("*.pkl"))
+        with Pool(wandb.config.pooling_process) as pool:
+            pool.starmap(processing_file, zip(tmp_files,
+                                              repeat(self.processed_dir),
+                                              repeat(dict(wandb.config))))
 
     def len(self) -> int:
         """
@@ -291,10 +153,11 @@ class ARCDataset(Dataset):
 if __name__ == "__main__":
     import wandb
     from utils.config import read_config
+
     # Initialise wandb
     configuration = read_config(Path("configs"))
     wandb.init(mode="offline", config=configuration)
-    DATA_PATH = Path("data/thermomechanical")
+    DATA_PATH = Path("data/light")
     arcdataset = ARCDataset(DATA_PATH)
 
     # Add file name and step to the data?

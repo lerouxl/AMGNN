@@ -39,7 +39,7 @@ def load_arc(file: Union[Path, str]):
         msg = f"Error opening the file {file}. This is not an existing file"
         logging.error(msg)
         raise FileNotFoundError(file.name)
-
-    arc = pickle.load(file)
+    with open(file, 'rb') as pickle_file:
+        arc = pickle.load(pickle_file)
     logging.info(f"Loaded {file} successfully")
     return arc

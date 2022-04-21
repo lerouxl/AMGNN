@@ -36,7 +36,7 @@ def load_arc(raw_path: Union[Path, str]):
     # Create an Arc_reader object to read the csv and create a graph
     arc = Arc_reader(name=file_name)
     # Read a csv dump
-    arc.load_csv(raw_path)
+    arc.load_csv(raw_path, attribute_to_load= ['Coordinates', 'TEMPTURE', 'XDIS', 'YDIS', 'ZDIS'])
     # Extract the point cloud coordinate
     arc.get_coordinate()
     # Add at each point all extract data
