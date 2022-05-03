@@ -22,12 +22,21 @@ def run():
     print(configuration)
 
     model = AMGNNmodel(configuration)
-    DATA_PATH = Path("data/light")
+    DATA_PATH = Path("data/light") # TODO: Use the path from the configuration
     arc_dataset = ARCDataset(DATA_PATH)
-    arc_loader = DataLoader(dataset=arc_dataset , batch_size= 2, shuffle= True)
+    dataset_size = len(arc_dataset)
+    train_size = int(dataset_size * 0.80)
+    validation_size = int(dataset_size * 0.15)
+    test_size = dataset_size - train_size - validation_size
+    train_dataset, validation_dataset, test_dataset = torch.utils.data.random_split(arc_dataset,[train_size, validation_size, test_size], generator=torch.Generator().manual_seed(51))
 
-    trainer = pl.Trainer(limit_train_batches=10, max_epochs=1, accelerator="gpu", devices=1, logger=wandb_logger)
-    trainer.fit(model=model, train_dataloaders=arc_loader)
+    train_loader = DataLoader(dataset=train_dataset , batch_size= 2, shuffle= True)
+    validation_loader = DataLoader(dataset=validation_dataset, batch_size=2, shuffle=True)
+    test_loader = DataLoader(dataset=test_dataset, batch_size=2, shuffle=True)
+
+    trainer = pl.Trainer(limit_train_batches=10, max_epochs=5, accelerator="gpu", devices=1, logger=wandb_logger)
+    trainer.fit(model, train_loader, validation_loader)
+    trainer.test(dataloaders=test_loader)
 
     with torch.no_grad():
         model.eval()
