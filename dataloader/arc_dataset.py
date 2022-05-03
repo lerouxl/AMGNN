@@ -12,7 +12,15 @@ from multiprocessing import Pool
 
 class ARCDataset(Dataset):
     """A dataset loading the csv of part, supports and baseplate for each simulation step.
-    Each simulation file and step will load 3 csv giving the point cloud of the part."""
+    Each simulation file and step will load 3 csv giving the point cloud of the part.
+    The given graph are providing the following data:
+        - X:  [n, 11] : laser speed,  laser power, layer thickness, time step duration, x_type,
+                        x_type, x_type, scalled past temperature, x past displacement,
+                        y past displacement, z past displacement.
+        - Y: [n, 4] : scaled actual temperature, actual x displacement , actual y displacement, actual z displacement
+        - pos: [n, 3] : The non deformed position of the voxels
+        - edge_attr: [n] : The distance between the two linked nodes (non deformed).
+    """
 
     def __init__(self, root: Path, neighbour_k: int = 26, distance_upper_bound: float = 1.64, transform=None,
                  pre_transform=None):
@@ -58,7 +66,9 @@ class ARCDataset(Dataset):
         :return: list of files name
         """
         files = list((Path(self.root) / Path("processed")).rglob("*.pt"))
-        files = [str(f.name) for f in files]
+        # Pre_filter and pre_transform are not data for the neural network, so I removed them form the list of inputs
+        # files
+        files = [str(f.name) for f in files if str(f.name) not in ['pre_filter.pt', 'pre_transform.pt']]
         return files
 
     def _simufact_folders(self) -> list[str]:
