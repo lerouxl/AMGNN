@@ -110,13 +110,6 @@ def arc_features_extraction(arc: Arc_reader, past_arc: Arc_reader, config: dict)
     past_coordinates /= float(config["scaling_size"])
     coordinates /= float(config["scaling_size"])
 
-    # Create the edges and compute there size
-    part_edge_index, length = create_edge_list_and_length(neighbour_k=neighbour_k,
-                                                          distance_upper_bound=distance_upper_bound,
-                                                          coordinates=arc.coordinate)
-    part_edge_index = torch.tensor(part_edge_index, dtype=torch.int).t().contiguous()
-    length = torch.tensor(length, dtype=torch.float)
-
     actual_features = torch.concat((coordinates, x_laser_speed.unsqueeze(1), x_laser_power.unsqueeze(1), \
                                     x_layer_thickness.unsqueeze(1), x_time_step_length.unsqueeze(1), \
                                     x_type, y_temp.unsqueeze(1), y_xdis.unsqueeze(1), y_ydis.unsqueeze(1), \
@@ -125,4 +118,12 @@ def arc_features_extraction(arc: Arc_reader, past_arc: Arc_reader, config: dict)
                                   x_past_ydis.unsqueeze(1), x_past_zdis.unsqueeze(1)), axis=1)
 
     coordinates, X, Y = align_features(actual_features, past_features, config)
+
+    # Create the edges and compute there size form the non deformed coordinates
+    part_edge_index, length = create_edge_list_and_length(neighbour_k=neighbour_k,
+                                                          distance_upper_bound=distance_upper_bound,
+                                                          coordinates=coordinates)
+    part_edge_index = torch.tensor(part_edge_index, dtype=torch.int).t().contiguous()
+    length = torch.tensor(length, dtype=torch.float)
+
     return coordinates, part_edge_index, length, X, Y
