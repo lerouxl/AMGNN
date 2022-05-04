@@ -20,7 +20,7 @@ def align_features(actual_features: torch.Tensor, past_features: torch.Tensor, c
     Y = torch.zeros((actual_features.shape[0], 4), names=["voxels", "target"])
 
     past_coor_no_def = past_features[:, :3] - past_features[:, 4:7]
-    actual_coor_no_def = torch.tensor(actual_features[:, :3] - actual_features[:, 11:14])
+    actual_coor_no_def = torch.tensor(actual_features[:, :3].clone().detach() - actual_features[:, 11:14].clone().detach())
     kd = KDTree(past_coor_no_def)
 
     for i, coor in enumerate(actual_coor_no_def):
