@@ -7,6 +7,7 @@ from dataloader.file_preprocessing import preprocess_folder
 from dataloader.printing_parameters import get_simulation_parameters
 from dataloader.file_processing import processing_file
 from itertools import repeat
+import wandb
 from multiprocessing import Pool
 
 
@@ -139,9 +140,8 @@ class ARCDataset(Dataset):
         # Processing
         tmp_files = list(self.tmp_arc_folder.glob("*.pkl"))
         with Pool(wandb.config.pooling_process) as pool:
-            pool.starmap(processing_file, zip(tmp_files,
-                                              repeat(self.processed_dir),
-                                              repeat(dict(wandb.config))))
+            # If distance_upper_bound is too low, error can append in the processing
+            pool.starmap(processing_file, zip(tmp_files,repeat(self.processed_dir),repeat(dict(wandb.config))))
 
     def len(self) -> int:
         """
@@ -161,7 +161,6 @@ class ARCDataset(Dataset):
 
 
 if __name__ == "__main__":
-    import wandb
     from utils.config import read_config
 
     # Initialise wandb
