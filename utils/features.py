@@ -107,6 +107,12 @@ def arc_features_extraction(arc: Arc_reader, past_arc: Arc_reader, config: dict)
     past_coordinates = 100 * past_coordinates
 
     # scale
+    y_xdis /= float(config["scaling_size"])
+    y_ydis /= float(config["scaling_size"])
+    y_zdis /= float(config["scaling_size"])
+    x_past_xdis /= float(config["scaling_size"])
+    x_past_ydis /= float(config["scaling_size"])
+    x_past_zdis /= float(config["scaling_size"])
     past_coordinates /= float(config["scaling_size"])
     coordinates /= float(config["scaling_size"])
 
