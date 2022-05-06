@@ -53,7 +53,6 @@ def display_x_y_y_hat_data(pos, x: np.ndarray, y: np.ndarray, local_path: Path, 
         scaling_size = 1
     else:
         scaling_temperature = config["scaling_temperature"]
-        scaling_size = config["scaling_size"]
         scaling_speed = config["scaling_speed"]
         scaling_power = config["scaling_power"]
         scaling_size = config["scaling_size"]
