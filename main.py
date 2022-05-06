@@ -8,51 +8,80 @@ import pytorch_lightning as pl
 from pytorch_lightning.loggers import WandbLogger
 from torch_geometric.loader import DataLoader
 from utils.visualise import display_dataset
+import logging
+from utils.logs import init_logger
+from pytorch_lightning.callbacks import ModelCheckpoint
+from datetime import datetime
 
 
 def run():
     """Train an test AMGNN model on the data"""
+    # Configure a text logger
+    init_logger('logs.log')
+    log = logging.getLogger(__name__)
+
     # Initialise wandb
     configuration = read_config(Path("configs"))
-
-    wandb_logger = WandbLogger(project="AMGNN", log_model=True, mode="offline", config=configuration)
+    name = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
+    wandb_logger = WandbLogger(project="AMGNN", log_model=True, config=configuration, name= name)
+    log.info("Configuration loaded")
 
     # Access all hyperparameters values through wandb.config
-    configuration = wandb.config
+    configuration = dict(wandb.config)
     print(configuration)
 
     # Create the deep learning model
     model = AMGNNmodel(configuration)
+    log.info("AMGNN model created")
 
     # Create the dataset
     data_path = Path(configuration["raw_data"])
     arc_dataset = ARCDataset(data_path)
+    log.info(f"ARCDataset created from {str(data_path)}")
 
     # Split the dataset in 3 subset, the train, validation and test dataset.
     dataset_size = len(arc_dataset)
     train_size = int(dataset_size * 0.80)  # 80% of the dataset
     validation_size = int(dataset_size * 0.15)  # 15% of the dataset
     test_size = dataset_size - train_size - validation_size  # 5% of the dataset
+    log.info(f"The dataset will be divided in 3 sub set of size {train_size=} {validation_size=} {test_size=} ")
+
     # Split the dataset with a repeatable way (the random generator is fixed)
     train_dataset, validation_dataset, test_dataset = torch.utils.data.random_split(arc_dataset,
                                                                                     [train_size, validation_size,
                                                                                      test_size],
                                                                                     generator=torch.Generator().manual_seed(
                                                                                         51))
+    log.info("Subset created")
 
     # Create the dataloader
-    train_loader = DataLoader(dataset=train_dataset, batch_size=2, shuffle=True)
-    validation_loader = DataLoader(dataset=validation_dataset, batch_size=2, shuffle=True)
-    test_loader = DataLoader(dataset=test_dataset, batch_size=2, shuffle=True)
+    batch_size = int(configuration["batch_size"])
+    train_loader = DataLoader(dataset=train_dataset, batch_size=batch_size, shuffle=True)
+    validation_loader = DataLoader(dataset=validation_dataset, batch_size=batch_size, shuffle=True)
+    test_loader = DataLoader(dataset=test_dataset, batch_size=batch_size, shuffle=True)
+    log.info(f"Dataloader created with {batch_size=}")
 
     # Create the pytorch lightning trainer.
-    trainer = pl.Trainer(accelerator="gpu", devices=1, logger=wandb_logger)
+    log.info("Start model training")
+    # Create a trained run the model on the GPU, with a wandb logger, saving the best 2 models in the checkpoints dir
+    checkpoint_callback = ModelCheckpoint(dirpath=f"checkpoints/{name}/", save_top_k=2, monitor="val loss")
+    trainer = pl.Trainer(accelerator="gpu", devices=1, logger=wandb_logger, default_root_dir="checkpoints",
+                         auto_lr_find=True, callbacks=[checkpoint_callback])
     trainer.fit(model, train_loader, validation_loader)
+    log.info("End model training")
+
+    # Test the model on unseen data with the best model
+    best_model_ = checkpoint_callback.best_model_path
+    model = model.load_from_checkpoint(best_model_)
+    log.info(f"Start model testing with {str(best_model_)}")
     trainer.test(dataloaders=test_loader)
+    log.info("End model testing")
 
     # Display the test dataset results in vtk files (can be open with Paraview)
+    log.info("Generate visualisation of the results")
     display_dataset(model, test_dataset, configuration)
 
+    log.info("END")
 
 if __name__ == "__main__":
     run()

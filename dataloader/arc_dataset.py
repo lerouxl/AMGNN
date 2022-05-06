@@ -9,6 +9,7 @@ from dataloader.file_processing import processing_file
 from itertools import repeat
 import wandb
 from multiprocessing import Pool
+import logging
 
 
 class ARCDataset(Dataset):
@@ -139,9 +140,22 @@ class ARCDataset(Dataset):
 
         # Processing
         tmp_files = list(self.tmp_arc_folder.glob("*.pkl"))
-        with Pool(wandb.config.pooling_process) as pool:
-            # If distance_upper_bound is too low, error can append in the processing
-            pool.starmap(processing_file, zip(tmp_files,repeat(self.processed_dir),repeat(dict(wandb.config))))
+        #with Pool(wandb.config.pooling_process) as pool:
+        #    # If distance_upper_bound is too low, error can append in the processing
+        #    pool.starmap(processing_file, zip(tmp_files,repeat(self.processed_dir),repeat(dict(wandb.config))))
+        # Without multi processing (can be entered with the debugger
+        log = logging.getLogger(__name__)
+        log.info(f"Start processing tmp files")
+        for data in zip(tmp_files,repeat(self.processed_dir),repeat(dict(wandb.config))):
+            #print()
+            try:
+                processing_file(*data)
+            except Exception as e:
+                s = str(e)
+                log.critical(f"FAIL: {s} ")
+                log.critical(f"FAIL: {str(data[0])}")
+
+
 
     def len(self) -> int:
         """
