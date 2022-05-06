@@ -15,41 +15,42 @@ class AMGNNmodel(pl.LightningModule):
     def __init__(self, config):
         super().__init__()
         self.configuration = config
-        self.network = NeuralNetwork(self.configuration.input_channels, self.configuration.hidden_channels,
-                                     self.configuration.out_channels)
+        self.network = NeuralNetwork(self.configuration["input_channels"], self.configuration["hidden_channels"],
+                                     self.configuration["out_channels"])
         self.Floss = nn.functional.mse_loss
-        self.lr_val = self.configuration.learning_rate
+        self.lr = self.configuration["learning_rate"]
+        self.batch_size = int(config["batch_size"])
         # self.example_input_array = torch.Tensor(32, 1, 28, 28)
-        #self.save_hyperparameters()
+        self.save_hyperparameters()
 
 
     def training_step(self, batch, batch_idx):
         """Train loop of the neural network"""
         _, loss, loss_disp, loss_temp = self._get_preds_loss(batch)
-        self.log("train loss", loss)
-        self.log("train displacement loss", loss_disp)
-        self.log("train temperature loss", loss_temp)
+        self.log("train loss", loss, batch_size=self.batch_size)
+        self.log("train displacement loss", loss_disp,batch_size=self.batch_size)
+        self.log("train temperature loss", loss_temp, batch_size=self.batch_size)
         return loss
 
     def test_step(self, batch, batch_idx):
         """The test set is NOT used during training, it is ONLY used once the model has been trained to see how the
          model will do in the real-world."""
         _, loss, loss_disp, loss_temp = self._get_preds_loss(batch)
-        self.log("test loss", loss)
-        self.log("test displacement loss", loss_disp)
-        self.log("test temperature loss", loss_temp)
+        self.log("test loss", loss, batch_size=self.batch_size)
+        self.log("test displacement loss", loss_disp, batch_size=self.batch_size)
+        self.log("test temperature loss", loss_temp, batch_size=self.batch_size)
 
     def validation_step(self, batch, batch_idx):
         """During training, it’s common practice to use a small portion of the train split to determine when the model
          has finished training.As a rule of thumb, we use 20% of the training set as the validation set.
          This number varies from dataset to dataset."""
         _, loss, loss_disp, loss_temp = self._get_preds_loss(batch)
-        self.log("val loss", loss)
-        self.log("val displacement loss", loss_disp)
-        self.log("val temperature loss", loss_temp)
+        self.log("val loss", loss, batch_size=self.batch_size)
+        self.log("val displacement loss", loss_disp, batch_size=self.batch_size)
+        self.log("val temperature loss", loss_temp, batch_size=self.batch_size)
 
     def configure_optimizers(self):
-        optimizer = optim.Adam(self.parameters(), lr=self.lr_val)
+        optimizer = optim.Adam(self.parameters(), lr=self.lr)
         return optimizer
 
     def _get_preds_loss(self, batch) -> Tuple[torch.Tensor, torch.Tensor]:
@@ -74,7 +75,11 @@ class NeuralNetwork(MessagePassing):
         super().__init__(aggr='add')
 
         self.lin1 = nn.Linear(in_channels, hidden_channels)
-        self.lin2 = nn.Linear(hidden_channels, out_channels)
+        self.lin2 = nn.Linear(hidden_channels, hidden_channels)
+        self.lin2_a1 = nn.Linear(hidden_channels, hidden_channels)
+        self.lin2_b1 = nn.Linear(hidden_channels, hidden_channels)
+        self.lin2_a2 = nn.Linear(hidden_channels, 1)
+        self.lin2_b2 = nn.Linear(hidden_channels, out_channels-1)
         self.conv1 = GCNConv(hidden_channels, hidden_channels)
         self.conv2 = GCNConv(hidden_channels, hidden_channels)
         self.act = nn.LeakyReLU()
@@ -94,4 +99,15 @@ class NeuralNetwork(MessagePassing):
         x = self.act(x)
 
         x= self.lin2(x)
+        x = self.act(x)
+
+        x_a = self.lin2_a1(x)
+        x_a = self.act(x_a)
+        x_a = self.lin2_a2(x_a)
+
+        x_b = self.lin2_b1(x)
+        x_b = self.act(x_b)
+        x_b = self.lin2_b2(x_b)
+
+        x =torch.cat((x_a, x_b), 1)
         return x
