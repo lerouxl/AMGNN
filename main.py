@@ -72,9 +72,8 @@ def run():
 
     # Test the model on unseen data with the best model
     best_model_ = checkpoint_callback.best_model_path
-    model = model.load_from_checkpoint(best_model_)
     log.info(f"Start model testing with {str(best_model_)}")
-    trainer.test(dataloaders=test_loader)
+    trainer.test(dataloaders=test_loader, ckpt_path= best_model_)
     log.info("End model testing")
 
     # Display the test dataset results in vtk files (can be open with Paraview)
