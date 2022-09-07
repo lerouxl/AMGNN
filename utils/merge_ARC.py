@@ -4,7 +4,7 @@ Take multiple ARC files, merge them and create a mesh.
 from typing import List
 import numpy as np
 import copy
-from Simufact_ARC_reader.ARC_CSV import Arc_reader
+from simufact_arc_reader.ARC_CSV import Arc_reader
 
 
 def merge_arc(arc_files: List[Arc_reader]) -> Arc_reader:

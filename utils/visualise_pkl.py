@@ -4,7 +4,7 @@ import numpy as np
 
 from utils.save_arc import load_arc
 from tqdm import tqdm
-from Simufact_ARC_reader.ARC_CSV import Arc_reader
+from simufact_arc_reader.ARC_CSV import Arc_reader
 from utils.visualise import display_x_y_y_hat_data
 
 

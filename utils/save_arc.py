@@ -1,5 +1,5 @@
 import pickle
-from Simufact_ARC_reader.ARC_CSV import Arc_reader
+from simufact_arc_reader.ARC_CSV import Arc_reader
 from pathlib import Path
 from typing import Union
 import logging

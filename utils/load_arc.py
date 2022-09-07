@@ -1,4 +1,4 @@
-from Simufact_ARC_reader.ARC_CSV import Arc_reader
+from simufact_arc_reader.ARC_CSV import Arc_reader
 from utils.merge_ARC import merge_arc
 from typing import List, Union
 from pathlib import Path, PurePath

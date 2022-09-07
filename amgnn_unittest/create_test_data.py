@@ -1,6 +1,6 @@
 import trimesh
 from typing import Tuple, List
-from Simufact_ARC_reader.ARC_CSV import Arc_reader
+from simufact_arc_reader.ARC_CSV import Arc_reader
 import numpy as np
 
 def create_two_cubes(size: Tuple = (1, 1, 1), space: List = [0, 0, 1.5]):

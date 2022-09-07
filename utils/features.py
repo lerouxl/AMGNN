@@ -1,7 +1,7 @@
 import numpy as np
 import wandb
 from torch import Tensor
-from Simufact_ARC_reader.ARC_CSV import Arc_reader
+from simufact_arc_reader.ARC_CSV import Arc_reader
 from typing import Tuple
 import torch
 import torch.nn.functional as F
