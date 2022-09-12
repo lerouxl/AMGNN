@@ -39,6 +39,10 @@ def load_arc(raw_path: Union[Path, str]):
     arc.load_csv(raw_path, attribute_to_load= ['Coordinates', 'TEMPTURE', 'XDIS', 'YDIS', 'ZDIS'])
     # Extract the point cloud coordinate
     arc.get_coordinate()
+    arc.get_connectivity()
     # Add at each point all extract data
-    arc.get_point_cloud_data(display=False)
+    arc.get_point_cloud_data()
+
+    # Extract the edges
+    arc.get_edge_index()
     return arc
