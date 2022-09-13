@@ -77,7 +77,6 @@ def arc_features_extraction(arc: Arc_reader, past_arc: Arc_reader, config: dict)
     #   - Past point Z displacement
 
     # Previous step results
-    # TODO: Alligner les anciens points avec les nouveaux.
     past_coordinates = torch.tensor(past_arc.coordinate, dtype=torch.float)
     x_past_temp = torch.tensor(past_arc.data.TEMPTURE, dtype=torch.float)  # Shape [n_points]
     x_past_xdis = torch.tensor(past_arc.data.XDIS, dtype=torch.float)  # Shape [n_points]
@@ -125,11 +124,7 @@ def arc_features_extraction(arc: Arc_reader, past_arc: Arc_reader, config: dict)
 
     coordinates, X, Y = align_features(actual_features, past_features, config)
 
-    # Create the edges and compute there size form the non deformed coordinates
-    part_edge_index, length = create_edge_list_and_length(neighbour_k=neighbour_k,
-                                                          distance_upper_bound=distance_upper_bound,
-                                                          coordinates=coordinates)
-    part_edge_index = torch.tensor(part_edge_index, dtype=torch.int).t().contiguous()
-    length = torch.tensor(length, dtype=torch.float)
+    # load the edges
+    part_edge_index = torch.tensor(arc.edge_index, dtype=torch.long)
 
-    return coordinates, part_edge_index, length, X, Y
+    return coordinates, part_edge_index, X, Y
