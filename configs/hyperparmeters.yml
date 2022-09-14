@@ -6,4 +6,4 @@ input_channels: 11
 hidden_channels: 128
 out_channels: 4
 aggregator: mean
-distance_upper_bound: 1e-3
+distance_upper_bound: 1e-6
