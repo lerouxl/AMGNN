@@ -1,4 +1,4 @@
-from Simufact_ARC_reader.ARC_CSV import Arc_reader
+from simufact_arc_reader.ARC_CSV import Arc_reader
 from utils.merge_ARC import merge_arc
 from typing import List, Union
 from pathlib import Path, PurePath
@@ -39,6 +39,10 @@ def load_arc(raw_path: Union[Path, str]):
     arc.load_csv(raw_path, attribute_to_load= ['Coordinates', 'TEMPTURE', 'XDIS', 'YDIS', 'ZDIS'])
     # Extract the point cloud coordinate
     arc.get_coordinate()
+    arc.get_connectivity()
     # Add at each point all extract data
-    arc.get_point_cloud_data(display=False)
+    arc.get_point_cloud_data()
+
+    # Extract the edges
+    arc.get_edge_index()
     return arc

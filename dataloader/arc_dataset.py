@@ -8,6 +8,7 @@ from dataloader.printing_parameters import get_simulation_parameters
 from dataloader.file_processing import processing_file
 from itertools import repeat
 import wandb
+from tqdm import tqdm
 from multiprocessing import Pool
 import logging
 
@@ -24,21 +25,16 @@ class ARCDataset(Dataset):
         - edge_attr: [n] : The distance between the two linked nodes (non deformed).
     """
 
-    def __init__(self, root: Path, neighbour_k: int = 26, distance_upper_bound: float = 1.64, transform=None,
-                 pre_transform=None):
+    def __init__(self, root: Path, transform=None, pre_transform=None):
         """
-        When the point cloud is transformed to a graph, the `neighbour_k` points in a sphere are linked by an edge.
+        Will load simulation file and transfomr them to graph.
         :param root: Path containing the raw and processed data folders.
-        :param neighbour_k: Number of points linked to each points during the graph creation. AKA, number of neighbours.
-        :param distance_upper_bound: float. The found neighbours are closer than this distance.
         :param transform:
         :param pre_transform:
         """
         if type(root) is str:
             root = Path(root)
 
-        self.neighbour_k = neighbour_k
-        self.distance_upper_bound = distance_upper_bound
         self.tmp_arc_folder = root / "tmp_arc"
 
         #: List all simufact folder in raw
@@ -132,28 +128,29 @@ class ARCDataset(Dataset):
         # Pre processing
         preprocessing_done = len(list(self.tmp_arc_folder.glob("*.pkl"))) > 0
         if not preprocessing_done:
-            with Pool(wandb.config.pooling_process) as pool:
-                pool.starmap(preprocess_folder, zip(simufact_folders, repeat(self.all_arc_files),
-                                                    repeat(self.tmp_arc_folder)))
-            # for simu in tqdm(simufact_folders):
-            #    preprocess_folder(simu, self.all_arc_files, self.tmp_arc_folder)
+            # TODO: Re use the Pool for performance reasons
+            #with Pool(wandb.config.pooling_process) as pool:
+            #    pool.starmap(preprocess_folder, zip(simufact_folders, repeat(self.all_arc_files),
+            #                                        repeat(self.tmp_arc_folder)))
+             for simu in tqdm(simufact_folders):
+                preprocess_folder(simu, self.all_arc_files, self.tmp_arc_folder)
 
         # Processing
         tmp_files = list(self.tmp_arc_folder.glob("*.pkl"))
-        #with Pool(wandb.config.pooling_process) as pool:
-        #    # If distance_upper_bound is too low, error can append in the processing
-        #    pool.starmap(processing_file, zip(tmp_files,repeat(self.processed_dir),repeat(dict(wandb.config))))
+        with Pool(wandb.config.pooling_process) as pool:
+            # If distance_upper_bound is too low, error can append in the processing
+            pool.starmap(processing_file, zip(tmp_files,repeat(self.processed_dir),repeat(dict(wandb.config))))
         # Without multi processing (can be entered with the debugger
-        log = logging.getLogger(__name__)
-        log.info(f"Start processing tmp files")
-        for data in zip(tmp_files,repeat(self.processed_dir),repeat(dict(wandb.config))):
-            #print()
-            try:
-                processing_file(*data)
-            except Exception as e:
-                s = str(e)
-                log.critical(f"FAIL: {s} ")
-                log.critical(f"FAIL: {str(data[0])}")
+        #log = logging.getLogger(__name__)
+        #log.info(f"Start processing tmp files")
+        #for data in zip(tmp_files,repeat(self.processed_dir),repeat(dict(wandb.config))):
+        #    #print()
+        #    try:
+        #        processing_file(*data)
+        #    except Exception as e:
+        #        s = str(e)
+        #        log.critical(f"FAIL: {s} ")
+        #        log.critical(f"FAIL: {str(data[0])}")
 
 
 

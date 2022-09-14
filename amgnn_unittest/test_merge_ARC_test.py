@@ -2,7 +2,7 @@
 
 import unittest
 from utils.merge_ARC import merge_arc
-from Simufact_ARC_reader.ARC_CSV import Arc_reader
+from simufact_arc_reader.ARC_CSV import Arc_reader
 import numpy as np
 from amgnn_unittest.create_test_data import create_two_cubes, create_ARC_object
 import copy

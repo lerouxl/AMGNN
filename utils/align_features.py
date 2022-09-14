@@ -16,8 +16,8 @@ def align_features(actual_features: torch.Tensor, past_features: torch.Tensor, c
     """
 
     # Create the true X and Y tensors
-    X = torch.zeros((actual_features.shape[0], 11), names=["voxels", "features"])
-    Y = torch.zeros((actual_features.shape[0], 4), names=["voxels", "target"])
+    X = torch.zeros((actual_features.shape[0], 11))
+    Y = torch.zeros((actual_features.shape[0], 4))
 
     past_coor_no_def = past_features[:, :3] - past_features[:, 4:7]
     actual_coor_no_def = torch.tensor(actual_features[:, :3].clone().detach() - actual_features[:, 11:14].clone().detach())

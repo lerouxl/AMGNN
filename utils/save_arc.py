@@ -1,5 +1,5 @@
 import pickle
-from Simufact_ARC_reader.ARC_CSV import Arc_reader
+from simufact_arc_reader.ARC_CSV import Arc_reader
 from pathlib import Path
 from typing import Union
 import logging
@@ -18,6 +18,7 @@ def save_arc(arc: Arc_reader, root_folder: Union[Path, str], name: str):
     root_folder.mkdir(parents=True, exist_ok=True)
     file_path = Path(root_folder) / f"{name}.pkl"
 
+    # If the arc object was displayed, it cannot be pickled
     with open(file_path, "wb") as file:
         pickle.dump(arc, file)
     if file_path.is_file():
