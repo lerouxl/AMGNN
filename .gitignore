@@ -11,3 +11,5 @@ clean.py
 AMGNN.xmind
 *.html
 *.js
+.ipynb_checkpoints/
+*.zip
