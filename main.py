@@ -23,7 +23,8 @@ def run():
     # Initialise wandb
     configuration = read_config(Path("configs"))
     name = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
-    wandb_logger = WandbLogger(project="AMGNN", log_model=True, config=configuration, name= name)
+    #wandb_logger = WandbLogger(project="AMGNN", log_model=True, config=configuration, name= name)
+    wandb_logger = WandbLogger(project="AMGNN", config=configuration, name=name, offline=True)
     log.info("Configuration loaded")
 
     # Access all hyperparameters values through wandb.config
@@ -66,7 +67,7 @@ def run():
     # Create a trained run the model on the GPU, with a wandb logger, saving the best 2 models in the checkpoints dir
     checkpoint_callback = ModelCheckpoint(dirpath=f"checkpoints/{name}/", save_top_k=2, monitor="val loss")
     trainer = pl.Trainer(accelerator="gpu", devices=1, logger=wandb_logger, default_root_dir="checkpoints",
-                         auto_lr_find=True, callbacks=[checkpoint_callback])
+                         auto_lr_find=True, callbacks=[checkpoint_callback], max_epochs=configuration["max_epochs"])
     trainer.fit(model, train_loader, validation_loader)
     log.info("End model training")
 

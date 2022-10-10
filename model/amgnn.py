@@ -5,7 +5,10 @@ import wandb
 #from model.GNCConv import GCNConv
 from torch_geometric.nn import MessagePassing, GCNConv
 from dataloader.arc_dataset import ARCDataset
+from torch_geometric.data import Data
 import pytorch_lightning as pl
+import os.path as osp
+from model.transfomer_utils import PositionalEncoding
 
 
 class AMGNNmodel(pl.LightningModule):
@@ -16,9 +19,9 @@ class AMGNNmodel(pl.LightningModule):
         super().__init__()
         self.configuration = config
         self.network = NeuralNetwork(self.configuration["input_channels"], self.configuration["hidden_channels"],
-                                     self.configuration["out_channels"])
+                                     self.configuration["out_channels"], self.configuration['aggregator'])
         self.Floss = nn.functional.mse_loss
-        self.lr = self.configuration["learning_rate"]
+        self.lr = float(self.configuration["learning_rate"])
         self.batch_size = int(config["batch_size"])
         # self.example_input_array = torch.Tensor(32, 1, 28, 28)
         self.save_hyperparameters()
@@ -35,10 +38,16 @@ class AMGNNmodel(pl.LightningModule):
     def test_step(self, batch, batch_idx):
         """The test set is NOT used during training, it is ONLY used once the model has been trained to see how the
          model will do in the real-world."""
-        _, loss, loss_disp, loss_temp = self._get_preds_loss(batch)
+        y_hat, loss, loss_disp, loss_temp = self._get_preds_loss(batch)
         self.log("test loss", loss, batch_size=self.batch_size)
         self.log("test displacement loss", loss_disp, batch_size=self.batch_size)
         self.log("test temperature loss", loss_temp, batch_size=self.batch_size)
+
+        # Save the output
+        batch_cpu = batch.to("cpu")
+        batch_cpu.y = torch.hstack([batch_cpu.y, y_hat.to("cpu")])
+        torch.save(batch_cpu, osp.join(osp.join(self.configuration["raw_data"], "test_output"), f'{batch_idx}.pt'))
+
 
     def validation_step(self, batch, batch_idx):
         """During training, it’s common practice to use a small portion of the train split to determine when the model
@@ -71,43 +80,125 @@ class AMGNNmodel(pl.LightningModule):
 
 
 class NeuralNetwork(MessagePassing):
-    def __init__(self,in_channels,  hidden_channels, out_channels):
-        super().__init__(aggr='add')
+    def __init__(self, in_channels, hidden_channels, out_channels, aggregator):
+        super().__init__(aggr=aggregator) # Test multi agreagation with cat to extract the neighboor
+        self.hidden = list(hidden_channels)
 
-        self.lin1 = nn.Linear(in_channels, hidden_channels)
-        self.lin2 = nn.Linear(hidden_channels, hidden_channels)
-        self.lin2_a1 = nn.Linear(hidden_channels, hidden_channels)
-        self.lin2_b1 = nn.Linear(hidden_channels, hidden_channels)
-        self.lin2_a2 = nn.Linear(hidden_channels, 1)
-        self.lin2_b2 = nn.Linear(hidden_channels, out_channels-1)
-        self.conv1 = GCNConv(hidden_channels, hidden_channels)
-        self.conv2 = GCNConv(hidden_channels, hidden_channels)
-        self.act = nn.LeakyReLU()
+        self.lin = nn.Linear(in_channels, hidden_channels[0])
+        self.lin2 = nn.Linear(hidden_channels[-1], out_channels)
+        self.message_mlp= list()
+
+        for i in range(len(self.hidden) -1):
+            in_ = self.hidden[i]
+            out_ = self.hidden[i + 1]
+            self.message_mlp.append(nn.Sequential(nn.Linear(in_*2, out_),
+                                                  nn.GELU(),
+                                                  nn.Linear(out_,out_),
+                                                  nn.GELU(),
+                                                  )
+                                    )
 
     def forward(self, batch):
         x = batch.x
         edge_index = batch.edge_index
-        edge_attr = batch.edge_attr
+        # x has shape [N, in_channels]
+        # edge_index has shape [2, E]
 
-        x = self.lin1(x)
-        x = self.act(x)
+        # Step 2: Linearly transform node feature matrix.
+        x = self.lin(x)
+        # Step 4-5: Start propagating messages.
+        x_ = [x]
+        for mlp in self.message_mlp:
+            x_.append(self.propagate(edge_index, x=x_[-1], model=mlp ))
 
-        x = self.conv1(x=x, edge_index=edge_index.long(), edge_weight=edge_attr)
-        x = self.act(x)
 
-        x = self.conv2(x=x, edge_index=edge_index.long(), edge_weight=edge_attr)
-        x = self.act(x)
+        out = x_
+        return out
 
-        x= self.lin2(x)
-        x = self.act(x)
+    def message(self, x_i, x_j, model):
+        """
 
-        x_a = self.lin2_a1(x)
-        x_a = self.act(x_a)
-        x_a = self.lin2_a2(x_a)
+        :param x_i: has shape [E, out_channels]
+        :param x_j: has shape [E, out_channels]
+        :param model: The model to apply to [x_i , x_j - x_i]
+        :return:
+        """
 
-        x_b = self.lin2_b1(x)
-        x_b = self.act(x_b)
-        x_b = self.lin2_b2(x_b)
+        # This is an edges convolution
+        # https://arxiv.org/abs/1801.07829
 
-        x =torch.cat((x_a, x_b), 1)
-        return x
+        msg = torch.cat([x_i, x_j - x_i], dim=1)
+        msg = model(msg)
+
+        return msg
+
+class Aggregation(torch.nn.Module):
+    r"""An abstract base class for implementing custom aggregations.
+
+    Aggregation can be either performed via an :obj:`index` vector, which
+    defines the mapping from input elements to their location in the output:
+
+    |
+
+    .. image:: https://raw.githubusercontent.com/rusty1s/pytorch_scatter/
+            master/docs/source/_figures/add.svg?sanitize=true
+        :align: center
+        :width: 400px
+
+    |
+
+    Notably, :obj:`index` does not have to be sorted:
+
+    .. code-block::
+
+       # Feature matrix holding 10 elements with 64 features each:
+       x = torch.randn(10, 64)
+
+       # Assign each element to one of three sets:
+       index = torch.tensor([0, 0, 1, 0, 2, 0, 2, 1, 0, 2])
+
+       output = aggr(x, index)  #  Output shape: [4, 64]
+
+    Alternatively, aggregation can be achieved via a "compressed" index vector
+    called :obj:`ptr`. Here, elements within the same set need to be grouped
+    together in the input, and :obj:`ptr` defines their boundaries:
+
+    .. code-block::
+
+       # Feature matrix holding 10 elements with 64 features each:
+       x = torch.randn(10, 64)
+
+       # Define the boundary indices for three sets:
+       ptr = torch.tensor([0, 4, 7, 10])
+
+       output = aggr(x, ptr=ptr)  #  Output shape: [4, 64]
+
+    Note that at least one of :obj:`index` or :obj:`ptr` must be defined.
+
+    Shapes:
+        - **input:**
+          node features :math:`(|\mathcal{V}|, F_{in})` or edge features
+          :math:`(|\mathcal{E}|, F_{in})`,
+          index vector :math:`(|\mathcal{V}|)` or :math:`(|\mathcal{E}|)`,
+        - **output:** graph features :math:`(|\mathcal{G}|, F_{out})` or node
+          features :math:`(|\mathcal{V}|, F_{out})`
+    """
+
+    def forward(self, x, index, ptr, dim_size,dim = -2) :
+        r"""
+        Args:
+            x (torch.Tensor): The source tensor.
+            index (torch.LongTensor, optional): The indices of elements for
+                applying the aggregation.
+                One of :obj:`index` or :obj:`ptr` must be defined.
+                (default: :obj:`None`)
+            ptr (torch.LongTensor, optional): If given, computes the
+                aggregation based on sorted inputs in CSR representation.
+                One of :obj:`index` or :obj:`ptr` must be defined.
+                (default: :obj:`None`)
+            dim_size (int, optional): The size of the output tensor at
+                dimension :obj:`dim` after aggregation. (default: :obj:`None`)
+            dim (int, optional): The dimension in which to aggregate.
+                (default: :obj:`-2`)
+        """
+        pass
