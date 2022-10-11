@@ -9,7 +9,8 @@ from torch_geometric.data import Data
 import pytorch_lightning as pl
 import os.path as osp
 from model.transfomer_utils import PositionalEncoding
-
+from torch_geometric.utils import to_scipy_sparse_matrix
+import torch_geometric as tg
 
 class AMGNNmodel(pl.LightningModule):
     """Main class of AMGNN. This Pytorch lightning class will deal with the model loading, training, testing, validation
@@ -19,8 +20,8 @@ class AMGNNmodel(pl.LightningModule):
         super().__init__()
         self.configuration = config
         self.network = NeuralNetwork(self.configuration["input_channels"], self.configuration["hidden_channels"],
-                                     self.configuration["out_channels"], self.configuration['aggregator'])
-        self.Floss = nn.functional.mse_loss
+                                     self.configuration["out_channels"], self.configuration['aggregator'],
+                                     self.configuration["number_hidden_layers"])
         self.lr = float(self.configuration["learning_rate"])
         self.batch_size = int(config["batch_size"])
         # self.example_input_array = torch.Tensor(32, 1, 28, 28)
@@ -67,36 +68,74 @@ class AMGNNmodel(pl.LightningModule):
         Return:
             y_hat: the prediction of the neural network,
             loss: the actual loss of the neural network"""
+        MSE = nn.functional.mse_loss
         y_hat = self.network(batch)
+
+        # Compute the MSE loss
+        L_Mse = MSE(y_hat, batch.y)
+
+        # Get the temperatures
         temp_hat = y_hat[:,0]
         temp = batch.y[:,0]
 
+        # Get the displacement
         disp_hat = y_hat[:,1:-1]
         disp = batch.y[:,1:-1]
-        loss_temp = self.Floss(temp_hat, temp)
-        loss_disp = self.Floss(disp_hat, disp)
-        loss = loss_disp + loss_temp #self.Floss(y_hat, batch.y)
+
+        # Get the sparce adjancy matrix
+        coo = [[], []]
+        values = []
+        for edge_number, (i, j) in enumerate(batch.edge_index.t()):
+            coo[0].append(edge_number)
+            coo[1].append(i)
+            values.append(1.0)
+
+            coo[0].append(edge_number)
+            coo[1].append(j)
+            values.append(1.0)
+
+        kt_size = [batch.edge_index.shape[1],  # Number of edges
+                   batch.x.shape[0]  # Number of nodes
+                   ]
+        kt = torch.sparse_coo_tensor(coo, values, kt_size, dtype=torch.float)
+        kt = kt.to(temp.device)
+
+        # Compute the gradient of the deformation and the temperature on sparce matrix
+        temp_grad = torch.sparse.mm(kt.float(), torch.unsqueeze(temp,1))
+        temp_hat_grad = torch.sparse.mm(kt.float(), torch.unsqueeze(temp_hat,1))
+
+        # Compute the difference of the temperature gradient and the predicted gradient
+        L_gradient_temp = temp_grad - temp_hat_grad
+        L_gradient_temp = torch.mean(L_gradient_temp) # Make the average of them
+
+        # Compute the gradient of the deformation X
+
+        L_gradient_deformation = None
+
+        loss_temp = MSE(temp_hat, temp)
+        loss_disp = MSE(disp_hat, disp)
+        loss = loss_disp + loss_temp
         return y_hat, loss, loss_disp, loss_temp
 
 
 class NeuralNetwork(MessagePassing):
-    def __init__(self, in_channels, hidden_channels, out_channels, aggregator):
+    def __init__(self, in_channels, hidden_channels, out_channels, aggregator, number_hidden):
         super().__init__(aggr=aggregator) # Test multi agreagation with cat to extract the neighboor
-        self.hidden = list(hidden_channels)
+        self.hidden = int(hidden_channels)
+        self.number_hidden = int(number_hidden)
 
-        self.lin = nn.Linear(in_channels, hidden_channels[0])
-        self.lin2 = nn.Linear(hidden_channels[-1], out_channels)
-        self.message_mlp= list()
+        self.lin = nn.Linear(in_channels, self.hidden)
+        self.lin2 = nn.Linear(self.hidden, out_channels)
 
-        for i in range(len(self.hidden) -1):
-            in_ = self.hidden[i]
-            out_ = self.hidden[i + 1]
-            self.message_mlp.append(nn.Sequential(nn.Linear(in_*2, out_),
-                                                  nn.GELU(),
-                                                  nn.Linear(out_,out_),
-                                                  nn.GELU(),
-                                                  )
-                                    )
+        dim = self.hidden
+        for i in range(self.number_hidden):
+            # Add the neural layer to the Message Passing neural network
+            setattr(self, f"message_mlp_{i}", nn.Sequential(nn.Linear(dim*2, dim),
+                                                            nn.GELU(),
+                                                            nn.Linear(dim,dim),
+                                                            nn.GELU(),
+                                                            )
+                    )
 
     def forward(self, batch):
         x = batch.x
@@ -108,11 +147,18 @@ class NeuralNetwork(MessagePassing):
         x = self.lin(x)
         # Step 4-5: Start propagating messages.
         x_ = [x]
-        for mlp in self.message_mlp:
-            x_.append(self.propagate(edge_index, x=x_[-1], model=mlp ))
+        for i in range(self.number_hidden):
+            # Found the Nth layer of the neural network
+            layer = getattr(self, f"message_mlp_{i}")
+            # Append its results in x_
+            x_.append(self.propagate(edge_index, x=x_[-1], model= layer ))
 
 
-        out = x_
+        # Add all layers outputs together for the skip connections
+        x = torch.sum(
+            torch.stack(x_), axis=0
+        )
+        out = self.lin2(x)
         return out
 
     def message(self, x_i, x_j, model):

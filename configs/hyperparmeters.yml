@@ -3,9 +3,8 @@ learning_rate: 1e-06
 neighbour_radius: 2e-03
 neighbour_k: 26
 input_channels: 11
-hidden_channels:
-  - 64
-  - 128
+hidden_channels: 128
+number_hidden_layers: 4
 out_channels: 4
 aggregator: mean
 distance_upper_bound: 1e-6
