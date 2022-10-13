@@ -33,8 +33,8 @@ class AMGNNmodel(pl.LightningModule):
         """Train loop of the neural network"""
         _, loss, loss_disp, loss_temp = self._get_preds_loss(batch)
         self.log("train loss", loss, batch_size=self.batch_size)
-        self.log("train displacement loss", loss_disp,batch_size=self.batch_size)
-        self.log("train temperature loss", loss_temp, batch_size=self.batch_size)
+        self.log("train loss gradient displacement", loss_disp,batch_size=self.batch_size)
+        self.log("train loss gradient temperature", loss_temp, batch_size=self.batch_size)
         return loss
 
     def test_step(self, batch, batch_idx):
@@ -42,8 +42,8 @@ class AMGNNmodel(pl.LightningModule):
          model will do in the real-world."""
         y_hat, loss, loss_disp, loss_temp = self._get_preds_loss(batch)
         self.log("test loss", loss, batch_size=self.batch_size)
-        self.log("test displacement loss", loss_disp, batch_size=self.batch_size)
-        self.log("test temperature loss", loss_temp, batch_size=self.batch_size)
+        self.log("test loss gradient displacement", loss_disp, batch_size=self.batch_size)
+        self.log("test loss gradient temperature", loss_temp, batch_size=self.batch_size)
 
         # Save the output
         batch_cpu = batch.to("cpu")
@@ -57,8 +57,8 @@ class AMGNNmodel(pl.LightningModule):
          This number varies from dataset to dataset."""
         _, loss, loss_disp, loss_temp = self._get_preds_loss(batch)
         self.log("val loss", loss, batch_size=self.batch_size)
-        self.log("val displacement loss", loss_disp, batch_size=self.batch_size)
-        self.log("val temperature loss", loss_temp, batch_size=self.batch_size)
+        self.log("val loss gradient displacement", loss_disp, batch_size=self.batch_size)
+        self.log("val loss gradient temperature", loss_temp, batch_size=self.batch_size)
 
     def configure_optimizers(self):
         optimizer = optim.Adam(self.parameters(), lr=self.lr)
