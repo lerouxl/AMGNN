@@ -1,18 +1,60 @@
 import torch
+from torch.nn.functional import mse_loss
 from torch import Tensor
 from torch_geometric.nn import MessagePassing
+from torch_geometric.data import Data
 
-def AMGNN_loss(batch, y, y_hat, lambda_weight=None):
+
+def AMGNN_loss(batch: Data, y: Tensor, y_hat: Tensor, lambda_weight: Tensor = None):
     """
     Compute the loss of AMGNN. The loss function is defined as
-    Loss = lambda_1 x L_mse + lambda_2 x L_gradient_deformation + lambda_3 x L_gradient_temperature
+    Loss = lambda_1 x l_mse + lambda_2 x l_gradient_deformation + lambda_3 x l_gradient_temperature
 
     With
-        - L_mse: the MSE loss of y, y_hat.
-        - L_gradient_deformation: the
-    :return:
+        - l_mse: the MSE loss of y, y_hat.
+        - l_gradient_deformation: the mean of the gradients losses X, Y and Z gradient.
+        - l_temperature: the gradient loss of the temperature.
+        - lambda_i: the ith weight in lambda_weight. If lambda_weigth is None, the all lambda = 1.
+
+    :param: batch: The batch data containing the edge_index.
+    :param: y: The label tensor of shape [n_nodes, 4] (temperature, X disp,Y disp,Z disp).
+    :param: y_hat: The prediction tensor of shape [n_nodes, 4] (temperature, X disp,Y disp,Z disp).
+    :param: lambda_weight: The weight of the weighted sum of the loss (shape (3,1))
+    :return: Tensor the loss value (shape [1]).
     """
-    pass
+
+    # If lambda_weight is None, then create a tensor of 1.
+    if lambda_weight is None:
+        lambda_weight = torch.ones(3).view(3,1) # [3,1]
+
+    # Compute the mse loss
+    l_mse = mse_loss(y_hat, y) # [1]
+
+    # Compute the temperature gradient loss
+    l_gradient_temperature = compute_gradient_loss(batch=batch, y=y[:, 0], y_hat=y_hat[:, 0]) # [1]
+
+    # Compute the X gradient loss
+    l_gradient_x = compute_gradient_loss(batch=batch, y=y[:, 1], y_hat=y_hat[:, 1]) # [1]
+
+    # Compute the Y gradient loss
+    l_gradient_y = compute_gradient_loss(batch=batch, y=y[:, 2], y_hat=y_hat[:, 2]) # [1]
+
+    # Compute the Z gradient loss
+    l_gradient_z = compute_gradient_loss(batch=batch, y=y[:, 3], y_hat=y_hat[:, 3]) # [1]
+
+    # Compute l_gradient_deformation
+    l_gradient_deformation = torch.mean(torch.stack([l_gradient_x,
+                                                    l_gradient_y,
+                                                    l_gradient_z])) # [1]
+
+    # Compute the loss by adding the sub losses and weight them
+    loss = torch.stack([l_mse,
+                       l_gradient_temperature,
+                       l_gradient_deformation]).view(1, 3) # [1,3]
+    # weighted sum
+    loss = torch.mm(loss, lambda_weight) # [1,1]
+    loss = torch.squeeze(loss,0) # [1]
+    return loss
 
 
 def compute_gradient_loss(batch, y: Tensor, y_hat: Tensor) -> Tensor:
@@ -23,7 +65,7 @@ def compute_gradient_loss(batch, y: Tensor, y_hat: Tensor) -> Tensor:
     :param batch: The batch data, containing the edge_index
     :param y: The label value of each nodes of the graph.
     :param y_hat: The predicted value of each nodes of the graph.
-    :return: L_gradient: a tensor of shape [n_features] value of the loss.
+    :return: L_gradient: a tensor of shape [1] value of the loss.
     """
     # Load the gradient message parsing operator
     loss_function = gradient_loss_MP()
@@ -44,10 +86,11 @@ class gradient_loss_MP(MessagePassing):
     The absolute values of this subtraction is used to do the mean of all edges gradients values for nodes.
 
     """
+
     def __init__(self):
         super().__init__(aggr="mean")
 
-    def forward(self, y: Tensor, y_hat: Tensor, edge_index: Tensor, return_gradient= False) -> Tensor:
+    def forward(self, y: Tensor, y_hat: Tensor, edge_index: Tensor, return_gradient=False) -> Tensor:
         """
         Compute the gradient loss for a graph using the label and prediction.
         Can return the nodes gradients values if return_gradient is set to True

@@ -125,3 +125,52 @@ class Test_loss(unittest.TestCase):
         self.assertEqual(torch.tensor([0]), grad_loss,
                          "The mean loss must be 0")
 
+    def test_loss_zeros(self):
+        """Test the case when the loss is equal to zeros:
+        - Y = Y_hat
+        - labmda_weight = 0
+        """
+        # Generate data
+        data = simple_graph()
+        y = torch.ones((3,4), dtype=torch.float)
+        y_hat = torch.zeros((3,4), dtype=torch.float)
+
+        # Loss(y,y) = 0
+        zero = torch.tensor([0])
+        loss = loss_function.AMGNN_loss(data, y, y)
+        self.assertEqual(zero, loss, "The loss of y - y should be zeros")
+
+        # Lambda weight set to 0
+        lambda_weight = torch.zeros((3,1))
+        loss = loss_function.AMGNN_loss(data, y, y_hat, lambda_weight)
+        self.assertEqual(zero, loss, "The loss with lambda zeros should be zeros")
+
+    def test_loss_no_grad(self):
+        """Test remove the grad calculation with lambda_weight and test the MSE loss.
+
+        Graph:
+            A========B========C
+        With Y = 0,sqrt(1),sqrt(2),sqrt(3) and Y_hat = 0.
+        The MSE values must be 1.5 (18 / 12).
+
+        """
+        # Generate data
+        data = simple_graph()
+        y = torch.unsqueeze(torch.arange(4, dtype=torch.float),0) # [1,4]
+        y = torch.sqrt(y)
+        y = y.expand(3,4) # [3,4]
+
+        y_hat = torch.zeros((3,4), dtype=torch.float)
+
+        # Loss(y,y) = 1.5
+        target = torch.tensor([1.5])
+
+        # Focus on the MSE loss
+        lambda_weight = torch.zeros((3,1))
+        lambda_weight[0][0] = 1
+        loss = loss_function.AMGNN_loss(data, y, y_hat, lambda_weight)
+        self.assertEqual(target, loss, "This MSE loss must be equal to 1.5")
+
+
+
+
