@@ -8,6 +8,7 @@ from dataloader.arc_dataset import ARCDataset
 from torch_geometric.data import Data
 import pytorch_lightning as pl
 import os.path as osp
+from utils.loss_function import AMGNN_loss
 from model.transfomer_utils import PositionalEncoding
 from torch_geometric.utils import to_scipy_sparse_matrix
 import torch_geometric as tg
@@ -68,53 +69,11 @@ class AMGNNmodel(pl.LightningModule):
         Return:
             y_hat: the prediction of the neural network,
             loss: the actual loss of the neural network"""
-        MSE = nn.functional.mse_loss
+
         y_hat = self.network(batch)
 
-        # Compute the MSE loss
-        L_Mse = MSE(y_hat, batch.y)
+        loss, loss_disp, loss_temp = AMGNN_loss(batch, batch.y, y_hat, detail_loss=True)
 
-        # Get the temperatures
-        temp_hat = y_hat[:,0]
-        temp = batch.y[:,0]
-
-        # Get the displacement
-        disp_hat = y_hat[:,1:-1]
-        disp = batch.y[:,1:-1]
-
-        # Get the sparce adjancy matrix
-        coo = [[], []]
-        values = []
-        for edge_number, (i, j) in enumerate(batch.edge_index.t()):
-            coo[0].append(edge_number)
-            coo[1].append(i)
-            values.append(1.0)
-
-            coo[0].append(edge_number)
-            coo[1].append(j)
-            values.append(1.0)
-
-        kt_size = [batch.edge_index.shape[1],  # Number of edges
-                   batch.x.shape[0]  # Number of nodes
-                   ]
-        kt = torch.sparse_coo_tensor(coo, values, kt_size, dtype=torch.float)
-        kt = kt.to(temp.device)
-
-        # Compute the gradient of the deformation and the temperature on sparce matrix
-        temp_grad = torch.sparse.mm(kt.float(), torch.unsqueeze(temp,1))
-        temp_hat_grad = torch.sparse.mm(kt.float(), torch.unsqueeze(temp_hat,1))
-
-        # Compute the difference of the temperature gradient and the predicted gradient
-        L_gradient_temp = temp_grad - temp_hat_grad
-        L_gradient_temp = torch.mean(L_gradient_temp) # Make the average of them
-
-        # Compute the gradient of the deformation X
-
-        L_gradient_deformation = None
-
-        loss_temp = MSE(temp_hat, temp)
-        loss_disp = MSE(disp_hat, disp)
-        loss = loss_disp + loss_temp
         return y_hat, loss, loss_disp, loss_temp
 
 
