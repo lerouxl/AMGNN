@@ -5,7 +5,7 @@ from torch_geometric.nn import MessagePassing
 from torch_geometric.data import Data
 
 
-def AMGNN_loss(batch: Data, y: Tensor, y_hat: Tensor, lambda_weight: Tensor = None):
+def AMGNN_loss(batch: Data, y: Tensor, y_hat: Tensor, lambda_weight: Tensor = None, detail_loss: bool = False):
     """
     Compute the loss of AMGNN. The loss function is defined as
     Loss = lambda_1 x l_mse + lambda_2 x l_gradient_deformation + lambda_3 x l_gradient_temperature
@@ -20,12 +20,14 @@ def AMGNN_loss(batch: Data, y: Tensor, y_hat: Tensor, lambda_weight: Tensor = No
     :param: y: The label tensor of shape [n_nodes, 4] (temperature, X disp,Y disp,Z disp).
     :param: y_hat: The prediction tensor of shape [n_nodes, 4] (temperature, X disp,Y disp,Z disp).
     :param: lambda_weight: The weight of the weighted sum of the loss (shape (3,1))
+    :param: detail_loss: boolean, if false, only return the loss,
+                        if true, return: loss, l_gradient_deformation, l_gradient_temperature
     :return: Tensor the loss value (shape [1]).
     """
 
     # If lambda_weight is None, then create a tensor of 1.
     if lambda_weight is None:
-        lambda_weight = torch.ones(3).view(3,1) # [3,1]
+        lambda_weight = torch.ones(3, device=y.device).view(3,1) # [3,1]
 
     # Compute the mse loss
     l_mse = mse_loss(y_hat, y) # [1]
@@ -54,7 +56,11 @@ def AMGNN_loss(batch: Data, y: Tensor, y_hat: Tensor, lambda_weight: Tensor = No
     # weighted sum
     loss = torch.mm(loss, lambda_weight) # [1,1]
     loss = torch.squeeze(loss,0) # [1]
-    return loss
+
+    if detail_loss:
+        return loss, l_gradient_deformation, l_gradient_temperature
+    else:
+        return loss
 
 
 def compute_gradient_loss(batch, y: Tensor, y_hat: Tensor) -> Tensor:
@@ -75,7 +81,7 @@ def compute_gradient_loss(batch, y: Tensor, y_hat: Tensor) -> Tensor:
     y_hat_grad = loss[1]
 
     # Do the mean
-    L_gradient = torch.mean(y_grad - y_hat_grad)
+    L_gradient = torch.mean(torch.abs(y_grad - y_hat_grad))
     return L_gradient
 
 
