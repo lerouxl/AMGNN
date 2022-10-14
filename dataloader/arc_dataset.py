@@ -1,7 +1,7 @@
 import os.path as osp
 from pathlib import Path
 import torch
-from torch_geometric.data import Dataset
+from torch_geometric.data import Dataset, Data
 from dataloader import simulation_files
 from dataloader.file_preprocessing import preprocess_folder
 from dataloader.printing_parameters import get_simulation_parameters
@@ -10,28 +10,46 @@ from itertools import repeat
 import wandb
 from tqdm import tqdm
 from multiprocessing import Pool
-import logging
 
 
 class ARCDataset(Dataset):
-    """A dataset loading the csv of part, supports and baseplate for each simulation step.
-    Each simulation file and step will load 3 csv giving the point cloud of the part.
-    The given graph are providing the following data:
-        - X:  [n, 11] : laser speed,  laser power, layer thickness, time step duration, x_type,
-                        x_type, x_type, scalled past temperature, x past displacement,
-                        y past displacement, z past displacement.
-        - Y: [n, 4] : scaled actual temperature, actual x displacement , actual y displacement, actual z displacement
-        - pos: [n, 3] : The non deformed position of the voxels
-        - edge_attr: [n] : The distance between the two linked nodes (non deformed).
-    """
+    """A dataset loading the csv of part and supports for each simulation step.
 
+    This :obj:Dataset object is containing the graph of a simulation step. In each step, the printed voxels are
+    represented by a datapoint linked together using a graph structure.
+    Each nodes of the graph contain the following information.
+    Data:
+        - X: Tensor of shape [n, 11] containing: *laser speed,  laser power, layer thickness, time step duration, x_type,
+                    x_type, x_type, past temperature, x past displacement, y past displacement, z past displacement*.
+                    All values should have been scaled between 0 and 1.
+        - Y: Tensor of shape [n, 4] containing: actual temperature, actual x displacement , actual y displacement,
+                    actual z displacement*
+        - pos: Tensor of shape [n, 3] containing the non deformed position of the voxels.
+        - edge_attr: Tensor of shape [n] containing the distance between the two linked nodes (non deformed).
+
+    Notes: All values must be scaled between 0 and 1 using the configuration scaling variables.
+    """
+    # TODO: add a features to X to have the simulation step (1,2,3....,Cooling,...)
     def __init__(self, root: Path, transform=None, pre_transform=None):
         """
-        Will load simulation file and transfomr them to graph.
-        :param root: Path containing the raw and processed data folders.
-        :param transform:
-        :param pre_transform:
+         Will load simulation file and transform them to graph.
+
+        Parameters
+        ----------
+        root : Path
+            Path containing the raw and processed data folders.
+        transform : :obj:, optional
+            A function/transform that takes in an
+            :obj:`torch_geometric.data.Data` object and returns a transformed
+            version. The data object will be transformed before every access.
+            (default: :obj:`None`)
+        pre_transform: :obj:, optional
+            A function/transform that takes in
+            an :obj:`torch_geometric.data.Data` object and returns a
+            transformed version. The data object will be transformed before
+            being saved to disk. (default: :obj:`None`)
         """
+
         if type(root) is str:
             root = Path(root)
 
@@ -42,12 +60,18 @@ class ARCDataset(Dataset):
         super().__init__(str(root), transform, pre_transform)
 
     @property
-    def raw_file_names(self):
-        """
+    def raw_file_names(self) -> list[Path]:
+        """ List raw files available.
+
         List all ARC csv files in the config root raw folder.
         All csv files must be an extract of the ARC file generated using Simufact tool.
-        :return: list of all csv path files from the raw_dir.
+
+        Returns
+        -------
+        list of :obj:`Path`
+            List of obj:`Path` to the .csv in the raw directory *raw_dir*.
         """
+
         # List all files that will be processed
         files = list()
         # List all files that are an used components
@@ -58,10 +82,15 @@ class ARCDataset(Dataset):
         return files
 
     @property
-    def processed_file_names(self):
-        """
-        List all processed files by the dataloader. Those file where saved as pt files.
-        :return: list of files name
+    def processed_file_names(self) -> list[str]:
+        """ Return name of already processed files.
+
+        List all processed files by the dataloader saved as pt files in the processed directory.
+
+        Returns
+        -------
+        list of :obj:`str`
+            List of all files name saved as pt files (except for pre_filter and pre_transform)
         """
         files = list((Path(self.root) / Path("processed")).rglob("*.pt"))
         # Pre_filter and pre_transform are not data for the neural network, so I removed them form the list of inputs
@@ -70,11 +99,15 @@ class ARCDataset(Dataset):
         return files
 
     def _simufact_folders(self) -> list[str]:
-        """
-        List all simulation folders from the raw folder.
+        """ List all simulation folders from the raw folder.
+
         This is useful as the in the raw folder there are non processed Simufact work folder.
         Each folder represent a simulation.
-        :return list of all folders name in the raw directory.
+
+        Returns
+        -------
+        list of :obj:`str`
+            The list of all folders name in the raw directory.
         """
         self.all_arc_files = list(Path(self.raw_dir).rglob("Process_FV_*.csv"))
         folders_simu = simulation_files.extract_simulation_folder(self.all_arc_files)
@@ -82,8 +115,10 @@ class ARCDataset(Dataset):
         return folders_simu
 
     def get_meta_parameters(self, simufact_folders: list[Path]) -> dict:
-        """
-        Will go in all the simufact simluation folder and get information such as:
+        """ Get the simulation parameters used for the simulation.
+
+        This function will go in all of the Simufact simulation folder and get information such as:
+        Information:
             - material name : str, name of the material used by the simulation
             - Type (part, supports): one hot vector
             - Laser power (W)
@@ -93,11 +128,18 @@ class ARCDataset(Dataset):
             - Past node temperature or Build chamber temperature for new node
             - Past node displacement or 0 for new nodes
             - Coordinates
-            - In contact with the baseplate
+            - In contact with the baseplate.
 
-        :param simufact_folders: list of all simulation folder in raw folder.
-        :return: meta_parameters: dictionary with an entry for every simulation folder containing a dict with all meta
-        parameters.
+        Parameters
+        ----------
+        simufact_folders: list of Path
+            The list of all simulation folder in raw folder.
+
+        Returns
+        -------
+        dict
+            meta_parameters: dictionary with an entry for every simulation folder containing a dict with all meta.
+
         """
         meta_parameters = dict()
 
@@ -113,10 +155,15 @@ class ARCDataset(Dataset):
         return meta_parameters
 
     def process(self) -> None:
-        """
+        """ Process raw files to pt files.
+
         Process all raw files, work on them to compute the part and supports to generate a graph.
         The graph is then saved as a pt file.
-        :return: None
+
+        Returns
+        -------
+        None
+
         """
         #: List all simufact folder in raw
         simufact_folders = self._simufact_folders()
@@ -155,17 +202,32 @@ class ARCDataset(Dataset):
 
 
     def len(self) -> int:
-        """
-        Return the number of processed files (pt).
-        :return: int, number of processed files
+        """ Number of processed files.
+
+        Will list all *.pt* files saved in the processed directory, and count them.
+
+        Returns
+        -------
+        int
+            The number of processed files
         """
         return len(self.processed_file_names)
 
-    def get(self, idx: int) -> torch.Tensor:
-        """
-        Get the `idx`.pt file and load it as a torch variable.
-        :param idx: int, id of the file
-        :return: The loaded pt file.
+    def get(self, idx: int) -> Data:
+        """ Get a graph.
+
+        Get the `idx`.pt file and load it as a torch geometric graph.
+
+        Parameters
+        ----------
+        idx: int
+            ID of the file to load.
+
+        Returns
+        -------
+
+        Data
+            The graph of the loaded pt file.
         """
         data = torch.load(osp.join(self.processed_dir, self.processed_file_names[idx]))
         return data
