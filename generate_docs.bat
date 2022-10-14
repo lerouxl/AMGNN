@@ -1,0 +1,1 @@
+pdoc --html . --output-dir docs --force  --config latex_math=True
