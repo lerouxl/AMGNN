@@ -105,18 +105,13 @@ class NeuralNetwork(MessagePassing):
         # Step 2: Linearly transform node feature matrix.
         x = self.lin(x)
         # Step 4-5: Start propagating messages.
-        x_ = [x]
+
         for i in range(self.number_hidden):
             # Found the Nth layer of the neural network
             layer = getattr(self, f"message_mlp_{i}")
             # Append its results in x_
-            x_.append(self.propagate(edge_index, x=x_[-1], model= layer ))
+            x.append(self.propagate(edge_index, x=x, model= layer ))
 
-
-        # Add all layers outputs together for the skip connections
-        x = torch.sum(
-            torch.stack(x_), axis=0
-        )
         out = self.lin2(x)
         return out
 
