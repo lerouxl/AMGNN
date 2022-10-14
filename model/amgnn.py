@@ -1,6 +1,7 @@
 from torch import optim, nn
 from typing import Tuple
 import torch
+from torch import Tensor
 import wandb
 #from model.GNCConv import GCNConv
 from torch_geometric.nn import MessagePassing, GCNConv
@@ -78,12 +79,32 @@ class AMGNNmodel(pl.LightningModule):
 
 
 class NeuralNetwork(MessagePassing):
-    def __init__(self, in_channels, hidden_channels, out_channels, aggregator, number_hidden):
-        super().__init__(aggr=aggregator) # Test multi agreagation with cat to extract the neighboor
+    def __init__(self, in_channels: int, hidden_channels: int, out_channels: int, aggregator: str, number_hidden: int):
+        """ Neural network used to predict the simulation results.
+
+        Graph neural network used to predict the deformation and temperature of nodes using the previous know
+        deformation and temperature.
+
+        Parameters
+        ----------
+        in_channels : int
+            Number of features per input node.
+        hidden_channels : int
+            Size of the hidden layers.
+        out_channels : int
+            Number of predicted features per node.
+        aggregator : str
+            Type of aggregator used for the message parsing step (can be mean, max, min...).
+        number_hidden : int
+            Number of blocks between the first layer and the output layer.
+        """
+        super().__init__(aggr=aggregator)
         self.hidden = int(hidden_channels)
         self.number_hidden = int(number_hidden)
 
+        # Input layer
         self.lin = nn.Linear(in_channels, self.hidden)
+        # Output layer
         self.lin2 = nn.Linear(self.hidden, out_channels)
 
         dim = self.hidden
@@ -96,7 +117,23 @@ class NeuralNetwork(MessagePassing):
                                                             )
                     )
 
-    def forward(self, batch):
+    def forward(self, batch: Data) -> Tensor:
+        """ Predict the simulation output.
+
+        Using the neural network defined at the creation of this object, the deformation and temperature of this
+        simulation step are predicted.
+
+        Parameters
+        ----------
+        batch: Data
+            Graph representing multiple simulation.
+
+        Returns
+        -------
+        Tensor
+            Node tensor representing the simulation state of each node a the predicted time.
+
+        """
         x = batch.x
         edge_index = batch.edge_index
         # x has shape [N, in_channels]
@@ -110,18 +147,32 @@ class NeuralNetwork(MessagePassing):
             # Found the Nth layer of the neural network
             layer = getattr(self, f"message_mlp_{i}")
             # Append its results in x_
-            x.append(self.propagate(edge_index, x=x, model= layer ))
+            x = self.propagate(edge_index, x=x, model=layer)
 
         out = self.lin2(x)
         return out
 
-    def message(self, x_i, x_j, model):
-        """
+    def message(self, x_i: Tensor, x_j: Tensor, model: nn.Sequential) -> Tensor:
+        """ Compute the message of each edges.
 
-        :param x_i: has shape [E, out_channels]
-        :param x_j: has shape [E, out_channels]
-        :param model: The model to apply to [x_i , x_j - x_i]
-        :return:
+        The message of each edges is calculated as the concatenation of
+        \[ x_i , x_i - x_j\]
+
+        Where:
+
+        Parameters
+        ----------
+        x_i : Tensor
+            Features of the receiver node, of shape [Edge number, out_channels].
+        x_j : Tensor
+            Features of the neighbour node, of shape [Edge number, out_channels].
+        model : nn.Sequential
+            Model to apply to the message.
+
+        Returns
+        -------
+        Tensor
+            Output of the neural network block.
         """
 
         # This is an edges convolution
