@@ -6,15 +6,14 @@ from torch_geometric.data import Data
 
 
 def AMGNN_loss(batch: Data, y: Tensor, y_hat: Tensor, lambda_weight: Tensor = None, detail_loss: bool = False):
-    """
-    Compute the loss of AMGNN. The loss function is defined as
-    Loss = lambda_1 x l_mse + lambda_2 x l_gradient_deformation + lambda_3 x l_gradient_temperature
-
-    With
-        - l_mse: the MSE loss of y, y_hat.
-        - l_gradient_deformation: the mean of the gradients losses X, Y and Z gradient.
-        - l_temperature: the gradient loss of the temperature.
-        - lambda_i: the ith weight in lambda_weight. If lambda_weigth is None, the all lambda = 1.
+    """Compute the loss of AMGNN.
+    The loss function is defined as
+     \[ Loss = \lambda_1 \cdot Loss_{mse} + \lambda_2 \cdot Loss_{gradient deformation} + \lambda_3 \cdot Loss_{gradient temperature}\]
+    With:
+        - **Loss<sub>mse</sub>**: the MSE loss of *y*, *y_hat*.
+        - **Loss<sub>gradient deformation</sub>**: the mean of the gradients losses X, Y and Z gradient.
+        - **Loss<sub>gradient temperature</sub>**: the gradient loss of the temperature.
+        - **lambda<sub>i</sub>**: the ith weight in *lambda_weight*. If *lambda_weigth* is None, the all lambda<sub>i</sub> are set to 1.
 
     :param: batch: The batch data containing the edge_index.
     :param: y: The label tensor of shape [n_nodes, 4] (temperature, X disp,Y disp,Z disp).
