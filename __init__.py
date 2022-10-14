@@ -1,2 +1,2 @@
 __pdoc__ = {}
-__pdoc__["amgnn_unittest"] = False
+__pdoc__["wandb"] = False
