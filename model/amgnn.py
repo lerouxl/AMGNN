@@ -2,17 +2,11 @@ from torch import optim, nn
 from typing import Tuple
 import torch
 from torch import Tensor
-import wandb
-#from model.GNCConv import GCNConv
-from torch_geometric.nn import MessagePassing, GCNConv
-from dataloader.arc_dataset import ARCDataset
+from torch_geometric.nn import MessagePassing
 from torch_geometric.data import Data
 import pytorch_lightning as pl
 import os.path as osp
 from utils.loss_function import AMGNN_loss
-from model.transfomer_utils import PositionalEncoding
-from torch_geometric.utils import to_scipy_sparse_matrix
-import torch_geometric as tg
 
 class AMGNNmodel(pl.LightningModule):
     """Main class of AMGNN. This Pytorch lightning class will deal with the model loading, training, testing, validation
