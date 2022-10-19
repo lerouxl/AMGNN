@@ -13,3 +13,4 @@ AMGNN.xmind
 *.js
 .ipynb_checkpoints/
 *.zip
+docs/*
