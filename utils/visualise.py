@@ -7,9 +7,10 @@ from torch.utils.data import Subset
 from torch_geometric.data import Data
 import logging
 from tqdm import tqdm
+import shutil
 
 
-def display_dataset(model: AMGNNmodel, dataset: Subset, configuration):
+def display_dataset(model: AMGNNmodel, dataset: Subset, configuration, folder_name: str = "display_dataset"):
     """  Generate vtk representation of the given dataset.
 
     Note: no loss are calculated.
@@ -23,6 +24,8 @@ def display_dataset(model: AMGNNmodel, dataset: Subset, configuration):
         Dataset used to test the neural network.
     configuration
         wandb configuration object. Used to scale the displayed values.
+    folder_name: str
+        Name of the folder where to save the vtk file.
 
     Returns
     -------
@@ -37,6 +40,13 @@ def display_dataset(model: AMGNNmodel, dataset: Subset, configuration):
         # Iterate on the pt files
         files = dataset.dataset.processed_paths
         files = list(files)
+
+        save_folder = Path(files[0]).parents[1] / folder_name
+
+        if save_folder.exists():
+            shutil.rmtree(save_folder)
+        save_folder.mkdir(parents=True, exist_ok=True)
+
 
         for file in tqdm(files):
 
@@ -87,7 +97,8 @@ def display_dataset(model: AMGNNmodel, dataset: Subset, configuration):
             }
 
             # Save the vtk file
-            create_vtk(batch, data, file.with_suffix(".vtk"))
+            file_save = (save_folder / Path(file).stem).with_suffix(".vtk")
+            create_vtk(batch, data, file_save)
 
     log.info("End of the display dataset function")
 
