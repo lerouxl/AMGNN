@@ -7,6 +7,7 @@ from torch_geometric.data import Data
 import pytorch_lightning as pl
 import os.path as osp
 from utils.loss_function import AMGNN_loss
+from pathlib import Path
 
 class AMGNNmodel(pl.LightningModule):
     """Main class of AMGNN. This Pytorch lightning class will deal with the model loading, training, testing, validation
@@ -43,7 +44,10 @@ class AMGNNmodel(pl.LightningModule):
         # Save the output
         batch_cpu = batch.to("cpu")
         batch_cpu.y = torch.hstack([batch_cpu.y, y_hat.to("cpu")])
-        torch.save(batch_cpu, osp.join(osp.join(self.configuration["raw_data"], "test_output"), f'{batch_idx}.pt'))
+        test_output_folder = osp.join(self.configuration["raw_data"], "test_output")
+        # Create the output folder if it did not exist
+        Path(test_output_folder).mkdir(parents=True, exist_ok=True)
+        torch.save(batch_cpu, osp.join(test_output_folder, f'{batch_idx}.pt'))
 
 
     def validation_step(self, batch, batch_idx):
