@@ -77,6 +77,21 @@ def preprocess_files(step_files: list, dest_folder: str) -> None:
                                                             axis=1)
         arc.original_coordinate = arc.original_coordinate.astype(float_type)
 
+        # Add the process step to the data:
+        arc.data.subProcessName = np.full_like(arc.data.XDIS,
+                                               f"{arc.metaparameters.subProcessName}", dtype="S120")
+        try:
+            process_name = str(arc.metaparameters.subProcessName, "utf-8")
+        except:
+            process_name = str(arc.metaparameters.subProcessName)
+
+        process_category, process_features = subprocessname_to_cat_features(process_name)
+
+        # Pass those features to all nodes
+        arc.data.process_category = np.broadcast_to(np.array([process_category], dtype=float),
+                                                    [arc.data.XDIS.shape[0], 6])
+        arc.data.process_features = np.full_like(arc.data.XDIS, process_features, dtype=float)
+
         # Previous arc file
         if i == 0:
             # If this is the initialisation file
@@ -95,3 +110,63 @@ def preprocess_files(step_files: list, dest_folder: str) -> None:
         save_arc(arc, dest_folder, step_name)
 
         previous_arc = copy.deepcopy(arc)
+
+
+def subprocessname_to_cat_features(process_name: str) -> tuple[list[int], int]:
+    """Transform the subProcessName in a category and a features.
+
+    The subProcessName will be classified into 6 categories.
+    Categories:
+        - AM_Layer : [1,0,0,0,0,0]
+        - process : [0,1,0,0,0,0]
+        - Postcooling: [0,0,1,0,0,0]
+        - Powderremoval : [0,0,0,1,0,0]
+        - Unclamping : [0,0,0,0,1,0]
+        - Cooling-1 : [0,0,0,0,0,1]
+
+    If the subProcessName is an AM_layer, then the layer number will be extracted and used as features.
+    Examples:
+        - "AM_Layer 1" -> feature = 1
+        - "AM_Layer 10" -> feature = 10
+        - "AM_Layer 31" -> feature = 31
+
+    Note: The byte object of subProcessName should be converted into a string, with for example
+        str(subProcessName, "utf-8")
+
+    Parameters
+    ----------
+    process_name: str
+        String of the subProcessName. Not the byte.
+
+    Returns
+    -------
+    cat: list[int]
+        list of int used as an one hot encoder for the type of the subProcess.
+    features: int
+        0 if the subProcess is not an 'AM_Layer', if it is, the number of the 'AM_Layer'.
+        Warning, this values is not normalised.
+    """
+    # Initialise the category and features variables
+    cat = [0, 0, 0, 0, 0, 0]  # AM_Layer, process, Postcooling, Powderremoval, Unclamping, Cooling-1
+    feature = 0
+
+    # if we are in a layer step, we extract the layer number as feature
+    if "AM_Layer" in process_name:
+        feature = int((process_name.split(" ")[-1]))
+        cat = [1, 0, 0, 0, 0, 0]
+    # Else, the feature stay at 0 and we change the process category
+    elif "process" in process_name:
+        cat = [0, 1, 0, 0, 0, 0]
+    elif "Postcooling" in process_name:
+        cat = [0, 0, 1, 0, 0, 0]
+    elif "Powderremoval" in process_name:
+        cat = [0, 0, 0, 1, 0, 0]
+    elif "Unclamping" in process_name:
+        cat = [0, 0, 0, 0, 1, 0]
+    elif "Cooling-1" in process_name:
+        cat = [0, 0, 0, 0, 0, 1]
+    # In case of unknow categorie, raisen an error
+    if cat == [0, 0, 0, 0, 0, 0]:
+        raise f"Unknow categorie for {process_name}"
+
+    return cat, feature

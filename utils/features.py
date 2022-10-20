@@ -16,6 +16,7 @@ def arc_features_extraction(arc: Arc_reader, past_arc: Arc_reader, config: dict)
         tuple[Tensor, Tensor, Tensor, Tensor, Tensor]:
     """
     Extract the features from an ARC files and return there values as torch tensors.
+
     All features are scaled using the config data
     The extracted features are:
         - coordinates
@@ -31,14 +32,33 @@ def arc_features_extraction(arc: Arc_reader, past_arc: Arc_reader, config: dict)
             - Past point X displacement
             - Past point Y displacement
             - Past point Z displacement
-        - Y (target): "XDIS", "YDIS", "ZDIS", "TEMPTURE"
+            - process features
+            - process class [AM_Layer, process, Postcooling, Powderremoval, Unclamping, Cooling-1]
+        - Y (target):
+            - XDIS
+            - YDIS
+            - ZDIS
+            - TEMPTURE
 
-    :param arc: Merged arcs files
-    :param past_arc: Arc of the previous simulation step
-    :param neighbour_k: Max number of edges per points
-    :param distance_upper_bound: Max distance between point to have an edge
-    :param config: dictionary with all the configuration variables.
-    :return:
+    Parameters
+    ----------
+    arc : Arc_reader
+        Merged arcs files.
+    past_arc : Arc_reader
+        Arc of the previous simulation step.
+    config: dict
+        Dictionary with all the configuration variables.
+
+    Returns
+    -------
+    coordinates: torch.Tensor
+        Tensor of the nodes coordinates of shape [n, 3] with n the number of nodes.
+    part_edge_index: torch.Tensor
+        Tensor listing all edges of the mesh. Of shape [2,e] with e the number of edges.
+    X: torch.Tensor
+        Input tensor for the deep learning model of shape [n,18] with n the number of nodes.
+    Y: torch.Tensor
+        Label tensor for the deep learning model of shape [n,4] with n the number of nodes.
     """
     neighbour_k = int(config["neighbour_k"])
     distance_upper_bound = float(config["distance_upper_bound"])
@@ -75,6 +95,10 @@ def arc_features_extraction(arc: Arc_reader, past_arc: Arc_reader, config: dict)
     #   - Past point X displacement
     #   - Past point Y displacement
     #   - Past point Z displacement
+
+    # Extract simulation process steps category and features
+    process_category = torch.tensor(arc.data.process_category, dtype=torch.float)
+    process_features = torch.tensor(arc.data.process_features, dtype=torch.float)
 
     # Previous step results
     past_coordinates = torch.tensor(past_arc.coordinate, dtype=torch.float)
@@ -114,6 +138,7 @@ def arc_features_extraction(arc: Arc_reader, past_arc: Arc_reader, config: dict)
     x_past_zdis /= float(config["scaling_size"])
     past_coordinates /= float(config["scaling_size"])
     coordinates /= float(config["scaling_size"])
+    process_features /= float(config["max_number_of_layer"])
 
     actual_features = torch.concat((coordinates, x_laser_speed.unsqueeze(1), x_laser_power.unsqueeze(1), \
                                     x_layer_thickness.unsqueeze(1), x_time_step_length.unsqueeze(1), \
@@ -126,5 +151,9 @@ def arc_features_extraction(arc: Arc_reader, past_arc: Arc_reader, config: dict)
 
     # load the edges
     part_edge_index = torch.tensor(arc.edge_index, dtype=torch.long)
+
+    # Add the subprocess features to the nodes
+    X = torch.cat([X, process_features.unsqueeze(1)], 1) # [n, 12]
+    X = torch.cat([X, process_category],1) # [n, 18]
 
     return coordinates, part_edge_index, X, Y
