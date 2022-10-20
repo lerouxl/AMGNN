@@ -84,7 +84,7 @@ def run():
 
     # Display the test dataset results in vtk files (can be open with Paraview)
     log.info("Generate visualisation of the results")
-    display_dataset(model, test_dataset, configuration)
+    display_dataset(model, test_dataset, configuration, "Test_dataset_results")
 
     log.info("END")
 
