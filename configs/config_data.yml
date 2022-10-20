@@ -7,6 +7,7 @@ scaling_temperature: 3000 # Temperature used to scale the temperature (T/scaling
 scaling_power: 1000
 scaling_speed: 1500
 scaling_size: 250 # max coordinate value in mm
+max_number_of_layer: 1000 # 10 000 is the max number of layer for the EOS M290 with a layer thickness of 0.03mm
 # What simulated components to use as input.
 # Can be ["part", "baseplate", "supports"], part should always be here
 # used_components: ["part", "supports"]
