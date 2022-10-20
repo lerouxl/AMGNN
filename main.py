@@ -15,7 +15,12 @@ from datetime import datetime
 
 
 def run():
-    """Train an test AMGNN model on the data"""
+    """Entry strips to train an test AMGNN model on data.
+    The configuration of AMGNN and the training is defined in the *configs* folder.
+
+    Training, validation and testing results are saved using the Wandb library.
+    The dataset is randomly split into 3 sets (train, test and validation)
+    """
     # Configure a text logger
     init_logger('logs.log')
     log = logging.getLogger(__name__)
