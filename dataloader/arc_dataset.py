@@ -109,7 +109,7 @@ class ARCDataset(Dataset):
         list of :obj:`str`
             The list of all folders name in the raw directory.
         """
-        self.all_arc_files = list(Path(self.raw_dir).rglob("Process_FV_*.csv"))
+        self.all_arc_files = list(Path(self.raw_dir).rglob("*_FV_*.csv"))
         folders_simu = simulation_files.extract_simulation_folder(self.all_arc_files)
 
         return folders_simu
