@@ -4,6 +4,7 @@ channels:
   - pyg
   - defaults
 dependencies:
+  - xmltodict
   - cudatoolkit=11.3
   - numba=0.54.*
   - pandocfilters=1.5.*
