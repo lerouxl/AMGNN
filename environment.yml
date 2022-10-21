@@ -1,188 +1,35 @@
 name: AMGNN
 channels:
   - pytorch
+  - pyg
   - defaults
 dependencies:
-  - anyio=3.5.0
-  - argon2-cffi=21.3.0
-  - argon2-cffi-bindings=21.2.0
-  - asttokens=2.0.5
-  - attrs=21.4.0
-  - babel=2.9.1
-  - backcall=0.2.0
-  - blas=1.0
-  - bleach=4.1.0
-  - brotlipy=0.7.0
-  - ca-certificates=2022.3.18
-  - certifi=2021.10.8
-  - cffi=1.15.0
-  - colorama=0.4.4
-  - cryptography=36.0.0
-  - cudatoolkit=11.3.1
-  - debugpy=1.5.1
-  - decorator=5.1.1
-  - defusedxml=0.7.1
-  - entrypoints=0.3
-  - executing=0.8.3
-  - freetype=2.10.4
-  - idna=3.3
-  - importlib-metadata=4.8.2
-  - importlib_metadata=4.8.2
-  - intel-openmp=2021.4.0
-  - ipykernel=6.9.1
-  - ipython=8.1.1
-  - ipython_genutils=0.2.0
-  - jedi=0.18.1
-  - jpeg=9d
-  - json5=0.9.6
-  - jsonschema=3.2.0
-  - libpng=1.6.37
-  - libtiff=4.2.0
-  - libuv=1.40.0
-  - libwebp=1.2.0
-  - llvmlite=0.37.0
-  - lz4-c=1.9.3
-  - matplotlib-inline=0.1.2
-  - mistune=0.8.4
-  - mkl=2021.4.0
-  - mkl-service=2.4.0
-  - mkl_fft=1.3.1
-  - mkl_random=1.2.2
-  - nbclassic=0.3.5
-  - nbclient=0.5.11
-  - nbconvert=6.1.0
-  - nbformat=5.1.3
-  - nest-asyncio=1.5.1
-  - notebook=6.4.8
-  - numba=0.54.1
-  - numpy-base=1.20.3
-  - olefile=0.46
-  - openssl=1.1.1n
-  - packaging=21.3
-  - pandocfilters=1.5.0
-  - parso=0.8.3
-  - pickleshare=0.7.5
-  - pillow=8.4.0
-  - pip=21.2.4
-  - prometheus_client=0.13.1
-  - prompt-toolkit=3.0.20
-  - pure_eval=0.2.2
-  - pycparser=2.21
-  - pygments=2.11.2
-  - pyopenssl=22.0.0
-  - pyrsistent=0.18.0
-  - pysocks=1.7.1
-  - python=3.9.7
-  - python-dateutil=2.8.2
-  - pytorch=1.10.2
-  - pytorch-mutex=1.0
-  - pywin32=302
-  - pywinpty=2.0.2
-  - pyzmq=22.3.0
-  - requests=2.27.1
-  - send2trash=1.8.0
-  - setuptools=58.0.4
-  - six=1.16.0
-  - sniffio=1.2.0
-  - sqlite=3.37.2
-  - stack_data=0.2.0
-  - tbb=2021.5.0
-  - terminado=0.13.1
-  - testpath=0.5.0
-  - tk=8.6.11
-  - torchaudio=0.10.2
-  - torchvision=0.11.3
-  - tornado=6.1
-  - traitlets=5.1.1
-  - tzdata=2021e
-  - urllib3=1.26.8
-  - vc=14.2
-  - vs2015_runtime=14.27.29016
-  - wcwidth=0.2.5
-  - webencodings=0.5.1
-  - websocket-client=0.58.0
-  - wheel=0.37.1
-  - win_inet_pton=1.1.0
-  - wincertstore=0.2
-  - winpty=0.4.3
-  - xmltodict=0.12.0
-  - xz=5.2.5
-  - zipp=3.7.0
-  - zlib=1.2.11
-  - zstd=1.4.9
+  - cudatoolkit=11.3
+  - numba=0.54.*
+  - pandocfilters=1.5.*
+  - pillow=8.4.*
+  - pip
+  - python=3.9.7=h6244533_1
+  - pytorch=1.11.*
+  - pyg=2.0.*
   - pip:
-    - absl-py==1.0.0
-    - aiohttp==3.8.1
-    - aiosignal==1.2.0
-    - appdirs==1.4.4
-    - async-timeout==4.0.2
-    - cachetools==5.0.0
-    - charset-normalizer==2.0.12
-    - click==8.0.4
-    - cycler==0.11.0
-    - docker-pycreds==0.4.0
-    - fonttools==4.31.1
-    - frozenlist==1.3.0
-    - fsspec==2022.3.0
-    - gitdb==4.0.9
-    - gitpython==3.1.27
-    - grpcio==1.44.0
-    - imageio==2.16.1
-    - isodate==0.6.1
-    - jinja2==3.0.3
-    - joblib==1.1.0
-    - kiwisolver==1.4.0
-    - markdown==3.3.6
-    - markupsafe==2.1.0
-    - matplotlib==3.5.1
-    - multidict==6.0.2
-    - networkx==2.6.3
-    - numpy==1.22.2
-    - oauthlib==3.2.0
-    - panda==0.3.1
+    - protobuf==3.19.*
+    - ninja
+    - matplotlib==3.5.*
+    - networkx==2.6.*
     - pandas==1.4.1
     - pathtools==0.1.2
-    - pdoc==10.0.1
-    - promise==2.3
-    - protobuf==3.19.4
-    - psutil==5.9.0
-    - pyasn1==0.4.8
-    - pyasn1-modules==0.2.8
-    - pydeprecate==0.3.2
-    - pyglet==1.5.21
-    - pyparsing==3.0.7
+    - pdoc3==0.10.0
+    - plotly==5.10.0
+    - polyscope==1.3.1
     - pytorch-lightning==1.6.2
-    - pytz==2021.3
     - pyvista==0.33.3
-    - pyyaml==6.0
-    - rdflib==6.1.1
-    - requests-oauthlib==1.3.1
-    - rsa==4.8
     - scikit-learn==1.0.2
     - scipy==1.8.0
-    - scooby==0.5.12
-    - sentry-sdk==1.5.6
-    - shortuuid==1.0.8
-    - smmap==5.0.0
     - tensorboard==2.8.0
-    - tensorboard-data-server==0.6.1
-    - tensorboard-plugin-wit==1.8.1
-    - termcolor==1.1.0
-    - threadpoolctl==3.1.0
-    - torch-cluster==1.5.9
-    - torch-geometric==2.0.3
-    - torch-scatter==2.0.9
-    - torch-sparse==0.6.12
-    - torch-spline-conv==1.2.1
-    - torchmetrics==0.8.1
     - tqdm==4.62.3
     - trimesh==3.10.2
-    - typing-extensions==4.2.0
     - vtk==9.1.0
-    - wandb==0.12.10
-    - werkzeug==2.1.2
-    - wslink==1.4.3
-    - yacs==0.1.8
-    - yarl==1.7.2
-    - yaspin==2.1.0
-
+    - wandb==0.13.4
+    - -e git+https://github.com/lerouxl/Simufact_ARC_reader.git#egg=simufact_arc_reader
+prefix: C:\ProgramData\Anaconda3\envs\AMGNN
