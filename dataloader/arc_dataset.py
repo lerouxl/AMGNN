@@ -29,7 +29,7 @@ class ARCDataset(Dataset):
 
     Notes: All values must be scaled between 0 and 1 using the configuration scaling variables.
     """
-    # TODO: add a features to X to have the simulation step (1,2,3....,Cooling,...)
+
     def __init__(self, root: Path, transform=None, pre_transform=None):
         """
          Will load simulation file and transform them to graph.
@@ -176,11 +176,11 @@ class ARCDataset(Dataset):
         preprocessing_done = len(list(self.tmp_arc_folder.glob("*.pkl"))) > 0
         if not preprocessing_done:
             # TODO: Re use the Pool for performance reasons
-            #with Pool(wandb.config.pooling_process) as pool:
-            #    pool.starmap(preprocess_folder, zip(simufact_folders, repeat(self.all_arc_files),
-            #                                        repeat(self.tmp_arc_folder)))
-             for simu in tqdm(simufact_folders):
-                preprocess_folder(simu, self.all_arc_files, self.tmp_arc_folder)
+            with Pool(wandb.config.pooling_process) as pool:
+                pool.starmap(preprocess_folder, zip(simufact_folders, repeat(self.all_arc_files),
+                                                    repeat(self.tmp_arc_folder)))
+            #for simu in tqdm(simufact_folders):
+            #    preprocess_folder(simu, self.all_arc_files, self.tmp_arc_folder)
 
         # Processing
         tmp_files = list(self.tmp_arc_folder.glob("*.pkl"))

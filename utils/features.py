@@ -34,6 +34,10 @@ def arc_features_extraction(arc: Arc_reader, past_arc: Arc_reader, config: dict)
             - Past point Z displacement
             - process features
             - process class [AM_Layer, process, Postcooling, Powderremoval, Unclamping, Cooling-1]
+            - X nodes coordinates
+            - Y nodes coordinates
+            - Z nodes coordinates
+
         - Y (target):
             - XDIS
             - YDIS
@@ -155,5 +159,6 @@ def arc_features_extraction(arc: Arc_reader, past_arc: Arc_reader, config: dict)
     # Add the subprocess features to the nodes
     X = torch.cat([X, process_features.unsqueeze(1)], 1) # [n, 12]
     X = torch.cat([X, process_category],1) # [n, 18]
+    X = torch.cat([X, coordinates],1) # [n, 21]
 
     return coordinates, part_edge_index, X, Y

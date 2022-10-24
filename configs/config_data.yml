@@ -1,7 +1,7 @@
 raw_data: "data/light"
 project: "AMGNN"
 float_type: "float32"
-pooling_process: 2
+pooling_process: 1
 default_powder_temperature: 25
 scaling_temperature: 3000 # Temperature used to scale the temperature (T/scaling_temperature)
 scaling_power: 1000
