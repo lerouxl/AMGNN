@@ -145,12 +145,14 @@ class NeuralNetwork(MessagePassing):
             # Found the Nth layer of the neural network
             layer = getattr(self, f"message_mlp_{i}")
             # Append its results in x_
-            x = self.propagate(edge_index, x=x, model=layer)
+            message = self.propagate(edge_index, x=x)
+            x = torch.cat([x, message], dim=1)
+            x = layer(x)
 
         out = self.lin2(x)
         return out
 
-    def message(self, x_i: Tensor, x_j: Tensor, model: nn.Sequential) -> Tensor:
+    def message(self, x_i: Tensor, x_j: Tensor) -> Tensor:
         """ Compute the message of each edges.
 
         The message of each edges is calculated as the concatenation of
@@ -176,8 +178,7 @@ class NeuralNetwork(MessagePassing):
         # This is an edges convolution
         # https://arxiv.org/abs/1801.07829
 
-        msg = torch.cat([x_i, x_j - x_i], dim=1)
-        msg = model(msg)
+        msg = x_j - x_i
 
         return msg
 
