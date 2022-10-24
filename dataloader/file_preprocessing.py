@@ -150,6 +150,8 @@ def subprocessname_to_cat_features(process_name: str) -> tuple[list[int], int]:
     cat = [0, 0, 0, 0, 0, 0]  # AM_Layer, process, Postcooling, Powderremoval, Unclamping, Cooling-1
     feature = 0
 
+    log = logging.getLogger(__name__)
+
     # if we are in a layer step, we extract the layer number as feature
     if "AM_Layer" in process_name:
         feature = int((process_name.split(" ")[-1]))
@@ -167,6 +169,7 @@ def subprocessname_to_cat_features(process_name: str) -> tuple[list[int], int]:
         cat = [0, 0, 0, 0, 0, 1]
     # In case of unknow categorie, raisen an error
     if cat == [0, 0, 0, 0, 0, 0]:
-        raise f"Unknow categorie for {process_name}"
+        log.debug( f"Unknow categorie for {process_name}")
+        #raise f"Unknow categorie for {process_name}"
 
     return cat, feature
