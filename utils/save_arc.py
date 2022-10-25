@@ -54,11 +54,21 @@ def save_arc(arc: Arc_reader, root_folder: Union[Path, str], name: str):
     # Extract points types
     points_types = arc.points_types
 
+    # first step
+    is_first_step = np.asarray(arc.is_first_step)
+
+    if arc.previous_file_name is None:
+        previous_file_name = np.asarray("")
+    else:
+        previous_file_name = np.asarray(arc.previous_file_name)
+
 
 
     # If the arc object was displayed, it cannot be pickled
     with open(file_path, "wb") as file:
-        np.savez(file, connectivity=connectivity,
+        np.savez(file,
+                 is_first_step = is_first_step,
+                 connectivity=connectivity,
                  edge_index=edge_index,
                  coordinate=coordinate,
                  temperature=temperature,
@@ -74,7 +84,9 @@ def save_arc(arc: Arc_reader, root_folder: Union[Path, str], name: str):
                  speed=speed,
                  time_step_lenght=time_step_lenght,
                  time_steps_s=time_steps_s,
-                 points_types =points_types
+                 points_types =points_types,
+                 previous_file_name=previous_file_name,
+
                  )
     if file_path.is_file():
         logging.info(f"Written {file_path} successfully.")
@@ -83,7 +95,7 @@ def save_arc(arc: Arc_reader, root_folder: Union[Path, str], name: str):
         raise FileNotFoundError(file_path.name)
 
 
-def load_arc(file: Union[Path, str]):
+def load_arc(file: Union[Path, str], load_past_arc= True):
     """Load npz arc file.
 
     Load an npz arc save file and create the corresponding arc object
@@ -91,6 +103,9 @@ def load_arc(file: Union[Path, str]):
     ----------
     file: Union[Path, str]
         Path to the npz file (with extension)
+    load_past_arc: bool
+        Load the arc specified in arc.previous_file_name.
+        We are supposing both file are in the same folder.
     Returns
     -------
     Arc_reader: The recreated arc object.
@@ -100,35 +115,50 @@ def load_arc(file: Union[Path, str]):
     if not file.is_file():
         msg = f"Error opening the file {file}. This is not an existing file"
         logging.error(msg)
-        raise FileNotFoundError(file.name)
-    with open(file, 'rb') as numpy_file:
-        arrays = np.load(numpy_file)
+        raise FileNotFoundError( f"{file.name}")
+    with np.load(file) as arrays:
+        arc = Arc_reader(name="merged")
 
-    arc = Arc_reader(name="merged")
-    # Extract connectivity
-    arc.connectivity = arrays.connectivity
-    # Extract edge_index
-    arc.edge_index = edge_index.tolist()
-    # Extract coordinate
-    arc.coordinate = arrays.coordinate
-    # Extract data
-    arc.data.TEMPTURE = temperature
-    arc.data.XDIS = arrays.xdis
-    arc.data.YDIS = arrays.ydis
-    arc.data.ZDIS = arrays.zdis
-    arc.data.process_category = arrays.process_cat
-    arc.data.process_features = arrays.process_features
-    # Extract metaparameters
-    arc.metaparameters.initialTemperature_C = arrays.initT
-    arc.metaparameters.layerThickness_m = arrays.layerT
-    arc.metaparameters.power_W = arrays.power
-    arc.metaparameters.process_step = arrays.step
-    arc.metaparameters.speed_m_s = arrays.speed
-    arc.metaparameters.time_steps_length_s = arrays.time_step_lenght
-    arc.metaparameters.time_steps_s = arrays.time_steps_s
+        # Extract first step value
+        arc.is_first_step = arrays["is_first_step"].all()
+        # Extract connectivity
+        arc.connectivity = arrays["connectivity"]
+        # Extract edge_index
+        arc.edge_index = arrays["edge_index"].tolist()
+        # Extract coordinate
+        arc.coordinate = arrays["coordinate"]
+        # Extract data
+        arc.data.TEMPTURE = arrays["temperature"]
+        arc.data.XDIS = arrays["xdis"]
+        arc.data.YDIS = arrays["ydis"]
+        arc.data.ZDIS = arrays["zdis"]
+        arc.data.process_category = arrays["process_cat"]
+        arc.data.process_features = arrays["process_features"]
+        # Extract metaparameters
+        arc.metaparameters.initialTemperature_C = float(arrays["initT"])
+        arc.metaparameters.layerThickness_m = float(arrays["layerT"])
+        arc.metaparameters.power_W = float(arrays["power"])
+        arc.metaparameters.process_step = float(arrays["step"])
+        arc.metaparameters.speed_m_s = float(arrays["speed"])
+        arc.metaparameters.time_steps_length_s = float(arrays["time_step_lenght"])
+        arc.metaparameters.time_steps_s = float(arrays["time_steps_s"])
 
-    # Extract points types
-    arc.points_types = arrays.points_types
+        # Extract points types
+        arc.points_types = arrays["points_types"]
+
+        arc.previous_file_name = str(arrays["previous_file_name"])
+
+    # Little hack to avoid numpy error when saving a None value
+    if arc.previous_file_name == "":
+        arc.previous_arc = None
+        arc.previous_file_name = None
+
+    if load_past_arc:
+        if not arc.previous_file_name is None:
+            past_file_path = (Path(file.parent) / arc.previous_file_name).with_suffix(".npz")
+            arc.previous_arc = load_arc(past_file_path, False)
+    else:
+        pass
 
 
     logging.info(f"Loaded {file} successfully")
