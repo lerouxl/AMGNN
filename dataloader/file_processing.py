@@ -9,12 +9,23 @@ import logging
 
 
 def processing_file(raw_path: str, processed_dir: str, conf_wandb: dict) -> None:
-    """
-    Load a preprocessed file (plk) and create a graph from it.
+    """ Load preprocessed file and create a torch geo graph.
+
+    Load a preprocessed file (npz) and create a graph from it.
     The graph is then save under the same name in the processed_dir directory.
-    :param raw_path: plk file path
-    :param processed_dir: Where to save the graph
-    :return: None
+
+    Parameters
+    ----------
+    raw_path: str
+        npz file path
+    processed_dir: str
+        Where to save the output graph (folder path)
+    conf_wandb:
+        Wandb configuration object
+
+    Returns
+    -------
+    None
     """
     log = logging.getLogger(__name__)
     log.info(f"Start processing_file on file {str(raw_path)}")
