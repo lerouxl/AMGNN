@@ -173,7 +173,7 @@ class ARCDataset(Dataset):
         # The ARC_reader object is saved with pickle
 
         # Pre processing
-        preprocessing_done = len(list(self.tmp_arc_folder.glob("*.pkl"))) > 0
+        preprocessing_done = len(list(self.tmp_arc_folder.glob("*.npz"))) > 0
         if not preprocessing_done:
             # TODO: Re use the Pool for performance reasons
             with Pool(wandb.config.pooling_process) as pool:
@@ -183,7 +183,7 @@ class ARCDataset(Dataset):
             #    preprocess_folder(simu, self.all_arc_files, self.tmp_arc_folder)
 
         # Processing
-        tmp_files = list(self.tmp_arc_folder.glob("*.pkl"))
+        tmp_files = list(self.tmp_arc_folder.glob("*.npz"))
         with Pool(wandb.config.pooling_process) as pool:
             # If distance_upper_bound is too low, error can append in the processing
             pool.starmap(processing_file, zip(tmp_files,repeat(self.processed_dir),repeat(dict(wandb.config))))
