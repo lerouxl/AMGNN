@@ -84,10 +84,16 @@ def save_arc(arc: Arc_reader, root_folder: Union[Path, str], name: str):
 
 
 def load_arc(file: Union[Path, str]):
-    """
+    """Load npz arc file.
 
-    :param file:
-    :return:
+    Load an npz arc save file and create the corresponding arc object
+    Parameters
+    ----------
+    file: Union[Path, str]
+        Path to the npz file (with extension)
+    Returns
+    -------
+    Arc_reader: The recreated arc object.
     """
     file = Path(file)
     # Check file is existing
@@ -95,7 +101,35 @@ def load_arc(file: Union[Path, str]):
         msg = f"Error opening the file {file}. This is not an existing file"
         logging.error(msg)
         raise FileNotFoundError(file.name)
-    with open(file, 'rb') as pickle_file:
-        arc = pickle.load(pickle_file)
+    with open(file, 'rb') as numpy_file:
+        arrays = np.load(numpy_file)
+
+    arc = Arc_reader(name="merged")
+    # Extract connectivity
+    arc.connectivity = arrays.connectivity
+    # Extract edge_index
+    arc.edge_index = edge_index.tolist()
+    # Extract coordinate
+    arc.coordinate = arrays.coordinate
+    # Extract data
+    arc.data.TEMPTURE = temperature
+    arc.data.XDIS = arrays.xdis
+    arc.data.YDIS = arrays.ydis
+    arc.data.ZDIS = arrays.zdis
+    arc.data.process_category = arrays.process_cat
+    arc.data.process_features = arrays.process_features
+    # Extract metaparameters
+    arc.metaparameters.initialTemperature_C = arrays.initT
+    arc.metaparameters.layerThickness_m = arrays.layerT
+    arc.metaparameters.power_W = arrays.power
+    arc.metaparameters.process_step = arrays.step
+    arc.metaparameters.speed_m_s = arrays.speed
+    arc.metaparameters.time_steps_length_s = arrays.time_step_lenght
+    arc.metaparameters.time_steps_s = arrays.time_steps_s
+
+    # Extract points types
+    arc.points_types = arrays.points_types
+
+
     logging.info(f"Loaded {file} successfully")
     return arc
