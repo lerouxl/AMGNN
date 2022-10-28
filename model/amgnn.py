@@ -3,14 +3,16 @@ from typing import Tuple
 import torch
 from torch import Tensor
 from torch_geometric.nn import MessagePassing
-from torch_geometric.data import Data
+from torch_geometric.data import Data, Batch
 import pytorch_lightning as pl
 import os.path as osp
 from utils.loss_function import AMGNN_loss
 from utils.visualise import read_pt_batch_results
 from pathlib import Path
 from torch_geometric.nn import MLP
-
+import wandb
+from utils.logs import log_point_cloud_to_wandb
+import numpy as np
 
 class AMGNNmodel(pl.LightningModule):
     """Main class of AMGNN. This Pytorch lightning class will deal with the model loading, training, testing, validation
@@ -24,7 +26,7 @@ class AMGNNmodel(pl.LightningModule):
                                      self.configuration["number_hidden_layers"])
         self.lr = float(self.configuration["learning_rate"])
         self.batch_size = int(config["batch_size"])
-        self.lambda_weight = torch.tensor(config["lambda_parameters"], dtype=torch.float32).view(3,1)
+        self.lambda_weight = torch.tensor(config["lambda_parameters"], dtype=torch.float32).view(3, 1)
         # self.example_input_array = torch.Tensor(32, 1, 28, 28)
         self.save_hyperparameters()
 
@@ -53,20 +55,53 @@ class AMGNNmodel(pl.LightningModule):
         # Create the output folder if it did not exist
         Path(test_output_folder).mkdir(parents=True, exist_ok=True)
         pt_path = osp.join(test_output_folder, f'{batch_idx}.pt')
-        torch.save(batch_cpu,pt_path)
+        torch.save(batch_cpu, pt_path)
         # Transform the pt file as a vtk file that can be read with Pyvista
         read_pt_batch_results(pt_path, self.configuration)
 
-
-    def validation_step(self, batch, batch_idx):
-        """During training, it’s common practice to use a small portion of the train split to determine when the model
-         has finished training.As a rule of thumb, we use 20% of the training set as the validation set.
-         This number varies from dataset to dataset."""
-        _, loss, loss_mse, loss_disp, loss_temp = self._get_preds_loss(batch)
+    def validation_step(self, batch: Batch, batch_idx: int):
+        """ Validate the model.
+        During training, it’s common practice to use a small portion of the train split to determine when the model
+        has finished training.As a rule of thumb, we use 20% of the training set as the validation set.
+        This number varies from dataset to dataset.
+        Parameters
+        ----------
+        batch: Batch
+            Batch of data made of graphs. This batch will contain m graph, there nodes features and target.
+        batch_idx: int
+            Id of the actual batch
+        """
+        y_hat, loss, loss_mse, loss_disp, loss_temp = self._get_preds_loss(batch)
         self.log("val loss", loss, batch_size=self.batch_size)
         self.log("val loss mse", loss_mse, batch_size=self.batch_size)
         self.log("val loss gradient displacement", loss_disp, batch_size=self.batch_size)
         self.log("val loss gradient temperature", loss_temp, batch_size=self.batch_size)
+
+        # Log the first test batch results as
+        if batch_idx == 0:
+            batch.y = torch.hstack([batch.y, y_hat]) #  Merge y and y_hat
+            for graph_id in range(batch.num_graphs):
+                graph =  batch[graph_id].to("cpu")
+                name = graph.file_name
+                points = graph.pos * self.configuration["scaling_size"]
+                y, y_hat = torch.split(graph.y, 4, dim=1)
+
+                temp_error = (y[:,0] - y_hat[:,0]).detach().cpu().numpy()
+                #temp_error = temp_error * self.configuration["scaling_temperature"]
+                deformation_error = (y[:,1:] - y_hat[:,1:]).detach().cpu().numpy()
+                deformation_error = np.linalg.norm(deformation_error, axis=1)
+                #deformation_error = deformation_error * self.configuration["scaling_size"]
+
+                log_point_cloud_to_wandb(name=name + " temperature error",
+                                         points=points, value=temp_error,
+                                         max_value=0.5,#self.configuration["scaling_temperature"],
+                                         epoch_number=self.current_epoch)
+
+                log_point_cloud_to_wandb(name=name + " deformation error",
+                                         points=points, value=deformation_error,
+                                         max_value=0.5,#self.configuration["scaling_size"],
+                                         epoch_number=self.current_epoch)
+
 
     def configure_optimizers(self):
         optimizer = optim.Adam(self.parameters(), lr=self.lr)
@@ -167,7 +202,7 @@ class NeuralNetwork(MessagePassing):
         out = self.lin2(x)
         temperature = self.temperature(out)
         deformation = self.deformation(out)
-        return torch.cat([temperature, deformation],1)
+        return torch.cat([temperature, deformation], 1)
 
     def message(self, x_i: Tensor, x_j: Tensor) -> Tensor:
         """ Compute the message of each edges.
