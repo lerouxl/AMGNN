@@ -66,7 +66,7 @@ def extract_the_simulation_folder(file: Union[str, Path]) -> str:
     :return: name of the simulation folder
     """
     file = Path(file)
-    return str(list(file.parents)[3].name)
+    return str(list(file.parents)[2].name)
 
 
 def remove_baseplate_from_list(files: List[Path]) -> List[Path]:

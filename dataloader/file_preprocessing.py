@@ -18,7 +18,7 @@ def preprocess_folder(simu: str, all_arc_files: list, tmp_arc_folder: str) -> No
     """
     # for one simulation
     # extract all files for this simulation folder
-    simu_arc_files = [p for p in all_arc_files if str(simu) == p.parents[3].stem]
+    simu_arc_files = [p for p in all_arc_files if str(simu) == p.parents[2].stem]
 
     # Organise the files per simulation step
     step_files = simulation_files.organise_files(simu_arc_files)
