@@ -75,7 +75,7 @@ def metaparameters_to_array(arc: Arc_reader)-> Arc_reader:
     attributes = [attr for attr in dir(arc.metaparameters) if not str(attr).startswith("__")]
     for metadata_attribute in attributes:
         data = getattr(arc.metaparameters, metadata_attribute)
-        data_array = np.full_like(arc.data.TEMPTURE, data, dtype=np.float)
+        data_array = np.full_like(arc.data.TEMPTURE, data, dtype=float)
         setattr(arc.metaparameters, metadata_attribute, data_array)
 
     return arc
