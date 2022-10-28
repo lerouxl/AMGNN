@@ -62,8 +62,8 @@ def run():
     # Create the dataloader
     batch_size = int(configuration["batch_size"])
     train_loader = DataLoader(dataset=train_dataset, batch_size=batch_size, shuffle=True)
-    validation_loader = DataLoader(dataset=validation_dataset, batch_size=batch_size, shuffle=True)
-    test_loader = DataLoader(dataset=test_dataset, batch_size=batch_size, shuffle=True)
+    validation_loader = DataLoader(dataset=validation_dataset, batch_size=batch_size)
+    test_loader = DataLoader(dataset=test_dataset, batch_size=batch_size)
     log.info(f"Dataloader created with {batch_size=}")
 
     # Create the pytorch lightning trainer.
@@ -71,10 +71,10 @@ def run():
     # Create a trained run the model on the GPU, with a wandb logger, saving the best 2 models in the checkpoints dir
     checkpoint_callback = ModelCheckpoint(dirpath=f"checkpoints/{name}/", save_top_k=2, monitor="val loss")
     trainer = pl.Trainer(accelerator="gpu", devices=1, logger=wandb_logger, default_root_dir="checkpoints",
-                         auto_lr_find=True, callbacks=[checkpoint_callback], max_epochs=configuration["max_epochs"])
+                         auto_lr_find=True, callbacks=[checkpoint_callback], max_epochs=configuration["max_epochs"],
                          accumulate_grad_batches= int(configuration["accumulate_grad_batches"]),
                          auto_scale_batch_size= "binsearch",
-                         check_val_every_n_epoch = 1)
+                         check_val_every_n_epoch=1)
     trainer.fit(model, train_loader, validation_loader)
     log.info("End model training")
 
@@ -85,8 +85,8 @@ def run():
     log.info("End model testing")
 
     # Display the test dataset results in vtk files (can be open with Paraview)
-    log.info("Generate visualisation of the results")
-    display_dataset(model, test_dataset, configuration, "Test_dataset_results")
+    #log.info("Generate visualisation of the results")
+    #display_dataset(best_model_, test_dataset, configuration, "Test_dataset_results")
 
     log.info("END")
 
