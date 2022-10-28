@@ -7,6 +7,7 @@ from torch_geometric.data import Data
 import pytorch_lightning as pl
 import os.path as osp
 from utils.loss_function import AMGNN_loss
+from utils.visualise import read_pt_batch_results
 from pathlib import Path
 from torch_geometric.nn import MLP
 
@@ -51,7 +52,11 @@ class AMGNNmodel(pl.LightningModule):
         test_output_folder = osp.join(self.configuration["raw_data"], "test_output")
         # Create the output folder if it did not exist
         Path(test_output_folder).mkdir(parents=True, exist_ok=True)
-        torch.save(batch_cpu, osp.join(test_output_folder, f'{batch_idx}.pt'))
+        pt_path = osp.join(test_output_folder, f'{batch_idx}.pt')
+        torch.save(batch_cpu,pt_path)
+        # Transform the pt file as a vtk file that can be read with Pyvista
+        read_pt_batch_results(pt_path, self.configuration)
+
 
     def validation_step(self, batch, batch_idx):
         """During training, it’s common practice to use a small portion of the train split to determine when the model
