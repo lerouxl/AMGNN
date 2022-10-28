@@ -8,6 +8,8 @@ import pytorch_lightning as pl
 import os.path as osp
 from utils.loss_function import AMGNN_loss
 from pathlib import Path
+from torch_geometric.nn import MLP
+
 
 class AMGNNmodel(pl.LightningModule):
     """Main class of AMGNN. This Pytorch lightning class will deal with the model loading, training, testing, validation
@@ -21,23 +23,25 @@ class AMGNNmodel(pl.LightningModule):
                                      self.configuration["number_hidden_layers"])
         self.lr = float(self.configuration["learning_rate"])
         self.batch_size = int(config["batch_size"])
+        self.lambda_weight = torch.tensor(config["lambda_parameters"], dtype=torch.float32).view(3,1)
         # self.example_input_array = torch.Tensor(32, 1, 28, 28)
         self.save_hyperparameters()
 
-
     def training_step(self, batch, batch_idx):
         """Train loop of the neural network"""
-        _, loss, loss_disp, loss_temp = self._get_preds_loss(batch)
+        _, loss, loss_mse, loss_disp, loss_temp = self._get_preds_loss(batch)
         self.log("train loss", loss, batch_size=self.batch_size)
-        self.log("train loss gradient displacement", loss_disp,batch_size=self.batch_size)
+        self.log("train loss mse", loss_mse, batch_size=self.batch_size)
+        self.log("train loss gradient displacement", loss_disp, batch_size=self.batch_size)
         self.log("train loss gradient temperature", loss_temp, batch_size=self.batch_size)
         return loss
 
     def test_step(self, batch, batch_idx):
         """The test set is NOT used during training, it is ONLY used once the model has been trained to see how the
          model will do in the real-world."""
-        y_hat, loss, loss_disp, loss_temp = self._get_preds_loss(batch)
+        y_hat, loss, loss_mse, loss_disp, loss_temp = self._get_preds_loss(batch)
         self.log("test loss", loss, batch_size=self.batch_size)
+        self.log("test loss mse", loss_mse, batch_size=self.batch_size)
         self.log("test loss gradient displacement", loss_disp, batch_size=self.batch_size)
         self.log("test loss gradient temperature", loss_temp, batch_size=self.batch_size)
 
@@ -49,13 +53,13 @@ class AMGNNmodel(pl.LightningModule):
         Path(test_output_folder).mkdir(parents=True, exist_ok=True)
         torch.save(batch_cpu, osp.join(test_output_folder, f'{batch_idx}.pt'))
 
-
     def validation_step(self, batch, batch_idx):
         """During training, it’s common practice to use a small portion of the train split to determine when the model
          has finished training.As a rule of thumb, we use 20% of the training set as the validation set.
          This number varies from dataset to dataset."""
-        _, loss, loss_disp, loss_temp = self._get_preds_loss(batch)
+        _, loss, loss_mse, loss_disp, loss_temp = self._get_preds_loss(batch)
         self.log("val loss", loss, batch_size=self.batch_size)
+        self.log("val loss mse", loss_mse, batch_size=self.batch_size)
         self.log("val loss gradient displacement", loss_disp, batch_size=self.batch_size)
         self.log("val loss gradient temperature", loss_temp, batch_size=self.batch_size)
 
@@ -71,9 +75,10 @@ class AMGNNmodel(pl.LightningModule):
 
         y_hat = self.network(batch)
 
-        loss, loss_disp, loss_temp = AMGNN_loss(batch, batch.y, y_hat, detail_loss=True)
+        loss, loss_mse, loss_disp, loss_temp = AMGNN_loss(batch, batch.y, y_hat, detail_loss=True,
+                                                          lambda_weight=self.lambda_weight)
 
-        return y_hat, loss, loss_disp, loss_temp
+        return y_hat, loss, loss_mse, loss_disp, loss_temp
 
 
 class NeuralNetwork(MessagePassing):
@@ -103,14 +108,19 @@ class NeuralNetwork(MessagePassing):
         # Input layer
         self.lin = nn.Linear(in_channels, self.hidden)
         # Output layer
-        self.lin2 = nn.Linear(self.hidden, out_channels)
+        self.lin2 = nn.Linear(self.hidden, self.hidden)
+
+        self.temperature = MLP(in_channels=self.hidden, hidden_channels=self.hidden,
+                               out_channels=1, num_layers=3, dropout=0.3, )
+        self.deformation = MLP(in_channels=self.hidden, hidden_channels=self.hidden,
+                               out_channels=3, num_layers=3, dropout=0.3, )
 
         dim = self.hidden
         for i in range(self.number_hidden):
             # Add the neural layer to the Message Passing neural network
-            setattr(self, f"message_mlp_{i}", nn.Sequential(nn.Linear(dim*2, dim),
+            setattr(self, f"message_mlp_{i}", nn.Sequential(nn.Linear(dim * 2, dim),
                                                             nn.GELU(),
-                                                            nn.Linear(dim,dim),
+                                                            nn.Linear(dim, dim),
                                                             nn.GELU(),
                                                             )
                     )
@@ -150,7 +160,9 @@ class NeuralNetwork(MessagePassing):
             x = layer(x)
 
         out = self.lin2(x)
-        return out
+        temperature = self.temperature(out)
+        deformation = self.deformation(out)
+        return torch.cat([temperature, deformation],1)
 
     def message(self, x_i: Tensor, x_j: Tensor) -> Tensor:
         """ Compute the message of each edges.
@@ -181,4 +193,3 @@ class NeuralNetwork(MessagePassing):
         msg = x_j - x_i
 
         return msg
-

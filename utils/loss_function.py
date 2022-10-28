@@ -27,6 +27,8 @@ def AMGNN_loss(batch: Data, y: Tensor, y_hat: Tensor, lambda_weight: Tensor = No
     # If lambda_weight is None, then create a tensor of 1.
     if lambda_weight is None:
         lambda_weight = torch.ones(3, device=y.device).view(3,1) # [3,1]
+    else:
+        lambda_weight = lambda_weight.to(y.device) # Check that the lambda vector is on the good device.
 
     # Compute the mse loss
     l_mse = mse_loss(y_hat, y) # [1]
@@ -44,6 +46,7 @@ def AMGNN_loss(batch: Data, y: Tensor, y_hat: Tensor, lambda_weight: Tensor = No
     l_gradient_z = compute_gradient_loss(batch=batch, y=y[:, 3], y_hat=y_hat[:, 3]) # [1]
 
     # Compute l_gradient_deformation
+    # TODO: add lambda parameters to weight each weight terms
     l_gradient_deformation = torch.mean(torch.stack([l_gradient_x,
                                                     l_gradient_y,
                                                     l_gradient_z])) # [1]
@@ -57,7 +60,7 @@ def AMGNN_loss(batch: Data, y: Tensor, y_hat: Tensor, lambda_weight: Tensor = No
     loss = torch.squeeze(loss,0) # [1]
 
     if detail_loss:
-        return loss, l_gradient_deformation, l_gradient_temperature
+        return loss, l_mse, l_gradient_deformation, l_gradient_temperature
     else:
         return loss
 
