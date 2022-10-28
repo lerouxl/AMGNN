@@ -32,5 +32,6 @@ dependencies:
     - trimesh==3.10.2
     - vtk==9.1.0
     - wandb==0.13.4
+    - class-resolver
     - -e git+https://github.com/lerouxl/Simufact_ARC_reader.git#egg=simufact_arc_reader
 prefix: C:\ProgramData\Anaconda3\envs\AMGNN
