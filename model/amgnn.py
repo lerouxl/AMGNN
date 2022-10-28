@@ -150,19 +150,16 @@ class NeuralNetwork(MessagePassing):
         # Output layer
         self.lin2 = nn.Linear(self.hidden, self.hidden)
 
-        self.temperature = MLP(in_channels=self.hidden, hidden_channels=self.hidden,
+        self.temperature = MLP(in_channels=self.hidden, hidden_channels=self.hidden, act="gelu",
                                out_channels=1, num_layers=3, dropout=0.3, )
-        self.deformation = MLP(in_channels=self.hidden, hidden_channels=self.hidden,
+        self.deformation = MLP(in_channels=self.hidden, hidden_channels=self.hidden, act="gelu",
                                out_channels=3, num_layers=3, dropout=0.3, )
 
         dim = self.hidden
         for i in range(self.number_hidden):
             # Add the neural layer to the Message Passing neural network
-            setattr(self, f"message_mlp_{i}", nn.Sequential(nn.Linear(dim * 2, dim),
-                                                            nn.GELU(),
-                                                            nn.Linear(dim, dim),
-                                                            nn.GELU(),
-                                                            )
+            setattr(self, f"message_mlp_{i}", MLP(in_channels=dim * 2, hidden_channels=dim, act="gelu",
+                                                  out_channels=dim, num_layers=5, dropout=0.3, )
                     )
 
     def forward(self, batch: Data) -> Tensor:
