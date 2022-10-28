@@ -234,7 +234,11 @@ class ARCDataset(Dataset):
         Data
             The graph of the loaded pt file.
         """
-        data = torch.load(osp.join(self.processed_dir, self.processed_file_names[idx]))
+        file = self.processed_file_names[idx]
+        data = torch.load(osp.join(self.processed_dir, file))
+        # Add the name of the file to the graph
+        # This is used in the test function where results are saved in pt file
+        data.file_name = Path(file).stem
         return data
 
 
