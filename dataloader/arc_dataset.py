@@ -112,6 +112,9 @@ class ARCDataset(Dataset):
         self.all_arc_files = list(Path(self.raw_dir).rglob("*_FV_*.csv"))
         folders_simu = simulation_files.extract_simulation_folder(self.all_arc_files)
 
+        if "Template" in folders_simu:
+            folders_simu.remove("Template")
+
         return folders_simu
 
     def get_meta_parameters(self, simufact_folders: list[Path]) -> dict:
@@ -177,7 +180,8 @@ class ARCDataset(Dataset):
         if not preprocessing_done:
             # TODO: Re use the Pool for performance reasons
             with Pool(wandb.config.pooling_process) as pool:
-                pool.starmap(preprocess_folder, zip(simufact_folders, repeat(self.all_arc_files),
+                pool.starmap(preprocess_folder, zip(simufact_folders,
+                                                    repeat(self.all_arc_files),
                                                     repeat(self.tmp_arc_folder)))
             #for simu in tqdm(simufact_folders):
             #    preprocess_folder(simu, self.all_arc_files, self.tmp_arc_folder)
@@ -186,7 +190,8 @@ class ARCDataset(Dataset):
         tmp_files = list(self.tmp_arc_folder.glob("*.npz"))
         with Pool(wandb.config.pooling_process) as pool:
             # If distance_upper_bound is too low, error can append in the processing
-            pool.starmap(processing_file, zip(tmp_files,repeat(self.processed_dir),repeat(dict(wandb.config))))
+            pool.starmap(processing_file, zip(tmp_files,
+                                              repeat(self.processed_dir),repeat(dict(wandb.config))))
         # Without multi processing (can be entered with the debugger
         #log = logging.getLogger(__name__)
         #log.info(f"Start processing tmp files")
