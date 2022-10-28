@@ -3,10 +3,13 @@ learning_rate: 1e-06
 neighbour_radius: 2e-03
 neighbour_k: 26
 input_channels: 21
-hidden_channels: 128
-number_hidden_layers: 1
+hidden_channels: 256
+number_hidden_layers: 10
 out_channels: 4
 aggregator: mean
 distance_upper_bound: 1e-6
-batch_size: 2
-max_epochs: 1
+batch_size: 12
+max_epochs: 10
+accumulate_grad_batches: 10
+lambda_parameters: [1,10,100] # weight MSE loss, weight temperature gradient loss, weight displacement gradient loss
+offline: No # If Yes, wandb will not try to save the trainning online. If No, wandb will save the results online.
