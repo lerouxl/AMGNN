@@ -80,7 +80,7 @@ class AMGNNmodel(pl.LightningModule):
         # Log the first test batch results as
         if batch_idx == 0:
             batch.y = torch.hstack([batch.y, y_hat]) #  Merge y and y_hat
-            for graph_id in range(batch.num_graphs):
+            for graph_id in range(min(batch.num_graphs,4)):
                 graph =  batch[graph_id].to("cpu")
                 name = graph.file_name
                 points = graph.pos * self.configuration["scaling_size"]
