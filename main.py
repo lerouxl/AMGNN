@@ -72,9 +72,10 @@ def run():
     checkpoint_callback = ModelCheckpoint(dirpath=f"checkpoints/{name}/", save_top_k=2, monitor="val loss")
     trainer = pl.Trainer(accelerator="gpu",
                          devices=1,
-                         logger=wandb_logger, default_root_dir="checkpoints",
+                         logger=wandb_logger,
                          auto_lr_find=True,
                          callbacks=[checkpoint_callback],
+                         default_root_dir= f"checkpoints/{name}/",
                          max_epochs=configuration["max_epochs"],
                          accumulate_grad_batches= int(configuration["accumulate_grad_batches"]),
                          auto_scale_batch_size= "binsearch",
