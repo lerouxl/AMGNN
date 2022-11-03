@@ -76,10 +76,6 @@ def arc_features_extraction(arc: Arc_reader, past_arc: Arc_reader, config: dict)
     y_ydis = torch.tensor(arc.data.YDIS, dtype=torch.float)  # Shape [n_points]
     y_zdis = torch.tensor(arc.data.ZDIS, dtype=torch.float)  # Shape [n_points]
 
-    # From meter to mm
-    y_xdis = 100 * y_xdis
-    y_ydis = 100 * y_ydis
-    y_zdis = 100 * y_zdis
 
     # Shape [4, n_points]
 
@@ -122,33 +118,30 @@ def arc_features_extraction(arc: Arc_reader, past_arc: Arc_reader, config: dict)
     x_laser_power = x_laser_power / float(config["scaling_power"])  # the laser power will be between [0,1]
     x_laser_speed = x_laser_speed / float(config["scaling_speed"])
 
+    #scale time
+    x_time_step = x_time_step / float(config["scalling_time"])
+
     # scale max temperature
     x_past_temp = x_past_temp / float(config["scaling_temperature"])
     y_temp = y_temp / float(config["scaling_temperature"])
 
-    # From meter to mm
-    x_past_xdis = 100 * x_past_xdis
-    x_past_ydis = 100 * x_past_ydis
-    x_past_zdis = 100 * x_past_zdis
-    coordinates = 100 * coordinates
-    past_coordinates = 100 * past_coordinates
 
     # scale
-    y_xdis /= float(config["scaling_size"])
-    y_ydis /= float(config["scaling_size"])
-    y_zdis /= float(config["scaling_size"])
-    x_past_xdis /= float(config["scaling_size"])
-    x_past_ydis /= float(config["scaling_size"])
-    x_past_zdis /= float(config["scaling_size"])
+    y_xdis = y_xdis / float(config["scaling_deformation"])
+    y_ydis = y_ydis / float(config["scaling_deformation"])
+    y_zdis = y_zdis / float(config["scaling_deformation"])
+    x_past_xdis = x_past_xdis / float(config["scaling_deformation"])
+    x_past_ydis = x_past_ydis / float(config["scaling_deformation"])
+    x_past_zdis = x_past_zdis / float(config["scaling_deformation"])
     past_coordinates /= float(config["scaling_size"])
     coordinates /= float(config["scaling_size"])
     process_features /= float(config["max_number_of_layer"])
 
-    actual_features = torch.concat((coordinates, x_laser_speed.unsqueeze(1), x_laser_power.unsqueeze(1), \
-                                    x_layer_thickness.unsqueeze(1), x_time_step_length.unsqueeze(1), \
-                                    x_type, y_temp.unsqueeze(1), y_xdis.unsqueeze(1), y_ydis.unsqueeze(1), \
-                                    y_zdis.unsqueeze(1)), axis=1)
-    past_features = torch.concat((past_coordinates, x_past_temp.unsqueeze(1), x_past_xdis.unsqueeze(1), \
+    actual_features = torch.concat((coordinates, x_laser_speed.unsqueeze(1), x_laser_power.unsqueeze(1),
+                                    x_layer_thickness.unsqueeze(1), x_time_step_length.unsqueeze(1),
+                                    x_time_step.unsqueeze(1),x_type, y_temp.unsqueeze(1),
+                                    y_xdis.unsqueeze(1), y_ydis.unsqueeze(1), y_zdis.unsqueeze(1)), axis=1)
+    past_features = torch.concat((past_coordinates, x_past_temp.unsqueeze(1), x_past_xdis.unsqueeze(1),
                                   x_past_ydis.unsqueeze(1), x_past_zdis.unsqueeze(1)), axis=1)
 
     coordinates, X, Y = align_features(actual_features, past_features, config)
@@ -157,8 +150,8 @@ def arc_features_extraction(arc: Arc_reader, past_arc: Arc_reader, config: dict)
     part_edge_index = torch.tensor(arc.edge_index, dtype=torch.long)
 
     # Add the subprocess features to the nodes
-    X = torch.cat([X, process_features.unsqueeze(1)], 1) # [n, 12]
-    X = torch.cat([X, process_category],1) # [n, 18]
-    X = torch.cat([X, coordinates],1) # [n, 21]
+    X = torch.cat([X, process_features.unsqueeze(1)], 1) # [n, 13]
+    X = torch.cat([X, process_category],1) # [n, 19]
+    X = torch.cat([X, coordinates],1) # [n, 22]
 
     return coordinates, part_edge_index, X, Y
