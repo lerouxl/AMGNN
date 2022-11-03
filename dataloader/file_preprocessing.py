@@ -45,11 +45,12 @@ def preprocess_files(step_files: list, dest_folder: str) -> None:
         arc.load_meta_parameters(
             increment_id=i, build_path=None, increments_path=None
         )
+        # Convert data from meter to mm
+        arc.coordinate = arc.coordinate * 1000
+        arc.data.XDIS, arc.data.YDIS, arc.data.ZDIS = arc.data.XDIS*1000, arc.data.YDIS*1000, arc.data.ZDIS*1000
 
-        arc = load_arcs_list(raw_path)
-        arc.load_meta_parameters(
-            increment_id=i, build_path=None, increments_path=None
-        )
+        # Convert from Kelvin to Celsius
+        arc.data.TEMPTURE = arc.data.TEMPTURE - 273.15
 
         # Change data type to remove unecesary precision
 
