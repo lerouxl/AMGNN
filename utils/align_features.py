@@ -5,22 +5,36 @@ from scipy.spatial import KDTree
 @torch.no_grad()
 def align_features(actual_features: torch.Tensor, past_features: torch.Tensor, config: dict) -> \
         tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
-    """
-    Take 2 tensors representing the features and coordinates of two arc files.
+    """Align the actual features and the past features.
+
+    Take 2 tensors representing the features and coordinates of two arc files (one at time t and one at time -1).
     Remove the deformation of the coordinates and try to match the features of each point to merge them.
     Use a KDTree to match the coordinates.
     :param past_features:
     :param actual_features:
     :param config: dictionary containing the scalling parameters
     :return: actual_coor_no_def, X, Y the actual input and expected output of the neural network.
+
+    Parameters
+    ----------
+    actual_features: Tensor
+        Tensor representation of the actual features.
+    past_features: Tensor
+        Tensor representation of the past features.
+    config: dict
+        configuration dictionary used to normalise and unnormalise data and set default value.
+
+    Returns
+    -------
+    Tensor, Tensor, Tensor
     """
 
     # Create the true X and Y tensors
-    X = torch.zeros((actual_features.shape[0], 11))
+    X = torch.zeros((actual_features.shape[0], 12))
     Y = torch.zeros((actual_features.shape[0], 4))
 
-    past_coor_no_def = past_features[:, :3] - past_features[:, 4:7]
-    actual_coor_no_def = actual_features[:, :3].detach().clone() - actual_features[:, 11:14].detach().clone()
+    past_coor_no_def = past_features[:, :3]
+    actual_coor_no_def = actual_features[:, :3].detach().clone()
     kd = KDTree(past_coor_no_def)
 
     for i, coor in enumerate(actual_coor_no_def):
