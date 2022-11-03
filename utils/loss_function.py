@@ -46,7 +46,6 @@ def AMGNN_loss(batch: Data, y: Tensor, y_hat: Tensor, lambda_weight: Tensor = No
     l_gradient_z = compute_gradient_loss(batch=batch, y=y[:, 3], y_hat=y_hat[:, 3]) # [1]
 
     # Compute l_gradient_deformation
-    # TODO: add lambda parameters to weight each weight terms
     l_gradient_deformation = torch.mean(torch.stack([l_gradient_x,
                                                     l_gradient_y,
                                                     l_gradient_z])) # [1]
