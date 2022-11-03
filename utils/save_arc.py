@@ -34,7 +34,7 @@ def save_arc(arc: Arc_reader, root_folder: Union[Path, str], name: str):
     # Extract edge_index
     edge_index = np.asarray(arc.edge_index)
     # Extract coordinate
-    coordinate = arc.coordinate
+    coordinate = arc.original_coordinate
     # Extract data
     temperature = arc.data.TEMPTURE
     xdis = arc.data.XDIS
