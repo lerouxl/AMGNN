@@ -90,7 +90,7 @@ class AMGNNmodel(pl.LightningModule):
                 #temp_error = temp_error * self.configuration["scaling_temperature"]
                 deformation_error = (y[:,1:] - y_hat[:,1:]).detach().cpu().numpy()
                 deformation_error = np.linalg.norm(deformation_error, axis=1)
-                #deformation_error = deformation_error * self.configuration["scaling_size"]
+                #deformation_error = deformation_error * self.configuration["scaling_deformation"]
 
                 log_point_cloud_to_wandb(name=name + " temperature error",
                                          points=points, value=temp_error,
@@ -194,12 +194,15 @@ class NeuralNetwork(MessagePassing):
             # Append its results in x_
             message = self.propagate(edge_index, x=x)
             x = torch.cat([x, message], dim=1)
+
             x = layer(x)
 
         out = self.lin2(x)
         temperature = self.temperature(out)
+
         deformation = self.deformation(out)
-        return torch.cat([temperature, deformation], 1)
+        prediction = torch.sigmoid(torch.cat([temperature, deformation], 1))
+        return prediction
 
     def message(self, x_i: Tensor, x_j: Tensor) -> Tensor:
         """ Compute the message of each edges.
