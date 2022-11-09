@@ -203,9 +203,9 @@ def read_pt_batch_results(file: Union[str, Path], configuration):
 
         # Process the data to be displayed
         y_temperature = y[:, 0] * configuration["scaling_temperature"]
-        y_disp_x = y[:, 1] * configuration["scaling_size"]
-        y_disp_y = y[:, 2] * configuration["scaling_size"]
-        y_disp_z = y[:, 3] * configuration["scaling_size"]
+        y_disp_x = y[:, 1] * configuration["scaling_deformation"]
+        y_disp_y = y[:, 2] * configuration["scaling_deformation"]
+        y_disp_z = y[:, 3] * configuration["scaling_deformation"]
         y_displacement_vectors = np.vstack((y_disp_x, y_disp_y, y_disp_z)).T
 
         x_laser_speed = graph.x[:, 0] * configuration["scaling_speed"]
