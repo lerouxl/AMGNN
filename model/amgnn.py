@@ -9,10 +9,11 @@ import os.path as osp
 from utils.loss_function import AMGNN_loss
 from utils.visualise import read_pt_batch_results
 from pathlib import Path
-from torch_geometric.nn import MLP
-import wandb
+from torch_geometric import nn as tgnn
+from torch.optim.lr_scheduler import ReduceLROnPlateau
 from utils.logs import log_point_cloud_to_wandb
 import numpy as np
+
 
 class AMGNNmodel(pl.LightningModule):
     """Main class of AMGNN. This Pytorch lightning class will deal with the model loading, training, testing, validation
@@ -21,9 +22,11 @@ class AMGNNmodel(pl.LightningModule):
     def __init__(self, config):
         super().__init__()
         self.configuration = config
-        self.network = NeuralNetwork(self.configuration["input_channels"], self.configuration["hidden_channels"],
-                                     self.configuration["out_channels"], self.configuration['aggregator'],
-                                     self.configuration["number_hidden_layers"])
+        #self.network = NeuralNetwork(self.configuration["input_channels"], self.configuration["hidden_channels"],
+        #                             self.configuration["out_channels"], self.configuration['aggregator'],
+        #                             self.configuration["number_hidden_layers"])
+        self.network = tgnn.models.GIN(self.configuration["input_channels"], self.configuration["hidden_channels"],
+                                        self.configuration["number_hidden_layers"],self.configuration["out_channels"])
         self.lr = float(self.configuration["learning_rate"])
         self.batch_size = int(config["batch_size"])
         self.lambda_weight = torch.tensor(config["lambda_parameters"], dtype=torch.float32).view(3, 1)
@@ -32,17 +35,31 @@ class AMGNNmodel(pl.LightningModule):
 
     def training_step(self, batch, batch_idx):
         """Train loop of the neural network"""
-        _, loss, loss_mse, loss_disp, loss_temp = self._get_preds_loss(batch)
+        # Add noise to the data
+        y_hat, loss, loss_mse, loss_disp, loss_temp = self._get_preds_loss(batch)
         self.log("train loss", loss, batch_size=self.batch_size)
         self.log("train loss mse", loss_mse, batch_size=self.batch_size)
         self.log("train loss gradient displacement", loss_disp, batch_size=self.batch_size)
         self.log("train loss gradient temperature", loss_temp, batch_size=self.batch_size)
+
+        # Log the first test batch results as
+        if batch_idx == 0:
+            # Save the output
+            batch_cpu = batch.detach().to("cpu")
+            batch_cpu.y = torch.hstack([batch_cpu.y.detach(), y_hat.detach().to("cpu")])
+            train_output_folder = osp.join(self.configuration["raw_data"], "train_output")
+            # Create the output folder if it did not exist
+            Path(train_output_folder).mkdir(parents=True, exist_ok=True)
+            pt_path = osp.join(train_output_folder, f'{batch_idx}.pt')
+            torch.save(batch_cpu, pt_path)
+            # Transform the pt file as a vtk file that can be read with Pyvista
+            read_pt_batch_results(pt_path, self.configuration)
         return loss
 
     def test_step(self, batch, batch_idx):
         """The test set is NOT used during training, it is ONLY used once the model has been trained to see how the
          model will do in the real-world."""
-        y_hat, loss, loss_mse, loss_disp, loss_temp = self._get_preds_loss(batch)
+        y_hat, loss, loss_mse, loss_disp, loss_temp = self._get_preds_loss(batch, return_gradient=True)
         self.log("test loss", loss, batch_size=self.batch_size)
         self.log("test loss mse", loss_mse, batch_size=self.batch_size)
         self.log("test loss gradient displacement", loss_disp, batch_size=self.batch_size)
@@ -79,46 +96,77 @@ class AMGNNmodel(pl.LightningModule):
 
         # Log the first test batch results as
         if batch_idx == 0:
-            batch.y = torch.hstack([batch.y, y_hat]) #  Merge y and y_hat
-            for graph_id in range(min(batch.num_graphs,4)):
-                graph =  batch[graph_id].to("cpu")
+            batch.y = torch.hstack([batch.y, y_hat])  # Merge y and y_hat
+            for graph_id in range(min(batch.num_graphs, 4)):
+                graph = batch[graph_id].to("cpu")
                 name = graph.file_name
                 points = graph.pos * self.configuration["scaling_size"]
                 y, y_hat = torch.split(graph.y, 4, dim=1)
 
-                temp_error = (y[:,0] - y_hat[:,0]).detach().cpu().numpy()
-                #temp_error = temp_error * self.configuration["scaling_temperature"]
-                deformation_error = (y[:,1:] - y_hat[:,1:]).detach().cpu().numpy()
+                temp_error = (y[:, 0] - y_hat[:, 0]).detach().cpu().numpy()
+                # temp_error = temp_error * self.configuration["scaling_temperature"]
+                deformation_error = (y[:, 1:] - y_hat[:, 1:]).detach().cpu().numpy()
                 deformation_error = np.linalg.norm(deformation_error, axis=1)
-                #deformation_error = deformation_error * self.configuration["scaling_deformation"]
+                # deformation_error = deformation_error * self.configuration["scaling_deformation"]
 
                 log_point_cloud_to_wandb(name=name + " temperature error",
                                          points=points, value=temp_error,
-                                         max_value=0.5,#self.configuration["scaling_temperature"],
+                                         max_value=0.1,  # self.configuration["scaling_temperature"],
                                          epoch_number=self.current_epoch)
 
                 log_point_cloud_to_wandb(name=name + " deformation error",
                                          points=points, value=deformation_error,
-                                         max_value=0.5,#self.configuration["scaling_size"],
+                                         max_value=0.1,  # self.configuration["scaling_size"],
                                          epoch_number=self.current_epoch)
 
-
     def configure_optimizers(self):
-        optimizer = optim.Adam(self.parameters(), lr=self.lr)
-        return optimizer
+        optimizer = optim.SGD(self.parameters(), lr=self.lr, momentum=0.9)
+        scheduler = ReduceLROnPlateau(optimizer)
+        return {
+            'optimizer': optimizer,
+            'lr_scheduler': scheduler,  # Changed scheduler to lr_scheduler
+            'monitor': 'train loss'
+        }
 
-    def _get_preds_loss(self, batch) -> Tuple[torch.Tensor, torch.Tensor]:
+    def _get_preds_loss(self, batch, return_gradient: bool =False) -> Tuple[torch.Tensor, torch.Tensor]:
         """The train, test and validation function are the same so their are regrouped here.
         Return:
             y_hat: the prediction of the neural network,
             loss: the actual loss of the neural network"""
 
-        y_hat = self.network(batch)
+        # Check no wrong values are used as inputs.
+        self.__chech_nan_and_inf(batch.x)
+        self.__chech_nan_and_inf(batch.edge_index)
+        self.__chech_nan_and_inf(batch.edge_attr)
 
-        loss, loss_mse, loss_disp, loss_temp = AMGNN_loss(batch, batch.y, y_hat, detail_loss=True,
-                                                          lambda_weight=self.lambda_weight)
+        y_hat = self.network(x=batch.x, edge_index=batch.edge_index)
+
+        #loss, loss_mse, loss_disp, loss_temp = AMGNN_loss(batch, batch.y, y_hat, detail_loss=True,
+        #                                                  lambda_weight=self.lambda_weight)
+        loss_function = torch.nn.MSELoss()
+        loss= loss_mse= loss_disp= loss_temp = loss_function(batch.y, y_hat)
 
         return y_hat, loss, loss_mse, loss_disp, loss_temp
+
+    def __chech_nan_and_inf(self, values: Tensor):
+        """ Check if there is a Nan of inf value in a tensor.
+        Raise an error if so.
+        Parameters
+        ----------
+        values: Tensor
+            Tensor to check if there is a Nan of Inf value
+
+        Returns
+        -------
+
+        """
+        have_nan = torch.isnan(values).any()
+        have_inf = torch.isinf(values).any()
+
+        if have_nan:
+            raise "Nan found"
+        if have_inf:
+            raise "Inf found"
 
 
 class NeuralNetwork(MessagePassing):
@@ -145,21 +193,19 @@ class NeuralNetwork(MessagePassing):
         self.hidden = int(hidden_channels)
         self.number_hidden = int(number_hidden)
 
-        # Input layer
-        self.lin = nn.Linear(in_channels, self.hidden)
-        # Output layer
-        self.lin2 = nn.Linear(self.hidden, self.hidden)
-
-        self.temperature = MLP(in_channels=self.hidden, hidden_channels=self.hidden, act="gelu",
-                               out_channels=1, num_layers=3, dropout=0.3, )
-        self.deformation = MLP(in_channels=self.hidden, hidden_channels=self.hidden, act="gelu",
-                               out_channels=3, num_layers=3, dropout=0.3, )
+        # Input layer: The encoder
+        self.lin = tgnn.models.MLP(in_channels=in_channels, hidden_channels=self.hidden, act="relu",
+                                   out_channels=self.hidden, num_layers=3)
+        # Output layer: The decoder
+        self.lin2 = tgnn.models.MLP(in_channels=self.hidden, hidden_channels=self.hidden, act="relu",
+                                    out_channels=out_channels,
+                                    num_layers=3)
 
         dim = self.hidden
         for i in range(self.number_hidden):
             # Add the neural layer to the Message Passing neural network
-            setattr(self, f"message_mlp_{i}", MLP(in_channels=dim * 2, hidden_channels=dim, act="gelu",
-                                                  out_channels=dim, num_layers=5, dropout=0.3, )
+            setattr(self, f"message_mlp_{i}", tgnn.models.MLP(in_channels=dim * 2, hidden_channels=dim,
+                                                              act="gelu", out_channels=dim, num_layers=3, dropout=0.3, )
                     )
 
     def forward(self, batch: Data) -> Tensor:
@@ -193,16 +239,12 @@ class NeuralNetwork(MessagePassing):
             layer = getattr(self, f"message_mlp_{i}")
             # Append its results in x_
             message = self.propagate(edge_index, x=x)
-            x = torch.cat([x, message], dim=1)
+            x_ = torch.cat([x, message], dim=1)
 
-            x = layer(x)
+            x = layer(x_) + x
 
-        out = self.lin2(x)
-        temperature = self.temperature(out)
-
-        deformation = self.deformation(out)
-        prediction = torch.sigmoid(torch.cat([temperature, deformation], 1))
-        return prediction
+        x = self.lin2(x)
+        return x
 
     def message(self, x_i: Tensor, x_j: Tensor) -> Tensor:
         """ Compute the message of each edges.

@@ -8,9 +8,10 @@ import pytorch_lightning as pl
 from pytorch_lightning.loggers import WandbLogger
 from torch_geometric.loader import DataLoader
 from utils.visualise import display_dataset
+import torch_geometric.transforms as T
 import logging
 from utils.logs import init_logger
-from pytorch_lightning.callbacks import ModelCheckpoint
+from pytorch_lightning.callbacks import ModelCheckpoint, LearningRateMonitor, EarlyStopping
 from datetime import datetime
 
 
@@ -40,8 +41,9 @@ def run():
     log.info("AMGNN model created")
 
     # Create the dataset
+    transform = T.Compose([T.ToUndirected(), T.AddSelfLoops(), T.Distance()])
     data_path = Path(configuration["raw_data"])
-    arc_dataset = ARCDataset(data_path)
+    arc_dataset = ARCDataset(data_path, transform=transform)
     log.info(f"ARCDataset created from {str(data_path)}")
 
     # Split the dataset in 3 subset, the train, validation and test dataset.
@@ -61,25 +63,28 @@ def run():
 
     # Create the dataloader
     batch_size = int(configuration["batch_size"])
-    train_loader = DataLoader(dataset=train_dataset, batch_size=batch_size, shuffle=True)
-    validation_loader = DataLoader(dataset=validation_dataset, batch_size=batch_size)
-    test_loader = DataLoader(dataset=test_dataset, batch_size=batch_size)
+    train_loader = DataLoader(dataset=arc_dataset, batch_size=batch_size, shuffle=True)
+    validation_loader = DataLoader(dataset=arc_dataset, batch_size=batch_size)
+    test_loader = DataLoader(dataset=arc_dataset, batch_size=batch_size)
     log.info(f"Dataloader created with {batch_size=}")
 
     # Create the pytorch lightning trainer.
     log.info("Start model training")
     # Create a trained run the model on the GPU, with a wandb logger, saving the best 2 models in the checkpoints dir
     checkpoint_callback = ModelCheckpoint(dirpath=f"checkpoints/{name}/", save_top_k=2, monitor="val loss")
+    lr_callback = LearningRateMonitor()
+    er_stop = EarlyStopping(monitor="val loss",mode="min", patience=50)
     trainer = pl.Trainer(accelerator="gpu",
                          devices=1,
                          logger=wandb_logger,
                          auto_lr_find=True,
-                         callbacks=[checkpoint_callback],
+                         callbacks=[checkpoint_callback, lr_callback, er_stop],
                          default_root_dir= f"checkpoints/{name}/",
                          max_epochs=configuration["max_epochs"],
                          accumulate_grad_batches= int(configuration["accumulate_grad_batches"]),
                          auto_scale_batch_size= "binsearch",
-                         check_val_every_n_epoch=1)
+                         check_val_every_n_epoch=1
+                         )
     trainer.fit(model, train_loader, validation_loader)
     log.info("End model training")
 
@@ -88,6 +93,10 @@ def run():
     log.info(f"Start model testing with {str(best_model_)}")
     trainer.test(dataloaders=test_loader, ckpt_path= best_model_)
     log.info("End model testing")
+    try:
+        wandb.save(str(best_model_))
+    except:
+        print("Fail to save the model")
 
     # Display the test dataset results in vtk files (can be open with Paraview)
     #log.info("Generate visualisation of the results")

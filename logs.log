@@ -1,0 +1,1345 @@
+2022-11-04 17:04:56.153 DEBUG cmd - execute: Popen(['git', 'rev-parse', '--show-toplevel'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=None)
+2022-11-04 17:05:08.323 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-04 17:05:08.526 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 521
+2022-11-04 17:05:08.536 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-04 17:05:08.723 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 350
+2022-11-04 17:05:09.163 DEBUG cmd - execute: Popen(['git', 'cat-file', '--batch-check'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=<valid stream>)
+2022-11-04 17:05:15.406 INFO main - run: Configuration loaded
+2022-11-04 17:05:16.034 DEBUG pyplot - switch_backend: Loaded backend tkagg version unknown.
+2022-11-04 17:06:10.250 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): o151352.ingest.sentry.io:443
+2022-11-04 17:06:10.299 DEBUG connectionpool - _make_request: https://o151352.ingest.sentry.io:443 "POST /api/5288891/envelope/ HTTP/1.1" 200 2
+2022-11-04 17:11:38.944 DEBUG cmd - execute: Popen(['git', 'rev-parse', '--show-toplevel'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=None)
+2022-11-04 17:11:51.119 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-04 17:11:51.312 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 521
+2022-11-04 17:11:51.323 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-04 17:11:51.474 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 350
+2022-11-04 17:11:51.921 DEBUG cmd - execute: Popen(['git', 'cat-file', '--batch-check'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=<valid stream>)
+2022-11-04 17:11:58.210 INFO main - run: Configuration loaded
+2022-11-04 17:11:58.303 INFO main - run: AMGNN model created
+2022-11-04 17:12:53.062 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): o151352.ingest.sentry.io:443
+2022-11-04 17:12:53.106 DEBUG connectionpool - _make_request: https://o151352.ingest.sentry.io:443 "POST /api/5288891/envelope/ HTTP/1.1" 200 2
+2022-11-04 18:37:19.712 INFO main - run: ARCDataset created from E:\Leopold\Chapter 6 - datasets\One_cube
+2022-11-04 18:37:19.718 INFO main - run: The dataset will be divided in 3 sub set of size train_size=101 validation_size=19 test_size=7 
+2022-11-04 18:37:19.723 INFO main - run: Subset created
+2022-11-04 18:37:19.723 INFO main - run: Dataloader created with batch_size=12
+2022-11-04 18:37:19.723 INFO main - run: Start model training
+2022-11-04 18:37:20.348 DEBUG pyplot - switch_backend: Loaded backend tkagg version unknown.
+2022-11-04 23:31:36.672 DEBUG cmd - execute: Popen(['git', 'rev-parse', '--show-toplevel'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=None)
+2022-11-04 23:31:44.891 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-04 23:31:45.046 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 521
+2022-11-04 23:31:45.052 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-04 23:31:45.212 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 350
+2022-11-04 23:31:45.525 DEBUG cmd - execute: Popen(['git', 'cat-file', '--batch-check'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=<valid stream>)
+2022-11-04 23:31:51.526 INFO main - run: Configuration loaded
+2022-11-04 23:31:51.596 INFO main - run: AMGNN model created
+2022-11-04 23:31:51.719 INFO main - run: ARCDataset created from E:\Leopold\Chapter 6 - datasets\One_cube
+2022-11-04 23:31:51.723 INFO main - run: The dataset will be divided in 3 sub set of size train_size=101 validation_size=19 test_size=7 
+2022-11-04 23:31:51.725 INFO main - run: Subset created
+2022-11-04 23:31:51.725 INFO main - run: Dataloader created with batch_size=12
+2022-11-04 23:31:51.726 INFO main - run: Start model training
+2022-11-04 23:35:58.582 DEBUG cmd - execute: Popen(['git', 'rev-parse', '--show-toplevel'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=None)
+2022-11-04 23:36:10.882 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-04 23:36:11.039 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 521
+2022-11-04 23:36:11.049 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-04 23:36:11.202 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 350
+2022-11-04 23:36:11.630 DEBUG cmd - execute: Popen(['git', 'cat-file', '--batch-check'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=<valid stream>)
+2022-11-04 23:36:17.776 INFO main - run: Configuration loaded
+2022-11-04 23:36:17.866 INFO main - run: AMGNN model created
+2022-11-04 23:36:17.980 INFO main - run: ARCDataset created from E:\Leopold\Chapter 6 - datasets\One_cube
+2022-11-04 23:36:17.986 INFO main - run: The dataset will be divided in 3 sub set of size train_size=101 validation_size=19 test_size=7 
+2022-11-04 23:36:17.991 INFO main - run: Subset created
+2022-11-04 23:36:17.992 INFO main - run: Dataloader created with batch_size=12
+2022-11-04 23:36:17.992 INFO main - run: Start model training
+2022-11-04 23:36:20.702 DEBUG pyplot - switch_backend: Loaded backend tkagg version unknown.
+2022-11-04 23:37:12.605 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): o151352.ingest.sentry.io:443
+2022-11-04 23:37:12.661 DEBUG connectionpool - _make_request: https://o151352.ingest.sentry.io:443 "POST /api/5288891/envelope/ HTTP/1.1" 200 2
+2022-11-04 23:40:08.654 DEBUG cmd - execute: Popen(['git', 'rev-parse', '--show-toplevel'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=None)
+2022-11-04 23:40:20.962 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-04 23:40:21.148 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 521
+2022-11-04 23:40:21.158 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-04 23:40:21.310 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 350
+2022-11-04 23:40:21.738 DEBUG cmd - execute: Popen(['git', 'cat-file', '--batch-check'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=<valid stream>)
+2022-11-04 23:40:27.893 INFO main - run: Configuration loaded
+2022-11-04 23:40:27.984 INFO main - run: AMGNN model created
+2022-11-04 23:40:28.097 INFO main - run: ARCDataset created from E:\Leopold\Chapter 6 - datasets\One_cube
+2022-11-04 23:40:28.103 INFO main - run: The dataset will be divided in 3 sub set of size train_size=101 validation_size=19 test_size=7 
+2022-11-04 23:40:28.109 INFO main - run: Subset created
+2022-11-04 23:40:28.109 INFO main - run: Dataloader created with batch_size=12
+2022-11-04 23:40:28.109 INFO main - run: Start model training
+2022-11-04 23:40:41.052 DEBUG pyplot - switch_backend: Loaded backend tkagg version unknown.
+2022-11-04 23:41:22.760 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): o151352.ingest.sentry.io:443
+2022-11-04 23:41:22.807 DEBUG connectionpool - _make_request: https://o151352.ingest.sentry.io:443 "POST /api/5288891/envelope/ HTTP/1.1" 200 2
+2022-11-04 23:45:19.933 DEBUG cmd - execute: Popen(['git', 'rev-parse', '--show-toplevel'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=None)
+2022-11-04 23:45:32.140 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-04 23:45:32.362 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 521
+2022-11-04 23:45:32.373 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-04 23:45:32.523 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 350
+2022-11-04 23:45:32.952 DEBUG cmd - execute: Popen(['git', 'cat-file', '--batch-check'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=<valid stream>)
+2022-11-04 23:45:39.150 INFO main - run: Configuration loaded
+2022-11-04 23:45:39.240 INFO main - run: AMGNN model created
+2022-11-04 23:45:39.416 INFO main - run: ARCDataset created from E:\Leopold\Chapter 6 - datasets\One_cube
+2022-11-04 23:45:39.422 INFO main - run: The dataset will be divided in 3 sub set of size train_size=101 validation_size=19 test_size=7 
+2022-11-04 23:45:39.427 INFO main - run: Subset created
+2022-11-04 23:45:39.427 INFO main - run: Dataloader created with batch_size=12
+2022-11-04 23:45:39.427 INFO main - run: Start model training
+2022-11-04 23:46:14.141 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_04_23_45_19/epoch=5-step=30.ckpt
+2022-11-04 23:46:33.987 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): o151352.ingest.sentry.io:443
+2022-11-04 23:46:34.037 DEBUG connectionpool - _make_request: https://o151352.ingest.sentry.io:443 "POST /api/5288891/envelope/ HTTP/1.1" 200 2
+2022-11-04 23:46:40.292 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_04_23_45_19/epoch=11-step=60.ckpt
+2022-11-04 23:47:06.290 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_04_23_45_19/epoch=17-step=90.ckpt
+2022-11-04 23:50:08.833 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_04_23_45_19/epoch=59-step=300.ckpt
+2022-11-04 23:54:36.367 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_04_23_45_19/epoch=119-step=600.ckpt
+2022-11-04 23:59:48.880 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_04_23_45_19/epoch=191-step=960.ckpt
+2022-11-05 00:53:54.558 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_04_23_45_19/epoch=941-step=4710.ckpt
+2022-11-05 01:11:09.659 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_04_23_45_19/epoch=1181-step=5910.ckpt
+2022-11-05 02:50:16.965 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_04_23_45_19/epoch=2561-step=12810.ckpt
+2022-11-05 04:31:11.639 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_04_23_45_19/epoch=3965-step=19830.ckpt
+2022-11-05 05:19:39.425 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_04_23_45_19/epoch=4637-step=23190.ckpt
+2022-11-05 06:40:09.844 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_04_23_45_19/epoch=5753-step=28770.ckpt
+2022-11-05 10:09:53.083 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_04_23_45_19/epoch=8675-step=43380.ckpt
+2022-11-05 10:34:39.249 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_04_23_45_19/epoch=9017-step=45090.ckpt
+2022-11-05 11:19:02.086 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_04_23_45_19/epoch=9641-step=48210.ckpt
+2022-11-05 11:44:35.852 INFO main - run: End model training
+2022-11-05 11:44:35.852 INFO main - run: Start model testing with E:\Leopold\Chapitre 6 - AMGNN\AMGNN\checkpoints\2022_11_04_23_45_19\epoch=9017-step=45090.ckpt
+2022-11-05 11:44:35.858 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_04_23_45_19/epoch=9017-step=45090.ckpt
+2022-11-05 11:44:37.548 INFO main - run: End model testing
+2022-11-05 11:44:38.121 DEBUG pyplot - switch_backend: Loaded backend tkagg version unknown.
+2022-11-05 18:41:42.540 DEBUG cmd - execute: Popen(['git', 'rev-parse', '--show-toplevel'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=None)
+2022-11-05 18:41:55.248 DEBUG cmd - execute: Popen(['git', 'cat-file', '--batch-check'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=<valid stream>)
+2022-11-05 18:42:00.536 INFO main - run: Configuration loaded
+2022-11-05 18:42:00.635 INFO main - run: AMGNN model created
+2022-11-05 18:42:00.755 INFO main - run: ARCDataset created from E:\Leopold\Chapter 6 - datasets\One_cube
+2022-11-05 18:42:00.760 INFO main - run: The dataset will be divided in 3 sub set of size train_size=101 validation_size=19 test_size=7 
+2022-11-05 18:42:00.766 INFO main - run: Subset created
+2022-11-05 18:42:00.766 INFO main - run: Dataloader created with batch_size=12
+2022-11-05 18:42:00.766 INFO main - run: Start model training
+2022-11-05 18:42:36.412 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_18_41_42/epoch=5-step=30.ckpt
+2022-11-05 18:43:02.398 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_18_41_42/epoch=11-step=60.ckpt
+2022-11-05 18:43:09.424 DEBUG pyplot - switch_backend: Loaded backend tkagg version unknown.
+2022-11-05 19:33:42.474 INFO main - run: End model training
+2022-11-05 19:33:42.474 INFO main - run: Start model testing with E:\Leopold\Chapitre 6 - AMGNN\AMGNN\checkpoints\2022_11_05_18_41_42\epoch=11-step=60.ckpt
+2022-11-05 19:33:42.525 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_18_41_42/epoch=11-step=60.ckpt
+2022-11-05 19:34:21.801 DEBUG cmd - execute: Popen(['git', 'rev-parse', '--show-toplevel'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=None)
+2022-11-05 19:34:34.296 DEBUG cmd - execute: Popen(['git', 'cat-file', '--batch-check'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=<valid stream>)
+2022-11-05 19:34:39.589 INFO main - run: Configuration loaded
+2022-11-05 19:34:39.679 INFO main - run: AMGNN model created
+2022-11-05 19:34:39.794 INFO main - run: ARCDataset created from E:\Leopold\Chapter 6 - datasets\One_cube
+2022-11-05 19:34:39.799 INFO main - run: The dataset will be divided in 3 sub set of size train_size=101 validation_size=19 test_size=7 
+2022-11-05 19:34:39.804 INFO main - run: Subset created
+2022-11-05 19:34:39.805 INFO main - run: Dataloader created with batch_size=12
+2022-11-05 19:34:39.805 INFO main - run: Start model training
+2022-11-05 19:34:42.563 DEBUG pyplot - switch_backend: Loaded backend tkagg version unknown.
+2022-11-05 19:35:18.199 INFO main - run: End model training
+2022-11-05 19:35:18.199 INFO main - run: Start model testing with 
+2022-11-05 19:36:30.446 DEBUG cmd - execute: Popen(['git', 'rev-parse', '--show-toplevel'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=None)
+2022-11-05 19:36:43.052 DEBUG cmd - execute: Popen(['git', 'cat-file', '--batch-check'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=<valid stream>)
+2022-11-05 19:36:48.238 INFO main - run: Configuration loaded
+2022-11-05 19:36:48.330 INFO main - run: AMGNN model created
+2022-11-05 19:36:48.448 INFO main - run: ARCDataset created from E:\Leopold\Chapter 6 - datasets\One_cube
+2022-11-05 19:36:48.454 INFO main - run: The dataset will be divided in 3 sub set of size train_size=101 validation_size=19 test_size=7 
+2022-11-05 19:36:48.459 INFO main - run: Subset created
+2022-11-05 19:36:48.459 INFO main - run: Dataloader created with batch_size=12
+2022-11-05 19:36:48.459 INFO main - run: Start model training
+2022-11-05 19:37:06.688 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_19_36_30/epoch=0-step=5.ckpt
+2022-11-05 19:37:06.793 INFO main - run: End model training
+2022-11-05 19:37:06.793 INFO main - run: Start model testing with E:\Leopold\Chapitre 6 - AMGNN\AMGNN\checkpoints\2022_11_05_19_36_30\epoch=0-step=5.ckpt
+2022-11-05 19:37:06.799 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_19_36_30/epoch=0-step=5.ckpt
+2022-11-05 19:37:07.908 DEBUG pyplot - switch_backend: Loaded backend tkagg version unknown.
+2022-11-05 19:53:58.906 INFO main - run: End model testing
+2022-11-05 19:53:58.912 INFO main - run: END
+2022-11-05 19:54:36.631 DEBUG cmd - execute: Popen(['git', 'rev-parse', '--show-toplevel'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=None)
+2022-11-05 19:54:49.487 DEBUG cmd - execute: Popen(['git', 'cat-file', '--batch-check'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=<valid stream>)
+2022-11-05 19:54:54.672 INFO main - run: Configuration loaded
+2022-11-05 19:54:54.763 INFO main - run: AMGNN model created
+2022-11-05 19:54:54.878 INFO main - run: ARCDataset created from E:\Leopold\Chapter 6 - datasets\One_cube
+2022-11-05 19:54:54.883 INFO main - run: The dataset will be divided in 3 sub set of size train_size=101 validation_size=19 test_size=7 
+2022-11-05 19:54:54.889 INFO main - run: Subset created
+2022-11-05 19:54:54.890 INFO main - run: Dataloader created with batch_size=12
+2022-11-05 19:54:54.890 INFO main - run: Start model training
+2022-11-05 19:55:13.372 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_19_54_36/epoch=0-step=5.ckpt
+2022-11-05 19:55:13.492 INFO main - run: End model training
+2022-11-05 19:55:13.492 INFO main - run: Start model testing with E:\Leopold\Chapitre 6 - AMGNN\AMGNN\checkpoints\2022_11_05_19_54_36\epoch=0-step=5.ckpt
+2022-11-05 19:55:13.499 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_19_54_36/epoch=0-step=5.ckpt
+2022-11-05 19:55:14.380 DEBUG pyplot - switch_backend: Loaded backend tkagg version unknown.
+2022-11-05 20:30:00.625 INFO main - run: End model testing
+2022-11-05 20:30:00.630 INFO main - run: END
+2022-11-05 20:32:43.900 DEBUG cmd - execute: Popen(['git', 'rev-parse', '--show-toplevel'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=None)
+2022-11-05 20:32:56.413 DEBUG cmd - execute: Popen(['git', 'cat-file', '--batch-check'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=<valid stream>)
+2022-11-05 20:33:01.707 INFO main - run: Configuration loaded
+2022-11-05 20:33:01.798 INFO main - run: AMGNN model created
+2022-11-05 20:33:01.914 INFO main - run: ARCDataset created from E:\Leopold\Chapter 6 - datasets\One_cube
+2022-11-05 20:33:01.920 INFO main - run: The dataset will be divided in 3 sub set of size train_size=101 validation_size=19 test_size=7 
+2022-11-05 20:33:01.925 INFO main - run: Subset created
+2022-11-05 20:33:01.925 INFO main - run: Dataloader created with batch_size=12
+2022-11-05 20:33:01.925 INFO main - run: Start model training
+2022-11-05 20:33:04.424 DEBUG pyplot - switch_backend: Loaded backend tkagg version unknown.
+2022-11-05 20:41:44.550 DEBUG cmd - execute: Popen(['git', 'rev-parse', '--show-toplevel'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=None)
+2022-11-05 20:41:56.867 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-05 20:41:57.060 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 521
+2022-11-05 20:41:57.070 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-05 20:41:57.221 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 350
+2022-11-05 20:41:57.663 DEBUG cmd - execute: Popen(['git', 'cat-file', '--batch-check'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=<valid stream>)
+2022-11-05 20:42:03.857 INFO main - run: Configuration loaded
+2022-11-05 20:42:03.951 INFO main - run: AMGNN model created
+2022-11-05 20:42:04.131 INFO main - run: ARCDataset created from E:\Leopold\Chapter 6 - datasets\One_cube
+2022-11-05 20:42:04.137 INFO main - run: The dataset will be divided in 3 sub set of size train_size=101 validation_size=19 test_size=7 
+2022-11-05 20:42:04.141 INFO main - run: Subset created
+2022-11-05 20:42:04.141 INFO main - run: Dataloader created with batch_size=12
+2022-11-05 20:42:04.142 INFO main - run: Start model training
+2022-11-05 20:42:22.377 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_20_41_44/epoch=0-step=5.ckpt
+2022-11-05 20:42:32.376 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_20_41_44/epoch=1-step=10.ckpt
+2022-11-05 20:42:58.848 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): o151352.ingest.sentry.io:443
+2022-11-05 20:42:59.093 DEBUG connectionpool - _make_request: https://o151352.ingest.sentry.io:443 "POST /api/5288891/envelope/ HTTP/1.1" 200 2
+2022-11-05 20:46:33.459 INFO main - run: End model training
+2022-11-05 20:46:33.459 INFO main - run: Start model testing with E:\Leopold\Chapitre 6 - AMGNN\AMGNN\checkpoints\2022_11_05_20_41_44\epoch=0-step=5.ckpt
+2022-11-05 20:46:33.550 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_20_41_44/epoch=0-step=5.ckpt
+2022-11-05 20:47:16.831 DEBUG cmd - execute: Popen(['git', 'rev-parse', '--show-toplevel'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=None)
+2022-11-05 20:47:29.107 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-05 20:47:29.277 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 521
+2022-11-05 20:47:29.286 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-05 20:47:29.448 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 350
+2022-11-05 20:47:29.873 DEBUG cmd - execute: Popen(['git', 'cat-file', '--batch-check'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=<valid stream>)
+2022-11-05 20:47:36.082 INFO main - run: Configuration loaded
+2022-11-05 20:47:36.174 INFO main - run: AMGNN model created
+2022-11-05 20:47:36.288 INFO main - run: ARCDataset created from E:\Leopold\Chapter 6 - datasets\One_cube
+2022-11-05 20:47:36.294 INFO main - run: The dataset will be divided in 3 sub set of size train_size=101 validation_size=19 test_size=7 
+2022-11-05 20:47:36.300 INFO main - run: Subset created
+2022-11-05 20:47:36.300 INFO main - run: Dataloader created with batch_size=12
+2022-11-05 20:47:36.300 INFO main - run: Start model training
+2022-11-05 20:47:54.476 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_20_47_16/epoch=0-step=5.ckpt
+2022-11-05 20:48:04.272 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_20_47_16/epoch=1-step=10.ckpt
+2022-11-05 20:48:31.064 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): o151352.ingest.sentry.io:443
+2022-11-05 20:48:31.367 DEBUG connectionpool - _make_request: https://o151352.ingest.sentry.io:443 "POST /api/5288891/envelope/ HTTP/1.1" 200 2
+2022-11-05 20:48:33.454 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_20_47_16/epoch=4-step=25.ckpt
+2022-11-05 20:49:21.850 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_20_47_16/epoch=9-step=50.ckpt
+2022-11-05 20:50:10.046 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_20_47_16/epoch=14-step=75.ckpt
+2022-11-05 20:50:29.619 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_20_47_16/epoch=16-step=85.ckpt
+2022-11-05 20:50:39.408 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_20_47_16/epoch=17-step=90.ckpt
+2022-11-05 20:51:08.422 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_20_47_16/epoch=20-step=105.ckpt
+2022-11-05 20:51:27.821 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_20_47_16/epoch=22-step=115.ckpt
+2022-11-05 20:51:37.602 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_20_47_16/epoch=23-step=120.ckpt
+2022-11-05 20:51:47.217 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_20_47_16/epoch=24-step=125.ckpt
+2022-11-05 20:54:12.165 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_20_47_16/epoch=39-step=200.ckpt
+2022-11-05 20:54:50.950 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_20_47_16/epoch=43-step=220.ckpt
+2022-11-05 20:55:00.749 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_20_47_16/epoch=44-step=225.ckpt
+2022-11-05 21:02:54.621 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_20_47_16/epoch=93-step=470.ckpt
+2022-11-05 21:20:00.395 INFO main - run: End model training
+2022-11-05 21:20:00.395 INFO main - run: Start model testing with E:\Leopold\Chapitre 6 - AMGNN\AMGNN\checkpoints\2022_11_05_20_47_16\epoch=43-step=220.ckpt
+2022-11-05 21:20:00.401 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_20_47_16/epoch=43-step=220.ckpt
+2022-11-05 21:20:01.651 INFO main - run: End model testing
+2022-11-05 21:20:01.667 INFO main - run: END
+2022-11-05 21:27:04.285 DEBUG cmd - execute: Popen(['git', 'rev-parse', '--show-toplevel'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=None)
+2022-11-05 21:27:12.464 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-05 21:27:12.603 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 521
+2022-11-05 21:27:12.609 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-05 21:27:12.751 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 350
+2022-11-05 21:27:13.043 DEBUG cmd - execute: Popen(['git', 'cat-file', '--batch-check'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=<valid stream>)
+2022-11-05 21:27:19.086 INFO main - run: Configuration loaded
+2022-11-05 21:27:19.149 INFO main - run: AMGNN model created
+2022-11-05 21:28:13.929 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): o151352.ingest.sentry.io:443
+2022-11-05 21:28:13.985 DEBUG connectionpool - _make_request: https://o151352.ingest.sentry.io:443 "POST /api/5288891/envelope/ HTTP/1.1" 200 2
+2022-11-05 21:43:11.985 INFO main - run: ARCDataset created from E:\Leopold\Chapter 6 - datasets\One_cube
+2022-11-05 21:43:11.988 INFO main - run: The dataset will be divided in 3 sub set of size train_size=101 validation_size=19 test_size=7 
+2022-11-05 21:43:11.992 INFO main - run: Subset created
+2022-11-05 21:43:11.992 INFO main - run: Dataloader created with batch_size=12
+2022-11-05 21:43:11.992 INFO main - run: Start model training
+2022-11-05 21:43:20.985 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_21_27_04/epoch=0-step=5.ckpt
+2022-11-05 21:43:25.484 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_21_27_04/epoch=1-step=10.ckpt
+2022-11-05 21:43:29.902 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_21_27_04/epoch=2-step=15.ckpt
+2022-11-05 21:43:34.445 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_21_27_04/epoch=3-step=20.ckpt
+2022-11-05 21:43:38.903 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_21_27_04/epoch=4-step=25.ckpt
+2022-11-05 21:43:43.492 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_21_27_04/epoch=5-step=30.ckpt
+2022-11-05 21:43:47.907 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_21_27_04/epoch=6-step=35.ckpt
+2022-11-05 21:45:29.724 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_21_27_04/epoch=28-step=145.ckpt
+2022-11-05 21:45:34.559 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_21_27_04/epoch=29-step=150.ckpt
+2022-11-05 21:45:39.403 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_21_27_04/epoch=30-step=155.ckpt
+2022-11-05 21:45:48.909 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_21_27_04/epoch=32-step=165.ckpt
+2022-11-05 21:45:53.698 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_21_27_04/epoch=33-step=170.ckpt
+2022-11-05 21:46:08.085 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_21_27_04/epoch=36-step=185.ckpt
+2022-11-05 21:47:02.431 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_21_27_04/epoch=48-step=245.ckpt
+2022-11-05 21:47:11.413 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_21_27_04/epoch=50-step=255.ckpt
+2022-11-05 21:49:29.675 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_21_27_04/epoch=81-step=410.ckpt
+2022-11-05 21:49:51.923 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_21_27_04/epoch=86-step=435.ckpt
+2022-11-05 21:58:15.869 INFO main - run: End model training
+2022-11-05 21:58:15.869 INFO main - run: Start model testing with E:\Leopold\Chapitre 6 - AMGNN\AMGNN\checkpoints\2022_11_05_21_27_04\epoch=86-step=435.ckpt
+2022-11-05 21:58:15.875 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_21_27_04/epoch=86-step=435.ckpt
+2022-11-05 21:58:16.818 INFO main - run: End model testing
+2022-11-05 21:58:16.823 INFO main - run: END
+2022-11-05 22:04:47.400 DEBUG cmd - execute: Popen(['git', 'rev-parse', '--show-toplevel'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=None)
+2022-11-05 22:04:56.341 DEBUG cmd - execute: Popen(['git', 'cat-file', '--batch-check'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=<valid stream>)
+2022-11-05 22:05:01.484 INFO main - run: Configuration loaded
+2022-11-05 22:05:01.544 INFO main - run: AMGNN model created
+2022-11-05 22:05:01.626 INFO main - run: ARCDataset created from E:\Leopold\Chapter 6 - datasets\One_cube2
+2022-11-05 22:05:01.629 INFO main - run: The dataset will be divided in 3 sub set of size train_size=0 validation_size=0 test_size=0 
+2022-11-05 22:05:01.632 INFO main - run: Subset created
+2022-11-05 22:06:12.074 DEBUG cmd - execute: Popen(['git', 'rev-parse', '--show-toplevel'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=None)
+2022-11-05 22:06:20.514 DEBUG cmd - execute: Popen(['git', 'cat-file', '--batch-check'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=<valid stream>)
+2022-11-05 22:06:25.659 INFO main - run: Configuration loaded
+2022-11-05 22:06:25.716 INFO main - run: AMGNN model created
+2022-11-05 22:06:25.811 INFO main - run: ARCDataset created from E:\Leopold\Chapter 6 - datasets\One_cube2
+2022-11-05 22:06:25.814 INFO main - run: The dataset will be divided in 3 sub set of size train_size=0 validation_size=0 test_size=0 
+2022-11-05 22:06:25.818 INFO main - run: Subset created
+2022-11-05 22:07:41.115 DEBUG cmd - execute: Popen(['git', 'rev-parse', '--show-toplevel'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=None)
+2022-11-05 22:07:53.739 DEBUG cmd - execute: Popen(['git', 'cat-file', '--batch-check'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=<valid stream>)
+2022-11-05 22:07:59.037 INFO main - run: Configuration loaded
+2022-11-05 22:07:59.130 INFO main - run: AMGNN model created
+2022-11-05 22:09:26.951 INFO main - run: ARCDataset created from E:\Leopold\Chapter 6 - datasets\One_file2
+2022-11-05 22:09:26.955 INFO main - run: The dataset will be divided in 3 sub set of size train_size=4 validation_size=0 test_size=2 
+2022-11-05 22:09:26.958 INFO main - run: Subset created
+2022-11-05 22:09:26.963 INFO main - run: Dataloader created with batch_size=12
+2022-11-05 22:09:26.964 INFO main - run: Start model training
+2022-11-05 22:09:30.680 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_07_40/epoch=0-step=1.ckpt
+2022-11-05 22:09:30.727 INFO main - run: End model training
+2022-11-05 22:09:30.728 INFO main - run: Start model testing with E:\Leopold\Chapitre 6 - AMGNN\AMGNN\checkpoints\2022_11_05_22_07_40\epoch=0-step=1.ckpt
+2022-11-05 22:09:30.734 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_07_40/epoch=0-step=1.ckpt
+2022-11-05 22:09:31.318 INFO main - run: End model testing
+2022-11-05 22:09:31.324 INFO main - run: END
+2022-11-05 22:12:17.184 DEBUG cmd - execute: Popen(['git', 'rev-parse', '--show-toplevel'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=None)
+2022-11-05 22:12:30.006 DEBUG cmd - execute: Popen(['git', 'cat-file', '--batch-check'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=<valid stream>)
+2022-11-05 22:12:35.315 INFO main - run: Configuration loaded
+2022-11-05 22:12:35.406 INFO main - run: AMGNN model created
+2022-11-05 22:14:09.783 DEBUG cmd - execute: Popen(['git', 'rev-parse', '--show-toplevel'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=None)
+2022-11-05 22:14:22.329 DEBUG cmd - execute: Popen(['git', 'cat-file', '--batch-check'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=<valid stream>)
+2022-11-05 22:14:27.620 INFO main - run: Configuration loaded
+2022-11-05 22:14:27.712 INFO main - run: AMGNN model created
+2022-11-05 22:17:09.033 DEBUG cmd - execute: Popen(['git', 'rev-parse', '--show-toplevel'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=None)
+2022-11-05 22:17:17.695 DEBUG cmd - execute: Popen(['git', 'cat-file', '--batch-check'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=<valid stream>)
+2022-11-05 22:17:22.845 INFO main - run: Configuration loaded
+2022-11-05 22:17:22.907 INFO main - run: AMGNN model created
+2022-11-05 22:17:48.781 INFO main - run: ARCDataset created from E:\Leopold\Chapter 6 - datasets\One_file2
+2022-11-05 22:17:48.784 INFO main - run: The dataset will be divided in 3 sub set of size train_size=4 validation_size=0 test_size=2 
+2022-11-05 22:17:48.787 INFO main - run: Subset created
+2022-11-05 22:17:48.793 INFO main - run: Dataloader created with batch_size=12
+2022-11-05 22:17:48.793 INFO main - run: Start model training
+2022-11-05 22:17:51.493 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_17_08/epoch=0-step=1.ckpt
+2022-11-05 22:17:51.530 INFO main - run: End model training
+2022-11-05 22:17:51.530 INFO main - run: Start model testing with E:\Leopold\Chapitre 6 - AMGNN\AMGNN\checkpoints\2022_11_05_22_17_08\epoch=0-step=1.ckpt
+2022-11-05 22:17:51.535 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_17_08/epoch=0-step=1.ckpt
+2022-11-05 22:17:51.957 INFO main - run: End model testing
+2022-11-05 22:17:51.963 INFO main - run: END
+2022-11-05 22:21:40.515 DEBUG cmd - execute: Popen(['git', 'rev-parse', '--show-toplevel'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=None)
+2022-11-05 22:21:48.905 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-05 22:21:49.089 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 521
+2022-11-05 22:21:49.095 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-05 22:21:49.245 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 350
+2022-11-05 22:21:49.541 DEBUG cmd - execute: Popen(['git', 'cat-file', '--batch-check'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=<valid stream>)
+2022-11-05 22:21:55.616 INFO main - run: Configuration loaded
+2022-11-05 22:21:55.678 INFO main - run: AMGNN model created
+2022-11-05 22:21:55.694 INFO main - run: ARCDataset created from E:\Leopold\Chapter 6 - datasets\One_file2
+2022-11-05 22:21:55.697 INFO main - run: The dataset will be divided in 3 sub set of size train_size=4 validation_size=0 test_size=2 
+2022-11-05 22:21:55.701 INFO main - run: Subset created
+2022-11-05 22:21:55.707 INFO main - run: Dataloader created with batch_size=12
+2022-11-05 22:21:55.707 INFO main - run: Start model training
+2022-11-05 22:21:58.387 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=0-step=1.ckpt
+2022-11-05 22:21:58.889 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=1-step=2.ckpt
+2022-11-05 22:21:59.388 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=2-step=3.ckpt
+2022-11-05 22:21:59.893 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=3-step=4.ckpt
+2022-11-05 22:22:00.378 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=4-step=5.ckpt
+2022-11-05 22:22:00.933 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=5-step=6.ckpt
+2022-11-05 22:22:01.439 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=6-step=7.ckpt
+2022-11-05 22:22:01.924 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=7-step=8.ckpt
+2022-11-05 22:22:02.434 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=8-step=9.ckpt
+2022-11-05 22:22:02.952 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=9-step=10.ckpt
+2022-11-05 22:22:03.500 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=10-step=11.ckpt
+2022-11-05 22:22:04.122 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=11-step=12.ckpt
+2022-11-05 22:22:04.730 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=12-step=13.ckpt
+2022-11-05 22:22:05.346 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=13-step=14.ckpt
+2022-11-05 22:22:05.940 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=14-step=15.ckpt
+2022-11-05 22:22:06.445 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=15-step=16.ckpt
+2022-11-05 22:22:06.947 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=16-step=17.ckpt
+2022-11-05 22:22:07.457 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=17-step=18.ckpt
+2022-11-05 22:22:08.114 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=18-step=19.ckpt
+2022-11-05 22:22:08.766 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=19-step=20.ckpt
+2022-11-05 22:22:09.389 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=20-step=21.ckpt
+2022-11-05 22:22:10.008 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=21-step=22.ckpt
+2022-11-05 22:22:10.514 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=22-step=23.ckpt
+2022-11-05 22:22:17.984 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=36-step=37.ckpt
+2022-11-05 22:22:18.552 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=37-step=38.ckpt
+2022-11-05 22:22:19.158 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=38-step=39.ckpt
+2022-11-05 22:22:19.802 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=39-step=40.ckpt
+2022-11-05 22:22:20.446 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=40-step=41.ckpt
+2022-11-05 22:22:21.072 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=41-step=42.ckpt
+2022-11-05 22:22:21.724 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=42-step=43.ckpt
+2022-11-05 22:22:22.349 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=43-step=44.ckpt
+2022-11-05 22:22:22.928 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=44-step=45.ckpt
+2022-11-05 22:22:23.455 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=45-step=46.ckpt
+2022-11-05 22:22:23.957 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=46-step=47.ckpt
+2022-11-05 22:22:24.697 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=47-step=48.ckpt
+2022-11-05 22:22:25.310 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=48-step=49.ckpt
+2022-11-05 22:22:25.964 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=49-step=50.ckpt
+2022-11-05 22:22:26.602 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=50-step=51.ckpt
+2022-11-05 22:22:27.214 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=51-step=52.ckpt
+2022-11-05 22:22:27.821 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=52-step=53.ckpt
+2022-11-05 22:22:28.341 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=53-step=54.ckpt
+2022-11-05 22:22:32.507 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=61-step=62.ckpt
+2022-11-05 22:22:33.103 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=62-step=63.ckpt
+2022-11-05 22:22:33.610 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=63-step=64.ckpt
+2022-11-05 22:22:34.147 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=64-step=65.ckpt
+2022-11-05 22:22:34.795 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=65-step=66.ckpt
+2022-11-05 22:22:35.440 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=66-step=67.ckpt
+2022-11-05 22:22:36.116 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=67-step=68.ckpt
+2022-11-05 22:22:36.704 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=68-step=69.ckpt
+2022-11-05 22:22:37.220 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=69-step=70.ckpt
+2022-11-05 22:22:41.822 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=78-step=79.ckpt
+2022-11-05 22:22:42.384 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=79-step=80.ckpt
+2022-11-05 22:22:43.010 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=80-step=81.ckpt
+2022-11-05 22:22:43.624 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=81-step=82.ckpt
+2022-11-05 22:22:44.238 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=82-step=83.ckpt
+2022-11-05 22:22:44.780 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=83-step=84.ckpt
+2022-11-05 22:22:45.470 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=84-step=85.ckpt
+2022-11-05 22:22:45.973 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=85-step=86.ckpt
+2022-11-05 22:22:46.622 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=86-step=87.ckpt
+2022-11-05 22:22:47.266 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=87-step=88.ckpt
+2022-11-05 22:22:48.309 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=89-step=90.ckpt
+2022-11-05 22:22:48.825 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=90-step=91.ckpt
+2022-11-05 22:22:49.445 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=91-step=92.ckpt
+2022-11-05 22:22:50.054 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=92-step=93.ckpt
+2022-11-05 22:22:50.479 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): o151352.ingest.sentry.io:443
+2022-11-05 22:22:50.540 DEBUG connectionpool - _make_request: https://o151352.ingest.sentry.io:443 "POST /api/5288891/envelope/ HTTP/1.1" 200 2
+2022-11-05 22:22:50.569 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=93-step=94.ckpt
+2022-11-05 22:22:51.119 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=94-step=95.ckpt
+2022-11-05 22:22:51.629 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=95-step=96.ckpt
+2022-11-05 22:22:52.159 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=96-step=97.ckpt
+2022-11-05 22:22:54.516 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=100-step=101.ckpt
+2022-11-05 22:23:23.399 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=156-step=157.ckpt
+2022-11-05 22:23:29.894 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=168-step=169.ckpt
+2022-11-05 22:23:30.431 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=169-step=170.ckpt
+2022-11-05 22:23:30.964 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=170-step=171.ckpt
+2022-11-05 22:23:37.001 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=181-step=182.ckpt
+2022-11-05 22:23:38.564 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=184-step=185.ckpt
+2022-11-05 22:23:39.148 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=185-step=186.ckpt
+2022-11-05 22:23:39.778 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=186-step=187.ckpt
+2022-11-05 22:23:40.437 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=187-step=188.ckpt
+2022-11-05 22:23:41.061 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=188-step=189.ckpt
+2022-11-05 22:23:41.678 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=189-step=190.ckpt
+2022-11-05 22:23:42.368 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=190-step=191.ckpt
+2022-11-05 22:23:47.099 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=199-step=200.ckpt
+2022-11-05 22:23:47.933 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=200-step=201.ckpt
+2022-11-05 22:23:48.616 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=201-step=202.ckpt
+2022-11-05 22:23:49.241 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=202-step=203.ckpt
+2022-11-05 22:23:49.764 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=203-step=204.ckpt
+2022-11-05 22:23:50.298 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=204-step=205.ckpt
+2022-11-05 22:23:50.806 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=205-step=206.ckpt
+2022-11-05 22:23:51.330 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=206-step=207.ckpt
+2022-11-05 22:23:51.897 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=207-step=208.ckpt
+2022-11-05 22:23:52.555 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=208-step=209.ckpt
+2022-11-05 22:23:53.195 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=209-step=210.ckpt
+2022-11-05 22:23:57.420 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=217-step=218.ckpt
+2022-11-05 22:23:59.475 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=221-step=222.ckpt
+2022-11-05 22:24:00.004 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=222-step=223.ckpt
+2022-11-05 22:24:00.531 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=223-step=224.ckpt
+2022-11-05 22:24:01.077 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=224-step=225.ckpt
+2022-11-05 22:24:06.313 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=234-step=235.ckpt
+2022-11-05 22:24:06.904 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=235-step=236.ckpt
+2022-11-05 22:24:13.791 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=248-step=249.ckpt
+2022-11-05 22:24:16.641 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=253-step=254.ckpt
+2022-11-05 22:24:17.824 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=255-step=256.ckpt
+2022-11-05 22:24:18.340 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=256-step=257.ckpt
+2022-11-05 22:26:25.033 INFO main - run: End model training
+2022-11-05 22:26:25.033 INFO main - run: Start model testing with E:\Leopold\Chapitre 6 - AMGNN\AMGNN\checkpoints\2022_11_05_22_21_40\epoch=256-step=257.ckpt
+2022-11-05 22:26:25.039 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_21_40/epoch=256-step=257.ckpt
+2022-11-05 22:26:25.545 INFO main - run: End model testing
+2022-11-05 22:26:25.550 INFO main - run: END
+2022-11-05 22:40:47.618 DEBUG cmd - execute: Popen(['git', 'rev-parse', '--show-toplevel'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=None)
+2022-11-05 22:40:55.847 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-05 22:40:56.038 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 521
+2022-11-05 22:40:56.044 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-05 22:40:56.224 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 350
+2022-11-05 22:40:56.512 DEBUG cmd - execute: Popen(['git', 'cat-file', '--batch-check'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=<valid stream>)
+2022-11-05 22:41:02.577 INFO main - run: Configuration loaded
+2022-11-05 22:41:02.637 INFO main - run: AMGNN model created
+2022-11-05 22:41:56.123 INFO main - run: ARCDataset created from E:\Leopold\Chapter 6 - datasets\One_file2
+2022-11-05 22:41:56.126 INFO main - run: The dataset will be divided in 3 sub set of size train_size=4 validation_size=0 test_size=2 
+2022-11-05 22:41:56.129 INFO main - run: Subset created
+2022-11-05 22:41:56.136 INFO main - run: Dataloader created with batch_size=12
+2022-11-05 22:41:56.136 INFO main - run: Start model training
+2022-11-05 22:41:57.444 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): o151352.ingest.sentry.io:443
+2022-11-05 22:41:57.490 DEBUG connectionpool - _make_request: https://o151352.ingest.sentry.io:443 "POST /api/5288891/envelope/ HTTP/1.1" 200 2
+2022-11-05 22:41:58.830 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=0-step=1.ckpt
+2022-11-05 22:41:59.312 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=1-step=2.ckpt
+2022-11-05 22:41:59.829 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=2-step=3.ckpt
+2022-11-05 22:42:00.318 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=3-step=4.ckpt
+2022-11-05 22:42:00.802 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=4-step=5.ckpt
+2022-11-05 22:42:01.366 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=5-step=6.ckpt
+2022-11-05 22:42:01.892 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=6-step=7.ckpt
+2022-11-05 22:42:02.418 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=7-step=8.ckpt
+2022-11-05 22:42:02.936 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=8-step=9.ckpt
+2022-11-05 22:42:03.568 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=9-step=10.ckpt
+2022-11-05 22:42:04.291 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=10-step=11.ckpt
+2022-11-05 22:42:04.903 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=11-step=12.ckpt
+2022-11-05 22:42:05.415 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=12-step=13.ckpt
+2022-11-05 22:42:05.912 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=13-step=14.ckpt
+2022-11-05 22:42:06.413 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=14-step=15.ckpt
+2022-11-05 22:42:07.010 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=15-step=16.ckpt
+2022-11-05 22:42:07.522 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=16-step=17.ckpt
+2022-11-05 22:42:08.053 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=17-step=18.ckpt
+2022-11-05 22:42:08.570 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=18-step=19.ckpt
+2022-11-05 22:42:09.206 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=19-step=20.ckpt
+2022-11-05 22:42:15.580 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=31-step=32.ckpt
+2022-11-05 22:42:16.123 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=32-step=33.ckpt
+2022-11-05 22:42:16.725 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=33-step=34.ckpt
+2022-11-05 22:42:17.330 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=34-step=35.ckpt
+2022-11-05 22:42:17.927 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=35-step=36.ckpt
+2022-11-05 22:42:18.416 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=36-step=37.ckpt
+2022-11-05 22:42:23.356 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=45-step=46.ckpt
+2022-11-05 22:42:23.934 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=46-step=47.ckpt
+2022-11-05 22:42:24.430 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=47-step=48.ckpt
+2022-11-05 22:42:24.938 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=48-step=49.ckpt
+2022-11-05 22:42:25.468 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=49-step=50.ckpt
+2022-11-05 22:42:26.138 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=50-step=51.ckpt
+2022-11-05 22:42:26.755 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=51-step=52.ckpt
+2022-11-05 22:42:27.367 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=52-step=53.ckpt
+2022-11-05 22:42:28.006 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=53-step=54.ckpt
+2022-11-05 22:42:28.616 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=54-step=55.ckpt
+2022-11-05 22:42:29.246 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=55-step=56.ckpt
+2022-11-05 22:42:33.592 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=63-step=64.ckpt
+2022-11-05 22:42:34.215 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=64-step=65.ckpt
+2022-11-05 22:42:34.841 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=65-step=66.ckpt
+2022-11-05 22:42:35.444 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=66-step=67.ckpt
+2022-11-05 22:42:36.062 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=67-step=68.ckpt
+2022-11-05 22:42:37.097 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=69-step=70.ckpt
+2022-11-05 22:42:38.592 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=72-step=73.ckpt
+2022-11-05 22:42:39.117 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=73-step=74.ckpt
+2022-11-05 22:42:39.663 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=74-step=75.ckpt
+2022-11-05 22:42:40.202 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=75-step=76.ckpt
+2022-11-05 22:42:40.897 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=76-step=77.ckpt
+2022-11-05 22:42:43.102 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=80-step=81.ckpt
+2022-11-05 22:42:43.606 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=81-step=82.ckpt
+2022-11-05 22:42:44.185 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=82-step=83.ckpt
+2022-11-05 22:42:44.722 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=83-step=84.ckpt
+2022-11-05 22:42:45.231 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=84-step=85.ckpt
+2022-11-05 22:42:45.769 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=85-step=86.ckpt
+2022-11-05 22:42:46.407 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=86-step=87.ckpt
+2022-11-05 22:42:47.082 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=87-step=88.ckpt
+2022-11-05 22:42:47.951 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=88-step=89.ckpt
+2022-11-05 22:42:48.551 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=89-step=90.ckpt
+2022-11-05 22:42:49.045 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=90-step=91.ckpt
+2022-11-05 22:42:49.572 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=91-step=92.ckpt
+2022-11-05 22:42:50.103 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=92-step=93.ckpt
+2022-11-05 22:42:50.636 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=93-step=94.ckpt
+2022-11-05 22:42:51.255 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=94-step=95.ckpt
+2022-11-05 22:42:51.878 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=95-step=96.ckpt
+2022-11-05 22:42:52.512 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=96-step=97.ckpt
+2022-11-05 22:42:53.011 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=97-step=98.ckpt
+2022-11-05 22:42:53.516 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=98-step=99.ckpt
+2022-11-05 22:42:54.017 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=99-step=100.ckpt
+2022-11-05 22:42:54.723 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=100-step=101.ckpt
+2022-11-05 22:42:55.344 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=101-step=102.ckpt
+2022-11-05 22:42:55.960 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=102-step=103.ckpt
+2022-11-05 22:42:56.585 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=103-step=104.ckpt
+2022-11-05 22:42:57.180 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=104-step=105.ckpt
+2022-11-05 22:42:57.702 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=105-step=106.ckpt
+2022-11-05 22:42:58.339 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=106-step=107.ckpt
+2022-11-05 22:42:58.843 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=107-step=108.ckpt
+2022-11-05 22:42:59.476 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=108-step=109.ckpt
+2022-11-05 22:43:00.533 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=110-step=111.ckpt
+2022-11-05 22:43:01.035 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=111-step=112.ckpt
+2022-11-05 22:43:01.554 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=112-step=113.ckpt
+2022-11-05 22:43:02.153 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=113-step=114.ckpt
+2022-11-05 22:43:02.670 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=114-step=115.ckpt
+2022-11-05 22:43:03.316 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=115-step=116.ckpt
+2022-11-05 22:43:03.850 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=116-step=117.ckpt
+2022-11-05 22:43:04.480 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=117-step=118.ckpt
+2022-11-05 22:43:05.096 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=118-step=119.ckpt
+2022-11-05 22:43:05.702 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=119-step=120.ckpt
+2022-11-05 22:43:06.723 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=121-step=122.ckpt
+2022-11-05 22:43:07.230 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=122-step=123.ckpt
+2022-11-05 22:43:07.747 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=123-step=124.ckpt
+2022-11-05 22:43:08.273 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=124-step=125.ckpt
+2022-11-05 22:43:09.050 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=125-step=126.ckpt
+2022-11-05 22:43:10.734 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=128-step=129.ckpt
+2022-11-05 22:43:11.251 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=129-step=130.ckpt
+2022-11-05 22:43:11.751 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=130-step=131.ckpt
+2022-11-05 22:43:12.258 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=131-step=132.ckpt
+2022-11-05 22:43:12.782 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=132-step=133.ckpt
+2022-11-05 22:43:13.414 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=133-step=134.ckpt
+2022-11-05 22:43:14.025 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=134-step=135.ckpt
+2022-11-05 22:43:14.838 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=135-step=136.ckpt
+2022-11-05 22:43:15.459 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=136-step=137.ckpt
+2022-11-05 22:43:16.113 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=137-step=138.ckpt
+2022-11-05 22:43:16.723 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=138-step=139.ckpt
+2022-11-05 22:43:17.228 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=139-step=140.ckpt
+2022-11-05 22:43:17.723 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=140-step=141.ckpt
+2022-11-05 22:43:18.263 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=141-step=142.ckpt
+2022-11-05 22:43:18.833 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=142-step=143.ckpt
+2022-11-05 22:43:19.376 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=143-step=144.ckpt
+2022-11-05 22:43:20.161 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=144-step=145.ckpt
+2022-11-05 22:43:20.778 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=145-step=146.ckpt
+2022-11-05 22:43:21.414 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=146-step=147.ckpt
+2022-11-05 22:43:22.021 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=147-step=148.ckpt
+2022-11-05 22:43:23.666 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=150-step=151.ckpt
+2022-11-05 22:43:24.225 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=151-step=152.ckpt
+2022-11-05 22:43:24.740 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=152-step=153.ckpt
+2022-11-05 22:43:25.353 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=153-step=154.ckpt
+2022-11-05 22:43:25.957 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=154-step=155.ckpt
+2022-11-05 22:43:26.572 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=155-step=156.ckpt
+2022-11-05 22:43:27.155 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=156-step=157.ckpt
+2022-11-05 22:43:27.654 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=157-step=158.ckpt
+2022-11-05 22:43:28.155 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=158-step=159.ckpt
+2022-11-05 22:43:28.675 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=159-step=160.ckpt
+2022-11-05 22:43:29.286 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=160-step=161.ckpt
+2022-11-05 22:43:29.890 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=161-step=162.ckpt
+2022-11-05 22:43:30.399 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=162-step=163.ckpt
+2022-11-05 22:43:30.975 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=163-step=164.ckpt
+2022-11-05 22:43:31.513 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=164-step=165.ckpt
+2022-11-05 22:43:32.023 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=165-step=166.ckpt
+2022-11-05 22:43:32.658 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=166-step=167.ckpt
+2022-11-05 22:43:33.288 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=167-step=168.ckpt
+2022-11-05 22:43:33.889 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=168-step=169.ckpt
+2022-11-05 22:43:34.381 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=169-step=170.ckpt
+2022-11-05 22:43:35.328 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=171-step=172.ckpt
+2022-11-05 22:43:35.972 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=172-step=173.ckpt
+2022-11-05 22:43:36.580 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=173-step=174.ckpt
+2022-11-05 22:43:37.148 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=174-step=175.ckpt
+2022-11-05 22:43:37.646 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=175-step=176.ckpt
+2022-11-05 22:43:38.174 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=176-step=177.ckpt
+2022-11-05 22:43:38.700 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=177-step=178.ckpt
+2022-11-05 22:43:39.244 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=178-step=179.ckpt
+2022-11-05 22:43:39.857 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=179-step=180.ckpt
+2022-11-05 22:43:40.509 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=180-step=181.ckpt
+2022-11-05 22:43:41.023 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=181-step=182.ckpt
+2022-11-05 22:43:41.525 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=182-step=183.ckpt
+2022-11-05 22:43:42.057 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=183-step=184.ckpt
+2022-11-05 22:43:42.679 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=184-step=185.ckpt
+2022-11-05 22:43:43.293 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=185-step=186.ckpt
+2022-11-05 22:43:43.807 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=186-step=187.ckpt
+2022-11-05 22:43:44.323 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=187-step=188.ckpt
+2022-11-05 22:43:45.395 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=189-step=190.ckpt
+2022-11-05 22:43:46.037 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=190-step=191.ckpt
+2022-11-05 22:43:46.605 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=191-step=192.ckpt
+2022-11-05 22:43:47.229 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=192-step=193.ckpt
+2022-11-05 22:43:47.901 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=193-step=194.ckpt
+2022-11-05 22:43:49.530 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=196-step=197.ckpt
+2022-11-05 22:43:50.065 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=197-step=198.ckpt
+2022-11-05 22:43:50.580 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=198-step=199.ckpt
+2022-11-05 22:43:51.104 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=199-step=200.ckpt
+2022-11-05 22:43:51.658 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=200-step=201.ckpt
+2022-11-05 22:43:52.217 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=201-step=202.ckpt
+2022-11-05 22:43:53.415 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=203-step=204.ckpt
+2022-11-05 22:43:54.023 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=204-step=205.ckpt
+2022-11-05 22:43:54.687 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=205-step=206.ckpt
+2022-11-05 22:43:56.479 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=208-step=209.ckpt
+2022-11-05 22:43:56.981 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=209-step=210.ckpt
+2022-11-05 22:43:57.485 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=210-step=211.ckpt
+2022-11-05 22:43:59.640 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=214-step=215.ckpt
+2022-11-05 22:44:00.151 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=215-step=216.ckpt
+2022-11-05 22:44:00.714 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=216-step=217.ckpt
+2022-11-05 22:44:01.818 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=218-step=219.ckpt
+2022-11-05 22:44:02.452 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=219-step=220.ckpt
+2022-11-05 22:44:03.110 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=220-step=221.ckpt
+2022-11-05 22:44:04.711 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=223-step=224.ckpt
+2022-11-05 22:44:05.213 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=224-step=225.ckpt
+2022-11-05 22:44:07.291 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=228-step=229.ckpt
+2022-11-05 22:44:07.845 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=229-step=230.ckpt
+2022-11-05 22:44:08.463 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=230-step=231.ckpt
+2022-11-05 22:44:09.152 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=231-step=232.ckpt
+2022-11-05 22:44:09.758 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=232-step=233.ckpt
+2022-11-05 22:44:10.772 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=234-step=235.ckpt
+2022-11-05 22:44:11.276 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=235-step=236.ckpt
+2022-11-05 22:44:11.802 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=236-step=237.ckpt
+2022-11-05 22:44:13.935 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=240-step=241.ckpt
+2022-11-05 22:44:14.573 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=241-step=242.ckpt
+2022-11-05 22:44:15.187 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=242-step=243.ckpt
+2022-11-05 22:44:16.977 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=245-step=246.ckpt
+2022-11-05 22:44:17.791 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=246-step=247.ckpt
+2022-11-05 22:44:18.408 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=247-step=248.ckpt
+2022-11-05 22:44:20.445 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=251-step=252.ckpt
+2022-11-05 22:44:20.997 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=252-step=253.ckpt
+2022-11-05 22:44:21.610 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=253-step=254.ckpt
+2022-11-05 22:44:22.799 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=255-step=256.ckpt
+2022-11-05 22:44:23.533 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=256-step=257.ckpt
+2022-11-05 22:44:25.622 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=260-step=261.ckpt
+2022-11-05 22:44:26.125 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=261-step=262.ckpt
+2022-11-05 22:44:26.704 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=262-step=263.ckpt
+2022-11-05 22:44:27.215 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=263-step=264.ckpt
+2022-11-05 22:44:28.787 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=266-step=267.ckpt
+2022-11-05 22:44:29.409 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=267-step=268.ckpt
+2022-11-05 22:44:30.052 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=268-step=269.ckpt
+2022-11-05 22:44:30.675 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=269-step=270.ckpt
+2022-11-05 22:44:32.060 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=272-step=273.ckpt
+2022-11-05 22:44:32.678 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=273-step=274.ckpt
+2022-11-05 22:44:38.035 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=283-step=284.ckpt
+2022-11-05 22:44:38.544 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=284-step=285.ckpt
+2022-11-05 22:44:39.099 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=285-step=286.ckpt
+2022-11-05 22:44:54.934 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=315-step=316.ckpt
+2022-11-05 22:44:57.240 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=319-step=320.ckpt
+2022-11-05 22:44:57.792 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=320-step=321.ckpt
+2022-11-05 22:44:58.354 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=321-step=322.ckpt
+2022-11-05 22:45:01.777 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=327-step=328.ckpt
+2022-11-05 22:45:02.386 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=328-step=329.ckpt
+2022-11-05 22:45:04.709 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=332-step=333.ckpt
+2022-11-05 22:45:05.225 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=333-step=334.ckpt
+2022-11-05 22:45:05.736 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=334-step=335.ckpt
+2022-11-05 22:45:06.280 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=335-step=336.ckpt
+2022-11-05 22:45:06.833 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=336-step=337.ckpt
+2022-11-05 22:45:07.450 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=337-step=338.ckpt
+2022-11-05 22:45:08.080 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=338-step=339.ckpt
+2022-11-05 22:45:09.595 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=341-step=342.ckpt
+2022-11-05 22:45:10.231 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=342-step=343.ckpt
+2022-11-05 22:45:10.847 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=343-step=344.ckpt
+2022-11-05 22:45:13.286 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=348-step=349.ckpt
+2022-11-05 22:45:13.817 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=349-step=350.ckpt
+2022-11-05 22:45:14.361 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=350-step=351.ckpt
+2022-11-05 22:45:14.918 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=351-step=352.ckpt
+2022-11-05 22:45:16.928 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=354-step=355.ckpt
+2022-11-05 22:45:17.568 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=355-step=356.ckpt
+2022-11-05 22:45:18.196 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=356-step=357.ckpt
+2022-11-05 22:45:18.858 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=357-step=358.ckpt
+2022-11-05 22:45:21.934 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=363-step=364.ckpt
+2022-11-05 22:45:22.561 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=364-step=365.ckpt
+2022-11-05 22:45:25.095 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=369-step=370.ckpt
+2022-11-05 22:45:25.715 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=370-step=371.ckpt
+2022-11-05 22:45:26.355 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=371-step=372.ckpt
+2022-11-05 22:45:30.377 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=379-step=380.ckpt
+2022-11-05 22:45:38.985 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=395-step=396.ckpt
+2022-11-05 22:45:39.629 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=396-step=397.ckpt
+2022-11-05 22:45:40.233 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=397-step=398.ckpt
+2022-11-05 22:46:33.242 INFO main - run: End model training
+2022-11-05 22:46:33.242 INFO main - run: Start model testing with E:\Leopold\Chapitre 6 - AMGNN\AMGNN\checkpoints\2022_11_05_22_40_47\epoch=397-step=398.ckpt
+2022-11-05 22:46:33.248 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_40_47/epoch=397-step=398.ckpt
+2022-11-05 22:46:33.738 INFO main - run: End model testing
+2022-11-05 22:46:33.743 INFO main - run: END
+2022-11-05 22:50:12.468 DEBUG cmd - execute: Popen(['git', 'rev-parse', '--show-toplevel'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=None)
+2022-11-05 22:50:24.651 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-05 22:50:24.847 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 521
+2022-11-05 22:50:24.857 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-05 22:50:24.990 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 350
+2022-11-05 22:50:25.414 DEBUG cmd - execute: Popen(['git', 'cat-file', '--batch-check'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=<valid stream>)
+2022-11-05 22:50:31.654 INFO main - run: Configuration loaded
+2022-11-05 22:50:31.744 INFO main - run: AMGNN model created
+2022-11-05 22:51:26.483 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): o151352.ingest.sentry.io:443
+2022-11-05 22:51:26.545 DEBUG connectionpool - _make_request: https://o151352.ingest.sentry.io:443 "POST /api/5288891/envelope/ HTTP/1.1" 200 2
+2022-11-06 00:15:36.416 INFO main - run: ARCDataset created from E:\Leopold\Chapter 6 - datasets\One_cube
+2022-11-06 00:15:36.421 INFO main - run: The dataset will be divided in 3 sub set of size train_size=101 validation_size=19 test_size=7 
+2022-11-06 00:15:36.427 INFO main - run: Subset created
+2022-11-06 00:15:36.438 INFO main - run: Dataloader created with batch_size=12
+2022-11-06 00:15:36.438 INFO main - run: Start model training
+2022-11-06 00:15:48.488 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_50_12/epoch=0-step=6.ckpt
+2022-11-06 00:15:55.844 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_50_12/epoch=1-step=12.ckpt
+2022-11-06 00:16:03.215 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_50_12/epoch=2-step=18.ckpt
+2022-11-06 00:16:53.752 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_50_12/epoch=9-step=60.ckpt
+2022-11-06 00:17:51.564 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_50_12/epoch=17-step=108.ckpt
+2022-11-06 00:18:56.768 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_50_12/epoch=26-step=162.ckpt
+2022-11-06 00:19:18.554 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_50_12/epoch=29-step=180.ckpt
+2022-11-06 00:19:25.819 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_50_12/epoch=30-step=186.ckpt
+2022-11-06 00:19:33.083 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_50_12/epoch=31-step=192.ckpt
+2022-11-06 00:19:40.383 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_50_12/epoch=32-step=198.ckpt
+2022-11-06 00:19:47.718 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_50_12/epoch=33-step=204.ckpt
+2022-11-06 00:20:38.090 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_50_12/epoch=40-step=246.ckpt
+2022-11-06 00:21:21.375 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_50_12/epoch=46-step=282.ckpt
+2022-11-06 00:21:28.675 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_50_12/epoch=47-step=288.ckpt
+2022-11-06 00:22:19.204 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_50_12/epoch=54-step=330.ckpt
+2022-11-06 00:22:26.507 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_50_12/epoch=55-step=336.ckpt
+2022-11-06 00:22:48.555 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_50_12/epoch=58-step=354.ckpt
+2022-11-06 00:22:55.901 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_50_12/epoch=59-step=360.ckpt
+2022-11-06 00:31:48.955 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_50_12/epoch=133-step=804.ckpt
+2022-11-06 00:34:20.321 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_50_12/epoch=154-step=930.ckpt
+2022-11-06 00:37:51.545 INFO main - run: End model training
+2022-11-06 00:37:51.545 INFO main - run: Start model testing with E:\Leopold\Chapitre 6 - AMGNN\AMGNN\checkpoints\2022_11_05_22_50_12\epoch=154-step=930.ckpt
+2022-11-06 00:37:51.613 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_05_22_50_12/epoch=154-step=930.ckpt
+2022-11-06 00:38:22.620 INFO main - run: End model testing
+2022-11-06 00:38:22.626 INFO main - run: END
+2022-11-06 00:54:36.283 DEBUG cmd - execute: Popen(['git', 'rev-parse', '--show-toplevel'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=None)
+2022-11-06 00:54:44.471 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-06 00:54:44.606 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 521
+2022-11-06 00:54:44.613 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-06 00:54:44.765 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 350
+2022-11-06 00:54:45.082 DEBUG cmd - execute: Popen(['git', 'cat-file', '--batch-check'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=<valid stream>)
+2022-11-06 00:54:51.073 INFO main - run: Configuration loaded
+2022-11-06 00:54:51.134 INFO main - run: AMGNN model created
+2022-11-06 00:54:51.242 INFO main - run: ARCDataset created from E:\Leopold\Chapter 6 - datasets\One_cube
+2022-11-06 00:54:51.245 INFO main - run: The dataset will be divided in 3 sub set of size train_size=101 validation_size=19 test_size=7 
+2022-11-06 00:54:51.249 INFO main - run: Subset created
+2022-11-06 00:54:51.256 INFO main - run: Dataloader created with batch_size=12
+2022-11-06 00:54:51.256 INFO main - run: Start model training
+2022-11-06 00:57:07.744 DEBUG cmd - execute: Popen(['git', 'rev-parse', '--show-toplevel'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=None)
+2022-11-06 00:57:20.012 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-06 00:57:20.172 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 521
+2022-11-06 00:57:20.184 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-06 00:57:20.335 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 350
+2022-11-06 00:57:20.782 DEBUG cmd - execute: Popen(['git', 'cat-file', '--batch-check'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=<valid stream>)
+2022-11-06 00:57:27.065 INFO main - run: Configuration loaded
+2022-11-06 00:57:27.159 INFO main - run: AMGNN model created
+2022-11-06 00:57:27.274 INFO main - run: ARCDataset created from E:\Leopold\Chapter 6 - datasets\One_cube
+2022-11-06 00:57:27.279 INFO main - run: The dataset will be divided in 3 sub set of size train_size=101 validation_size=19 test_size=7 
+2022-11-06 00:57:27.284 INFO main - run: Subset created
+2022-11-06 00:57:27.295 INFO main - run: Dataloader created with batch_size=12
+2022-11-06 00:57:27.295 INFO main - run: Start model training
+2022-11-06 00:57:53.769 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_00_57_07/epoch=0-step=6.ckpt
+2022-11-06 00:58:16.397 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_00_57_07/epoch=1-step=12.ckpt
+2022-11-06 00:58:21.895 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): o151352.ingest.sentry.io:443
+2022-11-06 00:58:21.943 DEBUG connectionpool - _make_request: https://o151352.ingest.sentry.io:443 "POST /api/5288891/envelope/ HTTP/1.1" 200 2
+2022-11-06 01:00:26.438 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_00_57_07/epoch=7-step=48.ckpt
+2022-11-06 01:02:34.929 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_00_57_07/epoch=13-step=84.ckpt
+2022-11-06 01:02:56.061 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_00_57_07/epoch=14-step=90.ckpt
+2022-11-06 01:03:38.222 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_00_57_07/epoch=16-step=102.ckpt
+2022-11-06 01:03:59.462 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_00_57_07/epoch=17-step=108.ckpt
+2022-11-06 01:05:23.856 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_00_57_07/epoch=21-step=132.ckpt
+2022-11-06 01:06:27.036 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_00_57_07/epoch=24-step=150.ckpt
+2022-11-06 01:08:56.974 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_00_57_07/epoch=31-step=192.ckpt
+2022-11-06 01:10:21.537 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_00_57_07/epoch=35-step=216.ckpt
+2022-11-06 01:11:25.484 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_00_57_07/epoch=38-step=234.ckpt
+2022-11-06 01:13:29.444 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_00_57_07/epoch=44-step=270.ckpt
+2022-11-06 01:19:43.373 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_00_57_07/epoch=62-step=378.ckpt
+2022-11-06 01:20:04.795 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_00_57_07/epoch=63-step=384.ckpt
+2022-11-06 01:20:46.508 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_00_57_07/epoch=65-step=396.ckpt
+2022-11-06 01:23:12.221 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_00_57_07/epoch=72-step=438.ckpt
+2022-11-06 01:25:17.411 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_00_57_07/epoch=78-step=474.ckpt
+2022-11-06 01:25:38.272 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_00_57_07/epoch=79-step=480.ckpt
+2022-11-06 01:30:31.137 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_00_57_07/epoch=93-step=564.ckpt
+2022-11-06 01:47:34.350 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_00_57_07/epoch=142-step=858.ckpt
+2022-11-06 01:52:48.456 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_00_57_07/epoch=157-step=948.ckpt
+2022-11-06 01:56:18.343 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_00_57_07/epoch=167-step=1008.ckpt
+2022-11-06 01:56:39.447 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_00_57_07/epoch=168-step=1014.ckpt
+2022-11-06 02:36:19.504 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_00_57_07/epoch=281-step=1692.ckpt
+2022-11-06 03:41:36.094 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_00_57_07/epoch=466-step=2802.ckpt
+2022-11-06 03:53:01.360 INFO main - run: End model training
+2022-11-06 03:53:01.360 INFO main - run: Start model testing with E:\Leopold\Chapitre 6 - AMGNN\AMGNN\checkpoints\2022_11_06_00_57_07\epoch=466-step=2802.ckpt
+2022-11-06 03:53:01.366 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_00_57_07/epoch=466-step=2802.ckpt
+2022-11-06 03:53:28.926 INFO main - run: End model testing
+2022-11-06 03:53:29.110 INFO main - run: END
+2022-11-06 11:30:45.474 DEBUG cmd - execute: Popen(['git', 'rev-parse', '--show-toplevel'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=None)
+2022-11-06 11:30:57.632 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-06 11:30:57.790 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 521
+2022-11-06 11:30:57.800 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-06 11:30:57.989 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 350
+2022-11-06 11:30:58.443 DEBUG cmd - execute: Popen(['git', 'cat-file', '--batch-check'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=<valid stream>)
+2022-11-06 11:31:04.661 INFO main - run: Configuration loaded
+2022-11-06 11:31:04.765 INFO main - run: AMGNN model created
+2022-11-06 11:31:04.947 INFO main - run: ARCDataset created from E:\Leopold\Chapter 6 - datasets\One_cube
+2022-11-06 11:31:04.953 INFO main - run: The dataset will be divided in 3 sub set of size train_size=101 validation_size=19 test_size=7 
+2022-11-06 11:31:04.958 INFO main - run: Subset created
+2022-11-06 11:31:04.968 INFO main - run: Dataloader created with batch_size=12
+2022-11-06 11:31:04.969 INFO main - run: Start model training
+2022-11-06 11:31:07.811 DEBUG pyplot - switch_backend: Loaded backend tkagg version unknown.
+2022-11-06 11:31:39.952 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_11_30_45/epoch=0-step=6.ckpt
+2022-11-06 11:31:59.517 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): o151352.ingest.sentry.io:443
+2022-11-06 11:31:59.568 DEBUG connectionpool - _make_request: https://o151352.ingest.sentry.io:443 "POST /api/5288891/envelope/ HTTP/1.1" 200 2
+2022-11-06 11:32:02.655 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_11_30_45/epoch=1-step=12.ckpt
+2022-11-06 11:32:46.925 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_11_30_45/epoch=3-step=24.ckpt
+2022-11-06 11:33:31.452 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_11_30_45/epoch=5-step=36.ckpt
+2022-11-06 11:33:53.618 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_11_30_45/epoch=6-step=42.ckpt
+2022-11-06 11:33:53.751 INFO main - run: End model training
+2022-11-06 11:33:53.751 INFO main - run: Start model testing with E:\Leopold\Chapitre 6 - AMGNN\AMGNN\checkpoints\2022_11_06_11_30_45\epoch=3-step=24.ckpt
+2022-11-06 11:33:53.758 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_11_30_45/epoch=3-step=24.ckpt
+2022-11-06 11:34:18.945 INFO main - run: End model testing
+2022-11-06 11:34:18.965 INFO main - run: END
+2022-11-06 11:38:11.930 DEBUG cmd - execute: Popen(['git', 'rev-parse', '--show-toplevel'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=None)
+2022-11-06 11:38:20.333 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-06 11:38:20.499 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 521
+2022-11-06 11:38:20.506 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-06 11:38:20.666 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 350
+2022-11-06 11:38:20.974 DEBUG cmd - execute: Popen(['git', 'cat-file', '--batch-check'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=<valid stream>)
+2022-11-06 11:38:27.002 INFO main - run: Configuration loaded
+2022-11-06 11:38:27.066 INFO main - run: AMGNN model created
+2022-11-06 11:38:27.177 INFO main - run: ARCDataset created from E:\Leopold\Chapter 6 - datasets\One_cube
+2022-11-06 11:38:27.181 INFO main - run: The dataset will be divided in 3 sub set of size train_size=101 validation_size=19 test_size=7 
+2022-11-06 11:38:27.185 INFO main - run: Subset created
+2022-11-06 11:38:27.192 INFO main - run: Dataloader created with batch_size=12
+2022-11-06 11:38:27.192 INFO main - run: Start model training
+2022-11-06 11:38:52.320 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_11_38_11/epoch=0-step=6.ckpt
+2022-11-06 11:39:13.872 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_11_38_11/epoch=1-step=12.ckpt
+2022-11-06 11:39:21.879 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): o151352.ingest.sentry.io:443
+2022-11-06 11:39:21.930 DEBUG connectionpool - _make_request: https://o151352.ingest.sentry.io:443 "POST /api/5288891/envelope/ HTTP/1.1" 200 2
+2022-11-06 11:39:56.869 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_11_38_11/epoch=3-step=24.ckpt
+2022-11-06 11:40:40.008 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_11_38_11/epoch=5-step=36.ckpt
+2022-11-06 11:41:22.367 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_11_38_11/epoch=7-step=48.ckpt
+2022-11-06 11:43:28.285 INFO main - run: End model training
+2022-11-06 11:43:28.286 INFO main - run: Start model testing with E:\Leopold\Chapitre 6 - AMGNN\AMGNN\checkpoints\2022_11_06_11_38_11\epoch=3-step=24.ckpt
+2022-11-06 11:43:28.291 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_11_38_11/epoch=3-step=24.ckpt
+2022-11-06 11:43:51.574 INFO main - run: End model testing
+2022-11-06 11:43:51.579 INFO main - run: END
+2022-11-06 11:56:54.259 DEBUG cmd - execute: Popen(['git', 'rev-parse', '--show-toplevel'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=None)
+2022-11-06 11:57:02.652 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-06 11:57:02.791 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 521
+2022-11-06 11:57:02.797 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-06 11:57:02.964 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 350
+2022-11-06 11:57:03.271 DEBUG cmd - execute: Popen(['git', 'cat-file', '--batch-check'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=<valid stream>)
+2022-11-06 11:57:09.328 INFO main - run: Configuration loaded
+2022-11-06 11:57:09.395 INFO main - run: AMGNN model created
+2022-11-06 11:57:09.507 INFO main - run: ARCDataset created from E:\Leopold\Chapter 6 - datasets\One_cube
+2022-11-06 11:57:09.511 INFO main - run: The dataset will be divided in 3 sub set of size train_size=101 validation_size=19 test_size=7 
+2022-11-06 11:57:09.515 INFO main - run: Subset created
+2022-11-06 11:57:09.521 INFO main - run: Dataloader created with batch_size=12
+2022-11-06 11:57:09.521 INFO main - run: Start model training
+2022-11-06 11:57:34.384 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_11_56_54/epoch=0-step=6.ckpt
+2022-11-06 11:57:56.090 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_11_56_54/epoch=1-step=12.ckpt
+2022-11-06 11:58:04.180 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): o151352.ingest.sentry.io:443
+2022-11-06 11:58:04.228 DEBUG connectionpool - _make_request: https://o151352.ingest.sentry.io:443 "POST /api/5288891/envelope/ HTTP/1.1" 200 2
+2022-11-06 11:58:38.903 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_11_56_54/epoch=3-step=24.ckpt
+2022-11-06 11:59:00.470 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_11_56_54/epoch=4-step=30.ckpt
+2022-11-06 11:59:21.705 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_11_56_54/epoch=5-step=36.ckpt
+2022-11-06 11:59:42.828 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_11_56_54/epoch=6-step=42.ckpt
+2022-11-06 12:00:04.060 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_11_56_54/epoch=7-step=48.ckpt
+2022-11-06 12:00:25.573 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_11_56_54/epoch=8-step=54.ckpt
+2022-11-06 12:00:46.999 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_11_56_54/epoch=9-step=60.ckpt
+2022-11-06 12:01:08.328 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_11_56_54/epoch=10-step=66.ckpt
+2022-11-06 12:01:50.782 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_11_56_54/epoch=12-step=78.ckpt
+2022-11-06 12:02:33.587 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_11_56_54/epoch=14-step=90.ckpt
+2022-11-06 12:02:55.217 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_11_56_54/epoch=15-step=96.ckpt
+2022-11-06 12:03:16.756 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_11_56_54/epoch=16-step=102.ckpt
+2022-11-06 12:04:42.837 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_11_56_54/epoch=20-step=126.ckpt
+2022-11-06 12:10:39.791 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_11_56_54/epoch=37-step=228.ckpt
+2022-11-06 12:11:43.179 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_11_56_54/epoch=40-step=246.ckpt
+2022-11-06 12:12:24.775 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_11_56_54/epoch=42-step=258.ckpt
+2022-11-06 12:14:09.459 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_11_56_54/epoch=47-step=288.ckpt
+2022-11-06 12:16:56.290 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_11_56_54/epoch=55-step=336.ckpt
+2022-11-06 12:17:17.207 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_11_56_54/epoch=56-step=342.ckpt
+2022-11-06 13:35:52.476 INFO main - run: End model training
+2022-11-06 13:35:52.476 INFO main - run: Start model testing with E:\Leopold\Chapitre 6 - AMGNN\AMGNN\checkpoints\2022_11_06_11_56_54\epoch=55-step=336.ckpt
+2022-11-06 13:35:52.700 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_11_56_54/epoch=55-step=336.ckpt
+2022-11-06 13:36:17.309 INFO main - run: End model testing
+2022-11-06 13:36:17.314 INFO main - run: END
+2022-11-06 13:44:39.913 DEBUG cmd - execute: Popen(['git', 'rev-parse', '--show-toplevel'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=None)
+2022-11-06 13:44:52.191 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-06 13:44:52.359 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 521
+2022-11-06 13:44:52.368 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-06 13:44:52.526 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 350
+2022-11-06 13:44:52.965 DEBUG cmd - execute: Popen(['git', 'cat-file', '--batch-check'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=<valid stream>)
+2022-11-06 13:44:59.177 INFO main - run: Configuration loaded
+2022-11-06 13:44:59.201 INFO main - run: AMGNN model created
+2022-11-06 13:44:59.324 INFO main - run: ARCDataset created from E:\Leopold\Chapter 6 - datasets\One_cube
+2022-11-06 13:44:59.330 INFO main - run: The dataset will be divided in 3 sub set of size train_size=101 validation_size=19 test_size=7 
+2022-11-06 13:44:59.335 INFO main - run: Subset created
+2022-11-06 13:44:59.345 INFO main - run: Dataloader created with batch_size=12
+2022-11-06 13:44:59.345 INFO main - run: Start model training
+2022-11-06 13:45:02.468 DEBUG pyplot - switch_backend: Loaded backend tkagg version unknown.
+2022-11-06 13:45:53.998 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): o151352.ingest.sentry.io:443
+2022-11-06 13:45:54.044 DEBUG connectionpool - _make_request: https://o151352.ingest.sentry.io:443 "POST /api/5288891/envelope/ HTTP/1.1" 200 2
+2022-11-06 13:49:15.805 DEBUG cmd - execute: Popen(['git', 'rev-parse', '--show-toplevel'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=None)
+2022-11-06 13:49:27.949 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-06 13:49:28.133 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 521
+2022-11-06 13:49:28.142 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-06 13:49:28.289 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 350
+2022-11-06 13:49:28.738 DEBUG cmd - execute: Popen(['git', 'cat-file', '--batch-check'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=<valid stream>)
+2022-11-06 13:49:35.012 INFO main - run: Configuration loaded
+2022-11-06 13:49:35.432 DEBUG pyplot - switch_backend: Loaded backend tkagg version unknown.
+2022-11-06 13:50:50.546 DEBUG cmd - execute: Popen(['git', 'rev-parse', '--show-toplevel'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=None)
+2022-11-06 13:51:03.015 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-06 13:51:03.224 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 521
+2022-11-06 13:51:03.234 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-06 13:51:03.388 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 350
+2022-11-06 13:51:03.830 DEBUG cmd - execute: Popen(['git', 'cat-file', '--batch-check'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=<valid stream>)
+2022-11-06 13:51:10.191 INFO main - run: Configuration loaded
+2022-11-06 13:51:10.277 INFO main - run: AMGNN model created
+2022-11-06 13:51:10.396 INFO main - run: ARCDataset created from E:\Leopold\Chapter 6 - datasets\One_cube
+2022-11-06 13:51:10.402 INFO main - run: The dataset will be divided in 3 sub set of size train_size=101 validation_size=19 test_size=7 
+2022-11-06 13:51:10.407 INFO main - run: Subset created
+2022-11-06 13:51:10.418 INFO main - run: Dataloader created with batch_size=12
+2022-11-06 13:51:10.418 INFO main - run: Start model training
+2022-11-06 13:51:40.586 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_13_50_50/epoch=0-step=6.ckpt
+2022-11-06 13:51:40.679 INFO main - run: End model training
+2022-11-06 13:51:40.680 INFO main - run: Start model testing with E:\Leopold\Chapitre 6 - AMGNN\AMGNN\checkpoints\2022_11_06_13_50_50\epoch=0-step=6.ckpt
+2022-11-06 13:51:40.687 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_13_50_50/epoch=0-step=6.ckpt
+2022-11-06 13:52:03.754 INFO main - run: End model testing
+2022-11-06 13:52:03.768 INFO main - run: END
+2022-11-06 13:52:05.071 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): o151352.ingest.sentry.io:443
+2022-11-06 13:52:05.118 DEBUG connectionpool - _make_request: https://o151352.ingest.sentry.io:443 "POST /api/5288891/envelope/ HTTP/1.1" 200 2
+2022-11-06 13:54:28.323 DEBUG cmd - execute: Popen(['git', 'rev-parse', '--show-toplevel'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=None)
+2022-11-06 13:54:40.452 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-06 13:54:40.627 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 521
+2022-11-06 13:54:40.637 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-06 13:54:40.776 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 350
+2022-11-06 13:54:41.222 DEBUG cmd - execute: Popen(['git', 'cat-file', '--batch-check'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=<valid stream>)
+2022-11-06 13:54:47.436 INFO main - run: Configuration loaded
+2022-11-06 13:54:47.519 INFO main - run: AMGNN model created
+2022-11-06 13:54:47.634 INFO main - run: ARCDataset created from E:\Leopold\Chapter 6 - datasets\One_cube
+2022-11-06 13:54:47.639 INFO main - run: The dataset will be divided in 3 sub set of size train_size=101 validation_size=19 test_size=7 
+2022-11-06 13:54:47.644 INFO main - run: Subset created
+2022-11-06 13:54:47.654 INFO main - run: Dataloader created with batch_size=12
+2022-11-06 13:54:47.654 INFO main - run: Start model training
+2022-11-06 13:55:17.816 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_13_54_28/epoch=0-step=6.ckpt
+2022-11-06 13:55:17.892 INFO main - run: End model training
+2022-11-06 13:55:17.892 INFO main - run: Start model testing with E:\Leopold\Chapitre 6 - AMGNN\AMGNN\checkpoints\2022_11_06_13_54_28\epoch=0-step=6.ckpt
+2022-11-06 13:55:17.899 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_13_54_28/epoch=0-step=6.ckpt
+2022-11-06 13:55:40.965 INFO main - run: End model testing
+2022-11-06 13:55:40.971 INFO main - run: END
+2022-11-06 13:55:42.284 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): o151352.ingest.sentry.io:443
+2022-11-06 13:55:42.335 DEBUG connectionpool - _make_request: https://o151352.ingest.sentry.io:443 "POST /api/5288891/envelope/ HTTP/1.1" 200 2
+2022-11-06 14:01:30.893 DEBUG cmd - execute: Popen(['git', 'rev-parse', '--show-toplevel'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=None)
+2022-11-06 14:01:43.030 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-06 14:01:43.201 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 521
+2022-11-06 14:01:43.211 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-06 14:01:43.357 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 350
+2022-11-06 14:01:43.819 DEBUG cmd - execute: Popen(['git', 'cat-file', '--batch-check'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=<valid stream>)
+2022-11-06 14:01:50.043 INFO main - run: Configuration loaded
+2022-11-06 14:01:50.134 INFO main - run: AMGNN model created
+2022-11-06 14:01:50.314 INFO main - run: ARCDataset created from E:\Leopold\Chapter 6 - datasets\One_cube
+2022-11-06 14:01:50.320 INFO main - run: The dataset will be divided in 3 sub set of size train_size=101 validation_size=19 test_size=7 
+2022-11-06 14:01:50.326 INFO main - run: Subset created
+2022-11-06 14:01:50.337 INFO main - run: Dataloader created with batch_size=12
+2022-11-06 14:01:50.337 INFO main - run: Start model training
+2022-11-06 14:02:13.022 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_14_01_30/epoch=0-step=6.ckpt
+2022-11-06 14:02:29.191 INFO main - run: End model training
+2022-11-06 14:02:29.191 INFO main - run: Start model testing with E:\Leopold\Chapitre 6 - AMGNN\AMGNN\checkpoints\2022_11_06_14_01_30\epoch=0-step=6.ckpt
+2022-11-06 14:02:29.288 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_14_01_30/epoch=0-step=6.ckpt
+2022-11-06 14:03:11.997 DEBUG cmd - execute: Popen(['git', 'rev-parse', '--show-toplevel'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=None)
+2022-11-06 14:03:24.355 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-06 14:03:24.526 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 521
+2022-11-06 14:03:24.537 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-06 14:03:24.682 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 350
+2022-11-06 14:03:25.135 DEBUG cmd - execute: Popen(['git', 'cat-file', '--batch-check'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=<valid stream>)
+2022-11-06 14:03:31.288 INFO main - run: Configuration loaded
+2022-11-06 14:03:31.380 INFO main - run: AMGNN model created
+2022-11-06 14:03:31.562 INFO main - run: ARCDataset created from E:\Leopold\Chapter 6 - datasets\One_cube
+2022-11-06 14:03:31.567 INFO main - run: The dataset will be divided in 3 sub set of size train_size=101 validation_size=19 test_size=7 
+2022-11-06 14:03:31.572 INFO main - run: Subset created
+2022-11-06 14:03:31.583 INFO main - run: Dataloader created with batch_size=12
+2022-11-06 14:03:31.583 INFO main - run: Start model training
+2022-11-06 14:03:54.411 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_14_03_11/epoch=0-step=6.ckpt
+2022-11-06 14:04:13.594 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_14_03_11/epoch=1-step=12.ckpt
+2022-11-06 14:04:26.118 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): o151352.ingest.sentry.io:443
+2022-11-06 14:04:26.176 DEBUG connectionpool - _make_request: https://o151352.ingest.sentry.io:443 "POST /api/5288891/envelope/ HTTP/1.1" 200 2
+2022-11-06 14:04:32.830 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_14_03_11/epoch=2-step=18.ckpt
+2022-11-06 14:04:52.108 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_14_03_11/epoch=3-step=24.ckpt
+2022-11-06 14:05:11.587 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_14_03_11/epoch=4-step=30.ckpt
+2022-11-06 14:05:30.508 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_14_03_11/epoch=5-step=36.ckpt
+2022-11-06 14:05:50.183 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_14_03_11/epoch=6-step=42.ckpt
+2022-11-06 14:06:09.643 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_14_03_11/epoch=7-step=48.ckpt
+2022-11-06 14:06:28.913 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_14_03_11/epoch=8-step=54.ckpt
+2022-11-06 14:06:47.752 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_14_03_11/epoch=9-step=60.ckpt
+2022-11-06 14:07:07.190 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_14_03_11/epoch=10-step=66.ckpt
+2022-11-06 14:07:26.383 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_14_03_11/epoch=11-step=72.ckpt
+2022-11-06 14:07:45.504 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_14_03_11/epoch=12-step=78.ckpt
+2022-11-06 14:08:05.102 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_14_03_11/epoch=13-step=84.ckpt
+2022-11-06 14:08:24.959 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_14_03_11/epoch=14-step=90.ckpt
+2022-11-06 14:08:44.553 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_14_03_11/epoch=15-step=96.ckpt
+2022-11-06 14:09:04.772 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_14_03_11/epoch=16-step=102.ckpt
+2022-11-06 14:09:43.412 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_14_03_11/epoch=18-step=114.ckpt
+2022-11-06 14:10:02.731 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_14_03_11/epoch=19-step=120.ckpt
+2022-11-06 14:10:22.235 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_14_03_11/epoch=20-step=126.ckpt
+2022-11-06 14:12:18.571 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_14_03_11/epoch=26-step=162.ckpt
+2022-11-06 14:22:52.028 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_14_03_11/epoch=59-step=360.ckpt
+2022-11-06 14:28:15.040 INFO main - run: End model training
+2022-11-06 14:28:15.040 INFO main - run: Start model testing with E:\Leopold\Chapitre 6 - AMGNN\AMGNN\checkpoints\2022_11_06_14_03_11\epoch=26-step=162.ckpt
+2022-11-06 14:28:15.047 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_06_14_03_11/epoch=26-step=162.ckpt
+2022-11-06 14:28:37.287 INFO main - run: End model testing
+2022-11-06 14:28:37.293 INFO main - run: END
+2022-11-07 15:59:25.610 DEBUG cmd - execute: Popen(['git', 'rev-parse', '--show-toplevel'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=None)
+2022-11-07 15:59:37.789 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-07 15:59:37.950 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 521
+2022-11-07 15:59:37.960 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-07 15:59:38.096 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 350
+2022-11-07 15:59:38.540 DEBUG cmd - execute: Popen(['git', 'cat-file', '--batch-check'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=<valid stream>)
+2022-11-07 15:59:44.776 INFO main - run: Configuration loaded
+2022-11-07 15:59:44.868 INFO main - run: AMGNN model created
+2022-11-07 15:59:44.995 INFO main - run: ARCDataset created from E:\Leopold\Chapter 6 - datasets\One_cube
+2022-11-07 15:59:45.000 INFO main - run: The dataset will be divided in 3 sub set of size train_size=101 validation_size=19 test_size=7 
+2022-11-07 15:59:45.006 INFO main - run: Subset created
+2022-11-07 15:59:45.017 INFO main - run: Dataloader created with batch_size=12
+2022-11-07 15:59:45.017 INFO main - run: Start model training
+2022-11-07 16:00:15.107 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_15_59_25/epoch=0-step=6.ckpt
+2022-11-07 16:00:15.212 INFO main - run: End model training
+2022-11-07 16:00:15.212 INFO main - run: Start model testing with E:\Leopold\Chapitre 6 - AMGNN\AMGNN\checkpoints\2022_11_07_15_59_25\epoch=0-step=6.ckpt
+2022-11-07 16:00:15.219 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_15_59_25/epoch=0-step=6.ckpt
+2022-11-07 16:00:39.494 INFO main - run: End model testing
+2022-11-07 16:00:39.500 INFO main - run: END
+2022-11-07 16:00:39.611 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): o151352.ingest.sentry.io:443
+2022-11-07 16:00:39.663 DEBUG connectionpool - _make_request: https://o151352.ingest.sentry.io:443 "POST /api/5288891/envelope/ HTTP/1.1" 200 2
+2022-11-07 16:14:10.652 DEBUG cmd - execute: Popen(['git', 'rev-parse', '--show-toplevel'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=None)
+2022-11-07 16:14:23.128 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-07 16:14:23.321 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 521
+2022-11-07 16:14:23.332 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-07 16:14:23.468 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 350
+2022-11-07 16:14:23.915 DEBUG cmd - execute: Popen(['git', 'cat-file', '--batch-check'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=<valid stream>)
+2022-11-07 16:14:30.167 INFO main - run: Configuration loaded
+2022-11-07 16:14:30.794 DEBUG pyplot - switch_backend: Loaded backend tkagg version unknown.
+2022-11-07 16:15:38.517 DEBUG cmd - execute: Popen(['git', 'rev-parse', '--show-toplevel'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=None)
+2022-11-07 16:15:51.003 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-07 16:15:51.188 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 521
+2022-11-07 16:15:51.197 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-07 16:15:51.373 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 350
+2022-11-07 16:15:51.816 DEBUG cmd - execute: Popen(['git', 'cat-file', '--batch-check'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=<valid stream>)
+2022-11-07 16:15:57.971 INFO main - run: Configuration loaded
+2022-11-07 16:15:58.057 INFO main - run: AMGNN model created
+2022-11-07 16:15:58.172 INFO main - run: ARCDataset created from E:\Leopold\Chapter 6 - datasets\One_cube
+2022-11-07 16:15:58.177 INFO main - run: The dataset will be divided in 3 sub set of size train_size=101 validation_size=19 test_size=7 
+2022-11-07 16:15:58.182 INFO main - run: Subset created
+2022-11-07 16:15:58.192 INFO main - run: Dataloader created with batch_size=12
+2022-11-07 16:15:58.193 INFO main - run: Start model training
+2022-11-07 16:16:00.954 DEBUG pyplot - switch_backend: Loaded backend tkagg version unknown.
+2022-11-07 16:16:52.832 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): o151352.ingest.sentry.io:443
+2022-11-07 16:16:52.897 DEBUG connectionpool - _make_request: https://o151352.ingest.sentry.io:443 "POST /api/5288891/envelope/ HTTP/1.1" 200 2
+2022-11-07 16:18:16.661 DEBUG cmd - execute: Popen(['git', 'rev-parse', '--show-toplevel'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=None)
+2022-11-07 16:18:28.944 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-07 16:18:29.116 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 521
+2022-11-07 16:18:29.126 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-07 16:18:29.262 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 350
+2022-11-07 16:18:29.692 DEBUG cmd - execute: Popen(['git', 'cat-file', '--batch-check'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=<valid stream>)
+2022-11-07 16:18:35.924 INFO main - run: Configuration loaded
+2022-11-07 16:18:36.008 INFO main - run: AMGNN model created
+2022-11-07 16:18:36.125 INFO main - run: ARCDataset created from E:\Leopold\Chapter 6 - datasets\One_cube
+2022-11-07 16:18:36.131 INFO main - run: The dataset will be divided in 3 sub set of size train_size=101 validation_size=19 test_size=7 
+2022-11-07 16:18:36.136 INFO main - run: Subset created
+2022-11-07 16:18:36.147 INFO main - run: Dataloader created with batch_size=12
+2022-11-07 16:18:36.147 INFO main - run: Start model training
+2022-11-07 16:19:06.177 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_18_16/epoch=0-step=6.ckpt
+2022-11-07 16:19:06.252 INFO main - run: End model training
+2022-11-07 16:19:06.253 INFO main - run: Start model testing with E:\Leopold\Chapitre 6 - AMGNN\AMGNN\checkpoints\2022_11_07_16_18_16\epoch=0-step=6.ckpt
+2022-11-07 16:19:06.259 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_18_16/epoch=0-step=6.ckpt
+2022-11-07 16:19:29.324 INFO main - run: End model testing
+2022-11-07 16:19:29.466 INFO main - run: END
+2022-11-07 16:19:30.779 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): o151352.ingest.sentry.io:443
+2022-11-07 16:19:30.826 DEBUG connectionpool - _make_request: https://o151352.ingest.sentry.io:443 "POST /api/5288891/envelope/ HTTP/1.1" 200 2
+2022-11-07 16:20:17.129 DEBUG cmd - execute: Popen(['git', 'rev-parse', '--show-toplevel'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=None)
+2022-11-07 16:20:29.436 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-07 16:20:29.615 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 521
+2022-11-07 16:20:29.625 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-07 16:20:29.784 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 350
+2022-11-07 16:20:30.248 DEBUG cmd - execute: Popen(['git', 'cat-file', '--batch-check'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=<valid stream>)
+2022-11-07 16:20:36.465 INFO main - run: Configuration loaded
+2022-11-07 16:20:36.549 INFO main - run: AMGNN model created
+2022-11-07 16:20:36.665 INFO main - run: ARCDataset created from E:\Leopold\Chapter 6 - datasets\One_cube
+2022-11-07 16:20:36.670 INFO main - run: The dataset will be divided in 3 sub set of size train_size=101 validation_size=19 test_size=7 
+2022-11-07 16:20:36.675 INFO main - run: Subset created
+2022-11-07 16:20:36.685 INFO main - run: Dataloader created with batch_size=12
+2022-11-07 16:20:36.686 INFO main - run: Start model training
+2022-11-07 16:21:07.656 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=0-step=6.ckpt
+2022-11-07 16:21:30.459 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=1-step=12.ckpt
+2022-11-07 16:21:31.289 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): o151352.ingest.sentry.io:443
+2022-11-07 16:21:31.341 DEBUG connectionpool - _make_request: https://o151352.ingest.sentry.io:443 "POST /api/5288891/envelope/ HTTP/1.1" 200 2
+2022-11-07 16:21:52.209 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=2-step=18.ckpt
+2022-11-07 16:22:13.791 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=3-step=24.ckpt
+2022-11-07 16:22:57.683 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=5-step=36.ckpt
+2022-11-07 16:23:19.718 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=6-step=42.ckpt
+2022-11-07 16:23:41.669 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=7-step=48.ckpt
+2022-11-07 16:24:25.782 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=9-step=60.ckpt
+2022-11-07 16:24:48.600 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=10-step=66.ckpt
+2022-11-07 16:25:12.777 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=11-step=72.ckpt
+2022-11-07 16:25:34.901 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=12-step=78.ckpt
+2022-11-07 16:25:56.514 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=13-step=84.ckpt
+2022-11-07 16:26:17.953 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=14-step=90.ckpt
+2022-11-07 16:26:40.022 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=15-step=96.ckpt
+2022-11-07 16:27:01.843 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=16-step=102.ckpt
+2022-11-07 16:27:23.660 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=17-step=108.ckpt
+2022-11-07 16:27:45.213 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=18-step=114.ckpt
+2022-11-07 16:28:06.870 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=19-step=120.ckpt
+2022-11-07 16:28:28.071 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=20-step=126.ckpt
+2022-11-07 16:28:49.549 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=21-step=132.ckpt
+2022-11-07 16:29:11.248 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=22-step=138.ckpt
+2022-11-07 16:29:32.603 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=23-step=144.ckpt
+2022-11-07 16:29:54.782 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=24-step=150.ckpt
+2022-11-07 16:30:16.789 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=25-step=156.ckpt
+2022-11-07 16:30:38.533 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=26-step=162.ckpt
+2022-11-07 16:31:00.127 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=27-step=168.ckpt
+2022-11-07 16:31:22.196 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=28-step=174.ckpt
+2022-11-07 16:31:43.902 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=29-step=180.ckpt
+2022-11-07 16:32:05.161 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=30-step=186.ckpt
+2022-11-07 16:32:26.338 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=31-step=192.ckpt
+2022-11-07 16:32:47.817 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=32-step=198.ckpt
+2022-11-07 16:33:09.554 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=33-step=204.ckpt
+2022-11-07 16:33:31.498 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=34-step=210.ckpt
+2022-11-07 16:33:53.098 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=35-step=216.ckpt
+2022-11-07 16:34:14.959 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=36-step=222.ckpt
+2022-11-07 16:34:36.788 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=37-step=228.ckpt
+2022-11-07 16:34:58.554 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=38-step=234.ckpt
+2022-11-07 16:35:20.308 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=39-step=240.ckpt
+2022-11-07 16:35:42.324 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=40-step=246.ckpt
+2022-11-07 16:36:04.048 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=41-step=252.ckpt
+2022-11-07 16:37:09.088 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=44-step=270.ckpt
+2022-11-07 16:37:30.946 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=45-step=276.ckpt
+2022-11-07 16:37:52.957 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=46-step=282.ckpt
+2022-11-07 16:38:15.031 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=47-step=288.ckpt
+2022-11-07 16:38:36.202 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=48-step=294.ckpt
+2022-11-07 16:38:58.047 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=49-step=300.ckpt
+2022-11-07 16:39:19.700 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=50-step=306.ckpt
+2022-11-07 16:39:41.254 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=51-step=312.ckpt
+2022-11-07 16:40:02.262 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=52-step=318.ckpt
+2022-11-07 16:40:23.866 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=53-step=324.ckpt
+2022-11-07 16:40:45.460 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=54-step=330.ckpt
+2022-11-07 16:41:07.267 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=55-step=336.ckpt
+2022-11-07 16:41:28.558 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=56-step=342.ckpt
+2022-11-07 16:41:50.783 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=57-step=348.ckpt
+2022-11-07 16:42:33.974 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=59-step=360.ckpt
+2022-11-07 16:42:55.800 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=60-step=366.ckpt
+2022-11-07 16:43:17.512 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=61-step=372.ckpt
+2022-11-07 16:45:06.662 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=66-step=402.ckpt
+2022-11-07 16:45:28.300 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=67-step=408.ckpt
+2022-11-07 16:45:49.952 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=68-step=414.ckpt
+2022-11-07 16:46:11.537 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=69-step=420.ckpt
+2022-11-07 16:46:33.245 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=70-step=426.ckpt
+2022-11-07 16:49:48.706 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=79-step=480.ckpt
+2022-11-07 16:50:10.666 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=80-step=486.ckpt
+2022-11-07 16:50:32.589 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=81-step=492.ckpt
+2022-11-07 16:50:55.230 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=82-step=498.ckpt
+2022-11-07 16:54:11.993 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=91-step=552.ckpt
+2022-11-07 16:54:33.924 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=92-step=558.ckpt
+2022-11-07 17:11:00.422 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=138-step=834.ckpt
+2022-11-07 17:11:21.647 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=139-step=840.ckpt
+2022-11-07 17:11:42.819 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=140-step=846.ckpt
+2022-11-07 17:12:04.204 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=141-step=852.ckpt
+2022-11-07 17:12:25.669 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=142-step=858.ckpt
+2022-11-07 17:12:47.007 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=143-step=864.ckpt
+2022-11-07 17:13:08.806 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=144-step=870.ckpt
+2022-11-07 17:13:30.368 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=145-step=876.ckpt
+2022-11-07 17:13:52.287 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=146-step=882.ckpt
+2022-11-07 17:14:13.390 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=147-step=888.ckpt
+2022-11-07 17:14:34.664 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=148-step=894.ckpt
+2022-11-07 17:14:56.370 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=149-step=900.ckpt
+2022-11-07 17:15:17.425 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=150-step=906.ckpt
+2022-11-07 17:15:38.750 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=151-step=912.ckpt
+2022-11-07 17:17:04.514 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=155-step=936.ckpt
+2022-11-07 17:17:26.338 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=156-step=942.ckpt
+2022-11-07 17:17:47.931 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=157-step=948.ckpt
+2022-11-07 17:18:09.191 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=158-step=954.ckpt
+2022-11-07 17:18:30.756 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=159-step=960.ckpt
+2022-11-07 17:18:52.143 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=160-step=966.ckpt
+2022-11-07 17:19:13.193 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=161-step=972.ckpt
+2022-11-07 17:19:34.650 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=162-step=978.ckpt
+2022-11-07 17:19:55.690 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=163-step=984.ckpt
+2022-11-07 17:20:16.850 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=164-step=990.ckpt
+2022-11-07 17:20:38.152 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=165-step=996.ckpt
+2022-11-07 17:21:00.402 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=166-step=1002.ckpt
+2022-11-07 17:23:30.420 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=173-step=1044.ckpt
+2022-11-07 17:23:51.841 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=174-step=1050.ckpt
+2022-11-07 17:31:22.251 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=195-step=1176.ckpt
+2022-11-07 17:31:43.739 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=196-step=1182.ckpt
+2022-11-07 17:32:05.157 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=197-step=1188.ckpt
+2022-11-07 17:32:26.676 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=198-step=1194.ckpt
+2022-11-07 17:32:48.129 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=199-step=1200.ckpt
+2022-11-07 17:33:09.329 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=200-step=1206.ckpt
+2022-11-07 17:51:03.579 INFO main - run: End model training
+2022-11-07 17:51:03.579 INFO main - run: Start model testing with E:\Leopold\Chapitre 6 - AMGNN\AMGNN\checkpoints\2022_11_07_16_20_16\epoch=200-step=1206.ckpt
+2022-11-07 17:51:03.585 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_16_20_16/epoch=200-step=1206.ckpt
+2022-11-07 17:51:26.552 INFO main - run: End model testing
+2022-11-07 17:51:26.557 INFO main - run: END
+2022-11-07 18:48:30.301 DEBUG cmd - execute: Popen(['git', 'rev-parse', '--show-toplevel'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=None)
+2022-11-07 18:48:42.744 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-07 18:48:42.951 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 521
+2022-11-07 18:48:42.962 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-07 18:48:43.118 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 350
+2022-11-07 18:48:43.566 DEBUG cmd - execute: Popen(['git', 'cat-file', '--batch-check'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=<valid stream>)
+2022-11-07 18:48:49.711 INFO main - run: Configuration loaded
+2022-11-07 18:48:49.802 INFO main - run: AMGNN model created
+2022-11-07 18:48:49.915 INFO main - run: ARCDataset created from E:\Leopold\Chapter 6 - datasets\One_cube
+2022-11-07 18:48:49.920 INFO main - run: The dataset will be divided in 3 sub set of size train_size=101 validation_size=19 test_size=7 
+2022-11-07 18:48:49.925 INFO main - run: Subset created
+2022-11-07 18:48:49.935 INFO main - run: Dataloader created with batch_size=12
+2022-11-07 18:48:49.936 INFO main - run: Start model training
+2022-11-07 18:49:13.997 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_18_48_30/epoch=0-step=6.ckpt
+2022-11-07 18:49:34.482 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_18_48_30/epoch=1-step=12.ckpt
+2022-11-07 18:49:44.557 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): o151352.ingest.sentry.io:443
+2022-11-07 18:49:44.608 DEBUG connectionpool - _make_request: https://o151352.ingest.sentry.io:443 "POST /api/5288891/envelope/ HTTP/1.1" 200 2
+2022-11-07 18:49:54.894 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_18_48_30/epoch=2-step=18.ckpt
+2022-11-07 18:50:15.772 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_18_48_30/epoch=3-step=24.ckpt
+2022-11-07 18:50:36.620 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_18_48_30/epoch=4-step=30.ckpt
+2022-11-07 18:51:18.563 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_18_48_30/epoch=6-step=42.ckpt
+2022-11-07 18:51:59.510 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_18_48_30/epoch=8-step=54.ckpt
+2022-11-07 18:52:40.936 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_18_48_30/epoch=10-step=66.ckpt
+2022-11-07 18:53:22.310 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_18_48_30/epoch=12-step=78.ckpt
+2022-11-07 18:53:42.892 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_18_48_30/epoch=13-step=84.ckpt
+2022-11-07 18:54:03.292 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_18_48_30/epoch=14-step=90.ckpt
+2022-11-07 18:55:25.677 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_18_48_30/epoch=18-step=114.ckpt
+2022-11-07 19:10:31.443 INFO main - run: End model training
+2022-11-07 19:10:31.443 INFO main - run: Start model testing with E:\Leopold\Chapitre 6 - AMGNN\AMGNN\checkpoints\2022_11_07_18_48_30\epoch=12-step=78.ckpt
+2022-11-07 19:10:31.450 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_18_48_30/epoch=12-step=78.ckpt
+2022-11-07 19:10:54.377 INFO main - run: End model testing
+2022-11-07 19:10:54.401 INFO main - run: END
+2022-11-07 19:30:52.461 DEBUG cmd - execute: Popen(['git', 'rev-parse', '--show-toplevel'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=None)
+2022-11-07 19:31:00.616 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-07 19:31:00.774 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 521
+2022-11-07 19:31:00.786 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-07 19:31:00.945 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 350
+2022-11-07 19:31:01.248 DEBUG cmd - execute: Popen(['git', 'cat-file', '--batch-check'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=<valid stream>)
+2022-11-07 19:31:07.249 INFO main - run: Configuration loaded
+2022-11-07 19:31:07.319 INFO main - run: AMGNN model created
+2022-11-07 19:31:07.429 INFO main - run: ARCDataset created from E:\Leopold\Chapter 6 - datasets\One_cube
+2022-11-07 19:31:07.432 INFO main - run: The dataset will be divided in 3 sub set of size train_size=101 validation_size=19 test_size=7 
+2022-11-07 19:31:07.436 INFO main - run: Subset created
+2022-11-07 19:31:07.443 INFO main - run: Dataloader created with batch_size=12
+2022-11-07 19:31:07.443 INFO main - run: Start model training
+2022-11-07 19:31:30.122 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_19_30_52/epoch=0-step=6.ckpt
+2022-11-07 19:31:49.829 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_19_30_52/epoch=1-step=12.ckpt
+2022-11-07 19:32:02.093 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): o151352.ingest.sentry.io:443
+2022-11-07 19:32:02.140 DEBUG connectionpool - _make_request: https://o151352.ingest.sentry.io:443 "POST /api/5288891/envelope/ HTTP/1.1" 200 2
+2022-11-07 19:32:09.264 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_19_30_52/epoch=2-step=18.ckpt
+2022-11-07 19:32:28.660 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_19_30_52/epoch=3-step=24.ckpt
+2022-11-07 19:32:48.635 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_19_30_52/epoch=4-step=30.ckpt
+2022-11-07 19:33:08.159 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_19_30_52/epoch=5-step=36.ckpt
+2022-11-07 19:33:27.654 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_19_30_52/epoch=6-step=42.ckpt
+2022-11-07 19:33:47.098 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_19_30_52/epoch=7-step=48.ckpt
+2022-11-07 19:34:06.257 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_19_30_52/epoch=8-step=54.ckpt
+2022-11-07 19:34:25.447 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_19_30_52/epoch=9-step=60.ckpt
+2022-11-07 19:34:44.913 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_19_30_52/epoch=10-step=66.ckpt
+2022-11-07 19:35:04.389 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_19_30_52/epoch=11-step=72.ckpt
+2022-11-07 19:35:24.163 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_19_30_52/epoch=12-step=78.ckpt
+2022-11-07 19:35:44.710 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_19_30_52/epoch=13-step=84.ckpt
+2022-11-07 19:36:04.624 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_19_30_52/epoch=14-step=90.ckpt
+2022-11-07 19:37:44.014 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_19_30_52/epoch=19-step=120.ckpt
+2022-11-07 19:39:20.982 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_19_30_52/epoch=24-step=150.ckpt
+2022-11-07 19:39:40.139 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_19_30_52/epoch=25-step=156.ckpt
+2022-11-07 19:43:18.312 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_19_30_52/epoch=36-step=222.ckpt
+2022-11-07 19:43:37.078 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_19_30_52/epoch=37-step=228.ckpt
+2022-11-07 19:51:26.635 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_19_30_52/epoch=61-step=372.ckpt
+2022-11-07 19:52:48.617 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_19_30_52/epoch=65-step=396.ckpt
+2022-11-07 19:53:09.055 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_19_30_52/epoch=66-step=402.ckpt
+2022-11-07 20:01:57.158 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_19_30_52/epoch=90-step=546.ckpt
+2022-11-07 20:02:49.324 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_19_30_52/epoch=92-step=558.ckpt
+2022-11-07 20:12:44.837 INFO main - run: End model training
+2022-11-07 20:12:44.837 INFO main - run: Start model testing with E:\Leopold\Chapitre 6 - AMGNN\AMGNN\checkpoints\2022_11_07_19_30_52\epoch=65-step=396.ckpt
+2022-11-07 20:12:44.842 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_19_30_52/epoch=65-step=396.ckpt
+2022-11-07 20:13:11.752 INFO main - run: End model testing
+2022-11-07 20:13:11.757 INFO main - run: END
+2022-11-07 22:14:48.879 DEBUG cmd - execute: Popen(['git', 'rev-parse', '--show-toplevel'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=None)
+2022-11-07 22:15:01.229 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-07 22:15:01.426 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 521
+2022-11-07 22:15:01.436 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-07 22:15:01.602 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 350
+2022-11-07 22:15:02.047 DEBUG cmd - execute: Popen(['git', 'cat-file', '--batch-check'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=<valid stream>)
+2022-11-07 22:15:08.321 INFO main - run: Configuration loaded
+2022-11-07 22:15:08.410 INFO main - run: AMGNN model created
+2022-11-07 22:15:08.528 INFO main - run: ARCDataset created from E:\Leopold\Chapter 6 - datasets\One_cube
+2022-11-07 22:15:08.534 INFO main - run: The dataset will be divided in 3 sub set of size train_size=101 validation_size=19 test_size=7 
+2022-11-07 22:15:08.539 INFO main - run: Subset created
+2022-11-07 22:15:08.549 INFO main - run: Dataloader created with batch_size=12
+2022-11-07 22:15:08.549 INFO main - run: Start model training
+2022-11-07 22:15:11.472 DEBUG pyplot - switch_backend: Loaded backend tkagg version unknown.
+2022-11-07 22:16:14.032 DEBUG cmd - execute: Popen(['git', 'rev-parse', '--show-toplevel'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=None)
+2022-11-07 22:16:26.310 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-07 22:16:26.473 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 521
+2022-11-07 22:16:26.483 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): api.wandb.ai:443
+2022-11-07 22:16:26.621 DEBUG connectionpool - _make_request: https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 350
+2022-11-07 22:16:27.063 DEBUG cmd - execute: Popen(['git', 'cat-file', '--batch-check'], cwd=E:\Leopold\Chapitre 6 - AMGNN\AMGNN, universal_newlines=False, shell=None, istream=<valid stream>)
+2022-11-07 22:16:33.292 INFO main - run: Configuration loaded
+2022-11-07 22:16:33.393 INFO main - run: AMGNN model created
+2022-11-07 22:16:33.509 INFO main - run: ARCDataset created from E:\Leopold\Chapter 6 - datasets\One_cube
+2022-11-07 22:16:33.515 INFO main - run: The dataset will be divided in 3 sub set of size train_size=101 validation_size=19 test_size=7 
+2022-11-07 22:16:33.520 INFO main - run: Subset created
+2022-11-07 22:16:33.530 INFO main - run: Dataloader created with batch_size=12
+2022-11-07 22:16:33.530 INFO main - run: Start model training
+2022-11-07 22:16:58.967 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_22_16_13/epoch=0-step=6.ckpt
+2022-11-07 22:17:19.544 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_22_16_13/epoch=1-step=12.ckpt
+2022-11-07 22:17:28.150 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): o151352.ingest.sentry.io:443
+2022-11-07 22:17:28.196 DEBUG connectionpool - _make_request: https://o151352.ingest.sentry.io:443 "POST /api/5288891/envelope/ HTTP/1.1" 200 2
+2022-11-07 22:17:40.586 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_22_16_13/epoch=2-step=18.ckpt
+2022-11-07 22:18:01.400 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_22_16_13/epoch=3-step=24.ckpt
+2022-11-07 22:18:22.297 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_22_16_13/epoch=4-step=30.ckpt
+2022-11-07 22:18:43.255 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_22_16_13/epoch=5-step=36.ckpt
+2022-11-07 22:19:04.032 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_22_16_13/epoch=6-step=42.ckpt
+2022-11-07 22:19:24.476 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_22_16_13/epoch=7-step=48.ckpt
+2022-11-07 22:19:45.260 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_22_16_13/epoch=8-step=54.ckpt
+2022-11-07 22:20:06.119 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_22_16_13/epoch=9-step=60.ckpt
+2022-11-07 22:20:26.970 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_22_16_13/epoch=10-step=66.ckpt
+2022-11-07 22:20:47.636 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_22_16_13/epoch=11-step=72.ckpt
+2022-11-07 22:21:50.592 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_22_16_13/epoch=14-step=90.ckpt
+2022-11-07 22:22:11.411 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_22_16_13/epoch=15-step=96.ckpt
+2022-11-07 22:23:55.004 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_22_16_13/epoch=20-step=126.ckpt
+2022-11-07 22:25:18.379 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_22_16_13/epoch=24-step=150.ckpt
+2022-11-07 22:27:42.784 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_22_16_13/epoch=31-step=192.ckpt
+2022-11-07 22:28:24.299 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_22_16_13/epoch=33-step=204.ckpt
+2022-11-07 22:28:45.298 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_22_16_13/epoch=34-step=210.ckpt
+2022-11-07 22:29:05.677 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_22_16_13/epoch=35-step=216.ckpt
+2022-11-07 22:29:26.044 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_22_16_13/epoch=36-step=222.ckpt
+2022-11-07 22:30:07.456 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_22_16_13/epoch=38-step=234.ckpt
+2022-11-07 22:34:33.021 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_22_16_13/epoch=51-step=312.ckpt
+2022-11-07 22:38:39.571 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_22_16_13/epoch=63-step=384.ckpt
+2022-11-07 22:39:00.070 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_22_16_13/epoch=64-step=390.ckpt
+2022-11-07 22:39:20.869 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_22_16_13/epoch=65-step=396.ckpt
+2022-11-07 22:41:43.334 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_22_16_13/epoch=72-step=438.ckpt
+2022-11-07 22:53:12.097 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_22_16_13/epoch=106-step=642.ckpt
+2022-11-07 22:53:32.561 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_22_16_13/epoch=107-step=648.ckpt
+2022-11-07 22:55:54.355 INFO main - run: End model training
+2022-11-07 22:55:54.355 INFO main - run: Start model testing with E:\Leopold\Chapitre 6 - AMGNN\AMGNN\checkpoints\2022_11_07_22_16_13\epoch=64-step=390.ckpt
+2022-11-07 22:55:54.362 DEBUG local - __init__: open file: E:/Leopold/Chapitre 6 - AMGNN/AMGNN/checkpoints/2022_11_07_22_16_13/epoch=64-step=390.ckpt
+2022-11-07 22:56:17.996 INFO main - run: End model testing
+2022-11-07 22:56:18.002 INFO main - run: END
