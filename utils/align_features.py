@@ -35,11 +35,11 @@ def align_features(actual_features: torch.Tensor, past_features: torch.Tensor, c
 
     past_coor_no_def = past_features[:, :3]
     actual_coor_no_def = actual_features[:, :3].detach().clone()
-    kd = KDTree(past_coor_no_def)
+    kd = KDTree(past_coor_no_def*config["scaling_size"])
 
     for i, coor in enumerate(actual_coor_no_def):
 
-        distance, id_point = kd.query(coor, distance_upper_bound=float(config["distance_upper_bound"]))
+        distance, id_point = kd.query(coor*config["scaling_size"], distance_upper_bound=float(config["distance_upper_bound"]))
 
         if distance == float("inf"):
             # If no matching point are returned, set default value.
