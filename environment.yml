@@ -12,12 +12,14 @@ dependencies:
   - pip
   - python=3.9.7=h6244533_1
   - pytorch=1.11.*
-  - pyg=2.0.*
+  - pyg=2.1.0
+  - pyyaml=6.*
+  - packaging=21.3
   - pip:
     - protobuf==3.19.*
     - ninja
     - matplotlib==3.5.*
-    - networkx==2.6.*
+    - networkx==2.8.*
     - pandas==1.4.1
     - pathtools==0.1.2
     - pdoc3==0.10.0
@@ -25,10 +27,10 @@ dependencies:
     - polyscope==1.3.1
     - pytorch-lightning==1.6.2
     - pyvista==0.33.3
-    - scikit-learn==1.0.2
-    - scipy==1.8.0
+    - scikit-learn==1.1.*
+    - scipy==1.9.*
     - tensorboard==2.8.0
-    - tqdm==4.62.3
+    - tqdm==4.64.*
     - trimesh==3.10.2
     - vtk==9.1.0
     - wandb==0.13.4
