@@ -8,9 +8,10 @@ import pytorch_lightning as pl
 from pytorch_lightning.loggers import WandbLogger
 from torch_geometric.loader import DataLoader
 from utils.visualise import display_dataset
+import torch_geometric.transforms as T
 import logging
 from utils.logs import init_logger
-from pytorch_lightning.callbacks import ModelCheckpoint
+from pytorch_lightning.callbacks import ModelCheckpoint, LearningRateMonitor
 from datetime import datetime
 
 
@@ -41,7 +42,8 @@ def run():
 
     # Create the dataset
     data_path = Path(configuration["raw_data"])
-    arc_dataset = ARCDataset(data_path)
+    transform = T.Compose([T.ToUndirected(), T.AddSelfLoops(), T.Distance()])
+    arc_dataset = ARCDataset(data_path, transform=transform)
     log.info(f"ARCDataset created from {str(data_path)}")
 
     # Split the dataset in 3 subset, the train, validation and test dataset.
@@ -70,30 +72,32 @@ def run():
     log.info("Start model training")
     # Create a trained run the model on the GPU, with a wandb logger, saving the best 2 models in the checkpoints dir
     checkpoint_callback = ModelCheckpoint(dirpath=f"checkpoints/{name}/", save_top_k=2, monitor="val loss")
+    lr_callback = LearningRateMonitor()
     trainer = pl.Trainer(accelerator="gpu",
                          devices=1,
                          logger=wandb_logger,
                          auto_lr_find=True,
-                         callbacks=[checkpoint_callback],
-                         default_root_dir= f"checkpoints/{name}/",
+                         callbacks=[checkpoint_callback, lr_callback],
+                         default_root_dir=f"checkpoints/{name}/",
                          max_epochs=configuration["max_epochs"],
-                         accumulate_grad_batches= int(configuration["accumulate_grad_batches"]),
-                         auto_scale_batch_size= "binsearch",
-                         check_val_every_n_epoch=1)
+                         accumulate_grad_batches=int(configuration["accumulate_grad_batches"]),
+                         auto_scale_batch_size="binsearch",
+                         check_val_every_n_epoch=10)
     trainer.fit(model, train_loader, validation_loader)
     log.info("End model training")
 
     # Test the model on unseen data with the best model
     best_model_ = checkpoint_callback.best_model_path
     log.info(f"Start model testing with {str(best_model_)}")
-    trainer.test(dataloaders=test_loader, ckpt_path= best_model_)
+    trainer.test(dataloaders=test_loader, ckpt_path=best_model_)
     log.info("End model testing")
 
     # Display the test dataset results in vtk files (can be open with Paraview)
-    #log.info("Generate visualisation of the results")
-    #display_dataset(best_model_, test_dataset, configuration, "Test_dataset_results")
+    # log.info("Generate visualisation of the results")
+    # display_dataset(best_model_, test_dataset, configuration, "Test_dataset_results")
 
     log.info("END")
+
 
 if __name__ == "__main__":
     run()
