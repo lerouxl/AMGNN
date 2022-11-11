@@ -2,11 +2,22 @@ from typing import Union, List
 from pathlib import Path
 
 
-def organise_files(raw_files: List[Path]) -> List:
-    """
-    Take the list of raw files and join the file of the same simulation step together in a list of list.
-    :param raw_files: List of all files, can be str of Path data
-    :return:
+def organise_files(raw_files: List[Path]) -> List[List[Path]]:
+    """Organise a list of path by there simulation.
+
+    Take the list of raw files and regroup them by simulation.
+    Return a list of list of Path, where each Path is a raw_file and each Path in a list have from the same simulation.
+
+    Parameters
+    ----------
+    raw_files: List[Path]
+        List of all files, can be str of Path data
+
+    Returns
+    -------
+    List[List[Path]]:
+        List of List of Path. Every Path in a list are from the same simulation.
+
     """
     raw_files = remove_baseplate_from_list(raw_files)
     simulation_folds = extract_simulation_folder(raw_files)
@@ -47,10 +58,30 @@ def organise_files(raw_files: List[Path]) -> List:
 
 
 def extract_step_folder(raw_file: Union[str, Path]) -> str:
-    """
-    Extract the simulation step of a path files
-    :param raw_file: Path to the csv file
-    :return: name of the step
+    """ Extract the simulation step from a path
+
+    This functions should take as input the path of a csv file, a results of simulation, and the step name should
+    be the first parent of this path.
+
+    Example
+    -------
+    With a simple raw file:
+
+        from pathlib import Path
+
+        raw_file = Path(r"datasets/raw/simulation1/_Results_/00001/simulation_supports_1.csv")
+        extract_step_folder(raw_file)
+        >> 00001
+
+    Parameters
+    ----------
+    raw_file: Path
+        Path to the csv file.
+
+    Returns
+    -------
+    str:
+        Name of the step.
     """
     raw_file = Path(raw_file)
     step_folder = list(Path(raw_file).parents)[0].name
@@ -60,20 +91,59 @@ def extract_step_folder(raw_file: Union[str, Path]) -> str:
 
 
 def extract_the_simulation_folder(file: Union[str, Path]) -> str:
-    """
-    Extract the simulation folder of a path
-    :param file: Path or str of the path to decrypt
-    :return: name of the simulation folder
+    """Extract the simulation folder of a path.
+
+    It's expect the simulation folder to be the third parents of in the path.
+    Example
+    -------
+    With a simple raw file:
+
+        from pathlib import Path
+
+        file = Path(r"datasets/raw/simulation1/_Results_/00001/simulation_supports_1.csv")
+        extract_the_simulation_folder(file)
+        >> simulation1
+
+    Parameters
+    ----------
+    file: Path or str
+        Path containing the simulation folder.
+
+    Returns
+    -------
+    str:
+        Name of the simulation folder.
     """
     file = Path(file)
     return str(list(file.parents)[2].name)
 
 
 def remove_baseplate_from_list(files: List[Path]) -> List[Path]:
-    """
-    Remove the baseplate file from a list of files as we are not using it
-    :param files: list of path
-    :return: the same list but without the baseplate!
+    """ Clean list from every baseplate file.
+
+    Example
+    -------
+    With a simple list of files:
+
+        from pathlib import Path
+
+        files = [Path(r"datasets/raw/simulation1/_Results_/00001/simulation_supports_1.csv"),
+                Path(r"datasets/raw/simulation1/_Results_/00001/simulation_part_1.csv"),
+                Path(r"datasets/raw/simulation1/_Results_/00001/simulation_baseplate_1.csv")]
+        extract_the_simulation_folder(files)
+        >> [Path(r"datasets/raw/simulation1/_Results_/00001/simulation_supports_1.csv"),
+            Path(r"datasets/raw/simulation1/_Results_/00001/simulation_part_1.csv")]
+
+
+    Parameters
+    ----------
+    files: List[Path]
+        List of path.
+
+    Returns
+    -------
+    List:
+        The same list but without any file with the word baseplate in their name.
     """
     to_remove = list()
     for id_, file in enumerate(files):

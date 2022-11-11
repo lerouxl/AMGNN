@@ -9,12 +9,24 @@ from utils.save_arc import save_arc, load_arc
 
 
 def preprocess_folder(simu: str, all_arc_files: list, tmp_arc_folder: str) -> None:
-    """
-    Launch the data preprocessing on an entire simulation.
-    :param simu:  Path of the simulation folder
-    :param all_arc_files: list od all arc files
-    :param tmp_arc_folder: where to save the preprocessed files.
-    :return:
+    """Launch the data preprocessing on an entire simulation.
+
+    This function will list all simulations available by scanning the arc path for there second parents as the
+    simulation folder. Then launch the pre precessing of the arc files.
+
+    Parameters
+    ----------
+    simu: Path
+        Path of the simulation folders.
+    all_arc_files: list
+        The list of all arc files. Its expected to have multiple simulation folders and where the name of the simulation
+        folder is the second parents of the arc path.
+    tmp_arc_folder: str
+        Where to save the preprocessed files.
+
+    Returns
+    -------
+    None
     """
     # for one simulation
     # extract all files for this simulation folder
@@ -27,17 +39,27 @@ def preprocess_folder(simu: str, all_arc_files: list, tmp_arc_folder: str) -> No
 
 
 def preprocess_files(step_files: list, dest_folder: str) -> None:
-    """
+    """ Do the pre processing of the arc files.
+
     Load the ARC csv files contained in the step_files list and process them to only keep the relevant data and store
     them in a specified format (float32 by default).
     The kept data are the voxel coordinate, and the features : "XDIS", "YDIS", "ZDIS" and "TEMPTURE".
+    Displacement features such as XDIS,YDIS and ZDIS are converted in milimeter and temperature (TEMPTURE) is converted
+    in celcius degrees.
 
     Then a pkl file is created in dest_folder, containing the kept data, the name of the previous step file, the previous
     step file and the original voxels coordinates (the voxel coordinate - the deformation).
 
-    :param dest_folder: where the temporary folder will be created.
-    :param step_files: List of all path to the ARC csv files.
-    :return:
+    Parameters
+    ----------
+    step_files: list
+        List of all path to the ARC csv files.
+    dest_folder: str
+        Where the temporary folder will be created.
+
+    Returns
+    -------
+    None, preprocessed files are saved in the *dest_folder*.
     """
     for i, raw_path in enumerate(step_files):
 

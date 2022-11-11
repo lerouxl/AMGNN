@@ -15,10 +15,47 @@ from utils.logs import log_point_cloud_to_wandb
 import numpy as np
 
 class AMGNNmodel(pl.LightningModule):
-    """Main class of AMGNN. This Pytorch lightning class will deal with the model loading, training, testing, validation
-     and logings"""
+    """Main class of AMGNN dealing with the model creation, training, testing, validation and logins
 
-    def __init__(self, config):
+    This class is a lightning module dealing with AMGNN. This should be considered as the main entry points.
+    """
+
+    def __init__(self, config: dict):
+        """ Define AMGNN and it's training parameters.
+
+        Using a config dictionary to initialise it.
+
+        Example
+        -------
+        AMGNN can be trained as following:
+
+            from dataloader.arc_dataset import ARCDataset
+            from torch_geometric.loader import DataLoader
+            import pytorch_lightning as pl
+
+            configuration = dict("input_channels": 22,
+                                 "out_channels": 4,
+                                 "number_hidden_layers": 5,
+                                 "learning_rate": 0.0001,
+                                 "batch_size": 10,
+                                 "lambda_parameters": [1,1,1])
+            model = AMGNNmodel(configuration)
+            dataset = ARCDataset("dataset")
+            data_loader = DataLoader(dataset=dataset, batch_size=10)
+
+            trainer = pl.Trainer()
+            trainer.fit(model, data_loader)
+
+        AMGNN can be tested as following:
+
+            best_model_ = # Load best model
+            trainer.test(dataloaders=test_data_loader, ckpt_path=best_model_)
+
+        Parameters
+        ----------
+        config: dict
+            dictionary containing the description of the model and training parameters.
+        """
         super().__init__()
         self.configuration = config
         self.network = NeuralNetwork(self.configuration["input_channels"], self.configuration["hidden_channels"],
@@ -30,8 +67,22 @@ class AMGNNmodel(pl.LightningModule):
         # self.example_input_array = torch.Tensor(32, 1, 28, 28)
         self.save_hyperparameters()
 
-    def training_step(self, batch, batch_idx):
-        """Train loop of the neural network"""
+    def training_step(self, batch: Batch, batch_idx: int):
+        """ Definition of the training loop.
+
+        Will log at each step the losses of the networks.
+
+        Parameters
+        ----------
+        batch: Batch
+            Training batch containing the graph.
+        batch_idx: int
+            id of the batch
+
+        Returns
+        -------
+        None
+        """
         _, loss, loss_mse, loss_disp, loss_temp = self._get_preds_loss(batch)
         self.log("train loss", loss, batch_size=self.batch_size)
         self.log("train loss mse", loss_mse, batch_size=self.batch_size)
@@ -39,9 +90,24 @@ class AMGNNmodel(pl.LightningModule):
         self.log("train loss gradient temperature", loss_temp, batch_size=self.batch_size)
         return loss
 
-    def test_step(self, batch, batch_idx):
-        """The test set is NOT used during training, it is ONLY used once the model has been trained to see how the
-         model will do in the real-world."""
+    def test_step(self, batch: Batch, batch_idx: int):
+        """ Definition of the testing loop.
+
+        The test set is *not used* during training, it is *only* used once the model has been trained to see how the
+        model will do in the real-world with unseen data. Losses results are logged and results file are created to in
+        the `test_output` folder where the graph with there prediction and label can be read with the software Paraview.
+
+        Parameters
+        ----------
+        batch: Batch
+            Training batch containing the graph.
+        batch_idx: int
+            id of the batch
+
+        Returns
+        -------
+        None
+        """
         y_hat, loss, loss_mse, loss_disp, loss_temp = self._get_preds_loss(batch)
         self.log("test loss", loss, batch_size=self.batch_size)
         self.log("test loss mse", loss_mse, batch_size=self.batch_size)
@@ -61,9 +127,11 @@ class AMGNNmodel(pl.LightningModule):
 
     def validation_step(self, batch: Batch, batch_idx: int):
         """ Validate the model.
+
         During training, it’s common practice to use a small portion of the train split to determine when the model
         has finished training.As a rule of thumb, we use 20% of the training set as the validation set.
         This number varies from dataset to dataset.
+
         Parameters
         ----------
         batch: Batch
@@ -104,17 +172,43 @@ class AMGNNmodel(pl.LightningModule):
 
 
     def configure_optimizers(self):
+        """ Configure the optimizer.
+
+        Returns
+        -------
+        Optimizer.
+        """
         optimizer = optim.Adam(self.parameters(), lr=self.lr)
         return optimizer
 
-    def _get_preds_loss(self, batch) -> Tuple[torch.Tensor, torch.Tensor]:
-        """The train, test and validation function are the same so their are regrouped here.
-        Return:
-            y_hat: the prediction of the neural network,
-            loss: the actual loss of the neural network"""
+    def get_preds_loss(self, batch: Batch) -> Tuple[torch.Tensor, torch.Tensor]:
+        """ Use the network to make a prediction from the batch and compute the loss.
 
+        The train, test and validation function are using the same network so the results prediction and loss
+        calculation are merged here.
+
+        The `loss` computation is described in `AMGNN_loss` but can be resumed as:
+        \[ loss = = \lambda_1 \cdot Loss_{mse} + \lambda_2 \cdot Loss_{gradient deformation} +
+         \lambda_3 \cdot Loss_{gradient temperature}\]
+        Where the \(\lambda\) are defined in the `self.init` with the input dictionary key `lambda_parameters`
+
+        Parameters
+        ----------
+        batch: Batch
+            Dataset batch.
+
+        Returns
+        -------
+        y_hat: The output of the neural network.
+        loss: The actual loss of the neural network.
+        loss_mse: The mse loss of the neural network.
+        loss_disp: The gradient loss of the displacement.
+        loss_temp: The gradient loss of the temperature.
+        """
+        # Output of the network
         y_hat = self.network(batch)
 
+        # Compute the losses
         loss, loss_mse, loss_disp, loss_temp = AMGNN_loss(batch, batch.y, y_hat, detail_loss=True,
                                                           lambda_weight=self.lambda_weight)
 

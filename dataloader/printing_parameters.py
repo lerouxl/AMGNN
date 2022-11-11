@@ -6,10 +6,19 @@ from xml.dom import minidom
 
 
 def unzip_file(file: Path) -> None:
-    """
-    Unzip a gz file. This is used as Simufact is saving important xml data in zipped folder.
+    """Unzip a gz file.
+
+    This is used as Simufact is saving important xml data in zipped folder.
     The unziped file will be save at the same place of the gz file with the same name without the gz extension.
-    :param file: Path to the file to unzip.
+
+    Parameters
+    ----------
+    file: Path
+        Path to the file to unzip.
+    Returns
+    -------
+    None :
+        The gz file is saved next to its compressed file.
     """
     file = Path(file)
     logging.info(f"Dataset preprocessing : Unziping {str(file)}")
@@ -18,13 +27,22 @@ def unzip_file(file: Path) -> None:
             shutil.copyfileobj(f_in, f_out)
 
 
-def get_simulation_parameters(self, spath: Path)-> dict:
-    """
+def get_simulation_parameters(spath: Path) -> dict:
+    """ Extract the simulation parameters for a simulation.
+
     Using the simulation root folder, this function will extract all material, time, laser, layer and speed parameters.
     The printing parameters are saved in a dictionary and returned.
-    :param self:
-    :param spath: simulation root folder.
-    :return: simulation_parameters a dictionary with the printing parameters.
+
+    Parameters
+    ----------
+    spath: Path
+        Simulation root folder.
+
+    Returns
+    -------
+    dict:
+        A dictionary with the printing parameters as key and their values.
+
     """
     simulation_parameters = dict()
     # Get material
