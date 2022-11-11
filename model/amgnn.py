@@ -10,6 +10,8 @@ from utils.loss_function import AMGNN_loss
 from utils.visualise import read_pt_batch_results
 from pathlib import Path
 from torch_geometric.nn import MLP
+from torch_geometric.nn.aggr import LSTMAggregation, MeanAggregation
+from torch.optim.lr_scheduler import ReduceLROnPlateau
 import wandb
 from utils.logs import log_point_cloud_to_wandb
 import numpy as np
@@ -83,7 +85,7 @@ class AMGNNmodel(pl.LightningModule):
         -------
         None
         """
-        _, loss, loss_mse, loss_disp, loss_temp = self._get_preds_loss(batch)
+        _, loss, loss_mse, loss_disp, loss_temp = self.get_preds_loss(batch)
         self.log("train loss", loss, batch_size=self.batch_size)
         self.log("train loss mse", loss_mse, batch_size=self.batch_size)
         self.log("train loss gradient displacement", loss_disp, batch_size=self.batch_size)
@@ -108,7 +110,7 @@ class AMGNNmodel(pl.LightningModule):
         -------
         None
         """
-        y_hat, loss, loss_mse, loss_disp, loss_temp = self._get_preds_loss(batch)
+        y_hat, loss, loss_mse, loss_disp, loss_temp = self.get_preds_loss(batch)
         self.log("test loss", loss, batch_size=self.batch_size)
         self.log("test loss mse", loss_mse, batch_size=self.batch_size)
         self.log("test loss gradient displacement", loss_disp, batch_size=self.batch_size)
@@ -139,7 +141,7 @@ class AMGNNmodel(pl.LightningModule):
         batch_idx: int
             Id of the actual batch
         """
-        y_hat, loss, loss_mse, loss_disp, loss_temp = self._get_preds_loss(batch)
+        y_hat, loss, loss_mse, loss_disp, loss_temp = self.get_preds_loss(batch)
         self.log("val loss", loss, batch_size=self.batch_size)
         self.log("val loss mse", loss_mse, batch_size=self.batch_size)
         self.log("val loss gradient displacement", loss_disp, batch_size=self.batch_size)
@@ -176,10 +178,17 @@ class AMGNNmodel(pl.LightningModule):
 
         Returns
         -------
-        Optimizer.
+        dictionary:
+                "optimizer": optimizer,
+                "lr_scheduler": scheduler,
+                "monitor": "train loss"
         """
         optimizer = optim.Adam(self.parameters(), lr=self.lr)
-        return optimizer
+        scheduler = ReduceLROnPlateau(optimizer)
+        return {"optimizer": optimizer,
+                "lr_scheduler": scheduler,
+                "monitor": "train loss"
+                }
 
     def get_preds_loss(self, batch: Batch) -> Tuple[torch.Tensor, torch.Tensor]:
         """ Use the network to make a prediction from the batch and compute the loss.
@@ -235,25 +244,37 @@ class NeuralNetwork(MessagePassing):
         number_hidden : int
             Number of blocks between the first layer and the output layer.
         """
-        super().__init__(aggr=aggregator)
+        #super().__init__(aggr=LSTMAggregation(in_channels=hidden_channels, out_channels=hidden_channels))
+        super().__init__(aggr="mean")
+
         self.hidden = int(hidden_channels)
         self.number_hidden = int(number_hidden)
+        self.out_channels = int(out_channels)
+        self.in_channels = int(in_channels)
 
         # Input layer
-        self.lin = nn.Linear(in_channels, self.hidden)
+        self.encoder = MLP(in_channels=15, hidden_channels=self.hidden, act="gelu",
+                           out_channels=self.hidden, num_layers=3, dropout=0.3, )
         # Output layer
-        self.lin2 = nn.Linear(self.hidden, self.hidden)
+        self.decoder = MLP(in_channels=self.hidden, hidden_channels=self.hidden, act="gelu",
+                           out_channels=self.out_channels, num_layers=3, dropout=0.3, )
 
-        self.temperature = MLP(in_channels=self.hidden, hidden_channels=self.hidden, act="gelu",
-                               out_channels=1, num_layers=3, dropout=0.3, )
-        self.deformation = MLP(in_channels=self.hidden, hidden_channels=self.hidden, act="gelu",
-                               out_channels=3, num_layers=3, dropout=0.3, )
+        # The message_mlp will take as input two (decoded nodes ||  past_features || normalised_coordinated)
+        # and output just a self.hidden dimension
+        self.message_mlp = MLP(in_channels=(self.hidden + 7) * 2 + 1, hidden_channels=self.hidden, act="gelu",
+                               out_channels=self.hidden + 7, num_layers=3, dropout=0.3, )
+
+        self.decoder = MLP(in_channels=self.hidden + 7, hidden_channels=self.hidden, act="gelu",
+                           out_channels=4, num_layers=3, dropout=0.3, )
 
         dim = self.hidden
         for i in range(self.number_hidden):
             # Add the neural layer to the Message Passing neural network
-            setattr(self, f"message_mlp_{i}", MLP(in_channels=dim * 2, hidden_channels=dim, act="gelu",
-                                                  out_channels=dim, num_layers=5, dropout=0.3, )
+            setattr(self, f"message_mlp_{i}", nn.Sequential(nn.Linear(dim * 2, dim),
+                                                            nn.GELU(),
+                                                            nn.Linear(dim, dim),
+                                                            nn.GELU(),
+                                                            )
                     )
 
     def forward(self, batch: Data) -> Tensor:
@@ -273,38 +294,37 @@ class NeuralNetwork(MessagePassing):
             Node tensor representing the simulation state of each node a the predicted time.
 
         """
-        x = batch.x
         edge_index = batch.edge_index
-        # x has shape [N, in_channels]
-        # edge_index has shape [2, E]
 
-        # Step 2: Linearly transform node feature matrix.
-        x = self.lin(x)
-        # Step 4-5: Start propagating messages.
+        edges_features = batch.edge_attr  # Extract the unnormalized edge size  [n_edge, 1]
+        past_features = batch.x[:, 8:12]  # Extract the past temperature, and past displacement [n_nodes, 4]
+        normalised_coordinated = batch.x[:, 19:]  # Extract the node position [n_nodes, 3]
+        x = torch.hstack([batch.x[:, :8], batch.x[:, 12:19]])  # [n_nodes, 15]
+
+        # Encode the printing parameters, nodes types and printing features
+        x = self.encoder(x)  # [n_nodes, self.hidden]
+        x = torch.hstack([x, past_features, normalised_coordinated])  # [n_nodes, self.hidden + 7]
 
         for i in range(self.number_hidden):
             # Found the Nth layer of the neural network
             layer = getattr(self, f"message_mlp_{i}")
             # Append its results in x_
-            message = self.propagate(edge_index, x=x)
-            x = torch.cat([x, message], dim=1)
+            message = self.propagate(edge_index, x=x, edge_attr=edges_features)
+            # x = torch.cat([x, message], dim=1)
+            # x = layer(x)
+            x = message
 
-            x = layer(x)
-
-        out = self.lin2(x)
-        temperature = self.temperature(out)
-
-        deformation = self.deformation(out)
-        prediction = torch.sigmoid(torch.cat([temperature, deformation], 1))
+        prediction = self.decoder(x)
         return prediction
 
-    def message(self, x_i: Tensor, x_j: Tensor) -> Tensor:
+    def message(self, x_i: Tensor, x_j: Tensor, edge_attr) -> Tensor:
         """ Compute the message of each edges.
 
         The message of each edges is calculated as the concatenation of
-        \[ x_i , x_i - x_j\]
+        \[ \\frac{x_i}{edge_ij} || \\frac{x_j}{edge_ij}\]
+        \[ x_i || x_j || e_{ij} \]
 
-        Where:
+        .. todo:: select the used equation
 
         Parameters
         ----------
@@ -312,8 +332,8 @@ class NeuralNetwork(MessagePassing):
             Features of the receiver node, of shape [Edge number, out_channels].
         x_j : Tensor
             Features of the neighbour node, of shape [Edge number, out_channels].
-        model : nn.Sequential
-            Model to apply to the message.
+        edge_attr : Tensor
+            Edge feature (edge size).
 
         Returns
         -------
@@ -321,9 +341,7 @@ class NeuralNetwork(MessagePassing):
             Output of the neural network block.
         """
 
-        # This is an edges convolution
-        # https://arxiv.org/abs/1801.07829
-
-        msg = x_j - x_i
+        msg = torch.hstack([x_i, x_j, edge_attr])
+        msg = self.message_mlp(msg)
 
         return msg
