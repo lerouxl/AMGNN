@@ -10,5 +10,6 @@ distance_upper_bound: 0.3 # Tolerance used for aligning old to new features (in 
 batch_size: 12
 max_epochs: 100
 accumulate_grad_batches: 1
-lambda_parameters: [1,10,10] # weight MSE loss, weight temperature gradient loss, weight displacement gradient loss
+lambda_parameters: [1,1,1] # weight MSE loss, weight temperature gradient loss, weight displacement gradient loss
+model_name: simple_mlp
 offline: No # If Yes, wandb will not try to save the trainning online. If No, wandb will save the results online.
