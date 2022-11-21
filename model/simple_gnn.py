@@ -1,11 +1,12 @@
 from torch import Tensor
 from torch_geometric.nn import MessagePassing
-from torch_geometric.nn import MLP
+from model.operations import MLP
 from torch_geometric.data import Data
 
 
 class SimpleGnn(MessagePassing):
-    def __int__(self, in_channels: int, hidden_channels: int, out_channels: int, number_hidden: int, aggregator: str):
+    """"""
+    def __init__(self, in_channels: int, hidden_channels: int, out_channels: int, number_hidden: int, aggregator: str):
         """ Simple Graph neural network.
 
         This neural network is using a encoder decoder architecture with an massage passing them inbetween.
@@ -32,17 +33,36 @@ class SimpleGnn(MessagePassing):
         self.out_channels = int(out_channels)
         self.in_channels = int(in_channels)
 
-        self.encoder = MLP(in_channels=self.in_channels, hidden_channels=self.hidden, act="gelu",
+        self.encoder = MLP(in_channels=self.in_channels, hidden_channels=self.hidden, act="GELU",
                            out_channels=self.hidden, num_layers=self.number_hidden)
-        self.decoder = MLP(in_channels=self.hidden, hidden_channels=self.hidden, act="gelu",
+        self.decoder = MLP(in_channels=self.hidden, hidden_channels=self.hidden, act="GELU",
                            out_channels=self.out_channels, num_layers=self.number_hidden)
 
     def forward(self, batch: Data) -> Tensor:
+        """Apply the neural network to a data batch.
+
+        From a graph, apply the default message passing network with an encoder and decoder.
+        Parameters
+        ----------
+        batch: Data
+            Torch geometric graph.
+
+        Returns
+        -------
+        torch.Tensor:
+            Node predictions.
+        """
         # Check that all input features values are bellow 1
         assert (batch.x.max() <= 1)  # If assert is wrong: check data normalisation.
 
         x = self.encoder(batch.x)
 
-        self.propagate(batch.edge_index, x=x)
+        x = self.propagate(batch.edge_index, x=x)
         x = self.decoder(x)
         return x
+
+    def message(self, x_j):
+        """Compute the message passing by the graph.
+        The message is the features of the neighbors node.
+        """
+        return x_j
