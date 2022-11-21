@@ -61,14 +61,44 @@ class AMGNNmodel(pl.LightningModule):
         """
         super().__init__()
         self.configuration = config
-        self.network = NeuralNetwork(self.configuration["input_channels"], self.configuration["hidden_channels"],
-                                     self.configuration["out_channels"], self.configuration['aggregator'],
-                                     self.configuration["number_hidden_layers"])
+        self.network = self.get_ai_model()
         self.lr = float(self.configuration["learning_rate"])
         self.batch_size = int(config["batch_size"])
         self.lambda_weight = torch.tensor(config["lambda_parameters"], dtype=torch.float32).view(3, 1)
         # self.example_input_array = torch.Tensor(32, 1, 28, 28)
         self.save_hyperparameters()
+
+    def get_ai_model(self) -> MessagePassing:
+        """Get the deep learning model.
+
+        Using the parameter `model_name`, this class is loading, and configuring the neural network.
+        The available GNN are:
+
+        - `simple_mlp`: A simple MLP with no message passing (not taking advantage of the graph structure)
+        - `simple_gnn`: A simple GNN using two MLP for the encoding and decoding phase.
+
+        Returns
+        -------
+        MessagePassing:
+            The torch geometric neural network.
+        """
+        model_name = self.configuration["model_name"]
+
+        if model_name == "simple_mlp":
+            from model.simple_mlp import SimpleMlp
+            return SimpleMlp(in_channels=self.configuration["input_channels"],
+                             hidden_channels=self.configuration["hidden_channels"],
+                             out_channels=self.configuration["out_channels"],
+                             number_hidden=self.configuration["number_hidden_layers"])
+        elif model_name == "simple_gnn":
+            from model.simple_gnn import SimpleGnn
+            return SimpleGnn(in_channels=self.configuration["input_channels"],
+                             hidden_channels=self.configuration["hidden_channels"],
+                             out_channels=self.configuration["out_channels"],
+                             number_hidden=self.configuration["number_hidden_layers"],
+                             aggregator= self.configuration["aggregator"])
+        else:
+            raise f"{str(model_name)} is not a valid model name."
 
     def training_step(self, batch: Batch, batch_idx: int):
         """ Definition of the training loop.
@@ -162,7 +192,7 @@ class AMGNNmodel(pl.LightningModule):
                 "lr_scheduler": scheduler,
                 "monitor": "train loss"
         """
-        optimizer = optim.Adam(self.parameters(), lr=self.lr)
+        optimizer = optim.Adam(self.network.parameters(), lr=self.lr)
         scheduler = ReduceLROnPlateau(optimizer)
         return {"optimizer": optimizer,
                 "lr_scheduler": scheduler,
@@ -201,161 +231,3 @@ class AMGNNmodel(pl.LightningModule):
                                                           lambda_weight=self.lambda_weight)
 
         return y_hat, loss, loss_mse, loss_disp, loss_temp
-
-
-class TestNeuralNetwork(MessagePassing):
-    def __init__(self, in_channels: int, hidden_channels: int, out_channels: int, aggregator: str, number_hidden: int):
-        # Simple MLP for test purpose
-        super().__init__(aggr="mean")
-        print("THIS IS A TEST NEURAL NETWORK")
-
-        self.hidden = int(hidden_channels)
-        self.number_hidden = int(number_hidden)
-        self.out_channels = int(out_channels)
-        self.in_channels = int(in_channels)
-
-        self.test_MLP = MLP(in_channels=self.in_channels, hidden_channels=self.hidden, act="gelu",
-                            out_channels=self.out_channels, num_layers=10, dropout=0.3, )
-
-    def forward(self, batch: Data) -> Tensor:
-        assert (batch.x.max() <= 1)
-        return self.test_MLP(batch.x)
-
-
-class Custom_MLP(torch.nn.Module):
-    def __init__(self, in_channels: int, hidden_channels: int, out_channels: int, num_layers: int, act:str):
-        super(Custom_MLP, self).__init__()
-        test = [nn.Linear(in_channels, hidden_channels), nn.GELU()]
-        for i in range(num_layers):
-            test.extend([nn.Linear(hidden_channels, hidden_channels), nn.GELU()])
-        test.extend([nn.Linear(hidden_channels, out_channels)])
-
-        self.layers =nn.Sequential(*test)
-
-    def forward(self, x):
-        return self.layers(x)
-
-
-class NeuralNetwork(MessagePassing):
-    def __init__(self, in_channels: int, hidden_channels: int, out_channels: int, aggregator: str, number_hidden: int):
-        """ Neural network used to predict the simulation results.
-
-        Graph neural network used to predict the deformation and temperature of nodes using the previous know
-        deformation and temperature.
-
-        Parameters
-        ----------
-        in_channels : int
-            Number of features per input node.
-        hidden_channels : int
-            Size of the hidden layers.
-        out_channels : int
-            Number of predicted features per node.
-        aggregator : str
-            Type of aggregator used for the message parsing step (can be mean, max, min...).
-        number_hidden : int
-            Number of blocks between the first layer and the output layer.
-        """
-        # super().__init__(aggr=LSTMAggregation(in_channels=hidden_channels, out_channels=hidden_channels))
-        super().__init__(aggr="mean")
-
-        self.hidden = int(hidden_channels)
-        self.number_hidden = int(number_hidden)
-        self.out_channels = int(out_channels)
-        self.in_channels = int(in_channels)
-
-        self.relu_act = torch.nn.ReLU()
-
-        # Input layer
-        self.encoder = Custom_MLP(in_channels=15, hidden_channels=self.hidden, act="gelu",
-                           out_channels=self.hidden, num_layers=3)
-
-        # The message_mlp will take as input two (decoded nodes ||  past_features || normalised_coordinated)
-        # and output just a self.hidden dimension
-        self.message_mlp = Custom_MLP(in_channels=(self.hidden + 7) * 2 + 1, hidden_channels=self.hidden, act="gelu",
-                               out_channels=self.hidden + 7, num_layers=3, )
-
-        # Output layer
-        self.decoder_temp = Custom_MLP(in_channels=self.hidden + 7, hidden_channels=self.hidden, act="gelu",
-                           out_channels=1, num_layers=3, )
-        self.decoder_displacement = Custom_MLP(in_channels=self.hidden + 7, hidden_channels=self.hidden, act="gelu",
-                           out_channels=3, num_layers=3, )
-
-        dim = self.hidden
-        for i in range(self.number_hidden):
-            # Add the neural layer to the Message Passing neural network
-            setattr(self, f"message_mlp_{i}", nn.Sequential(nn.Linear(dim * 2, dim),
-                                                            nn.GELU(),
-                                                            nn.Linear(dim, dim)
-                                                            )
-                    )
-
-    def forward(self, batch: Data) -> Tensor:
-        """ Predict the simulation output.
-
-        Using the neural network defined at the creation of this object, the deformation and temperature of this
-        simulation step are predicted.
-
-        Parameters
-        ----------
-        batch: Data
-            Graph representing multiple simulation.
-
-        Returns
-        -------
-        Tensor
-            Node tensor representing the simulation state of each node a the predicted time.
-
-        """
-        edge_index = batch.edge_index
-
-        edges_features = batch.edge_attr  # Extract the unnormalized edge size  [n_edge, 1]
-        past_features = batch.x[:, 8:12]  # Extract the past temperature, and past displacement [n_nodes, 4]
-        normalised_coordinated = batch.x[:, 19:]  # Extract the node position [n_nodes, 3]
-        x = torch.hstack([batch.x[:, :8], batch.x[:, 12:19]])  # [n_nodes, 15]
-
-        # Encode the printing parameters, nodes types and printing features
-        x = self.encoder(x)  # [n_nodes, self.hidden]
-        x = torch.hstack([x, past_features, normalised_coordinated])  # [n_nodes, self.hidden + 7]
-
-        for i in range(self.number_hidden):
-            # Found the Nth layer of the neural network
-            layer = getattr(self, f"message_mlp_{i}")
-            # Append its results in x_
-            message = self.propagate(edge_index, x=x, edge_attr=edges_features)
-            # x = torch.cat([x, message], dim=1)
-            # x = layer(x)
-            x = message
-
-        prediction = torch.hstack([self.relu_act(self.decoder_temp(x)),
-                                   self.decoder_displacement(x)])
-        return prediction
-
-    def message(self, x_i: Tensor, x_j: Tensor, edge_attr) -> Tensor:
-        """ Compute the message of each edges.
-
-        The message of each edges is calculated as the concatenation of
-        \[ \\frac{x_i}{edge_ij} || \\frac{x_j}{edge_ij}\]
-        \[ x_i || x_j || e_{ij} \]
-
-        .. todo:: select the used equation
-
-        Parameters
-        ----------
-        x_i : Tensor
-            Features of the receiver node, of shape [Edge number, out_channels].
-        x_j : Tensor
-            Features of the neighbour node, of shape [Edge number, out_channels].
-        edge_attr : Tensor
-            Edge feature (edge size).
-
-        Returns
-        -------
-        Tensor
-            Output of the neural network block.
-        """
-
-        msg = torch.hstack([x_i, x_j, edge_attr])
-        msg = self.message_mlp(msg)
-
-        return msg
