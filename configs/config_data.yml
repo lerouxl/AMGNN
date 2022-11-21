@@ -1,7 +1,7 @@
-raw_data: "E:\\Leopold\\Chapter 6 - datasets\\One_file2"
+raw_data: "E:\\Leopold\\Chapter 6 - datasets\\One_cube"
 project: "AMGNN"
 float_type: "float64"
-pooling_process: 4
+pooling_process: 10
 default_powder_temperature: 25
 scaling_temperature: 3000 # Temperature used to scale the temperature (T/scaling_temperature) in KELVIN
 scaling_power: 1000
