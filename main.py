@@ -29,7 +29,8 @@ def run():
     # Initialise wandb
     configuration = read_config(Path("configs"))
     name = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
-    wandb_logger = WandbLogger(project="AMGNN", config=configuration, name=name, offline=configuration["offline"])
+    wandb_logger = WandbLogger(project="AMGNN", config=configuration, name=name, offline=configuration["offline"],
+                               notes=configuration["notes"], tags=configuration["tags"])
     log.info("Configuration loaded")
 
     # Access all hyperparameters values through wandb.config

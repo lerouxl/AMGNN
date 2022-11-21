@@ -12,4 +12,12 @@ max_epochs: 100
 accumulate_grad_batches: 1
 lambda_parameters: [1,1,1] # weight MSE loss, weight temperature gradient loss, weight displacement gradient loss
 model_name: simple_mlp
+
+# Wandb parameters
 offline: No # If Yes, wandb will not try to save the trainning online. If No, wandb will save the results online.
+notes: "Run of AMGNN on one cube dataset CubeX1X150WX750mmsX8umX3um with a simple mlp" # Note to add to the run
+# Tags to give to this amgnn run
+tags:
+  - "train"
+  - "one cube dataset"
+  - "simple mlp"
