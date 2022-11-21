@@ -9,12 +9,15 @@ import os.path as osp
 from utils.loss_function import AMGNN_loss
 from utils.visualise import read_pt_batch_results
 from pathlib import Path
-from torch_geometric.nn import MLP
+# from torch_geometric.nn import MLP
+from model.operations import MLP
 from torch_geometric.nn.aggr import LSTMAggregation, MeanAggregation
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 import wandb
 from utils.logs import log_point_cloud_to_wandb
 import numpy as np
+from model.simple_mlp  import SimpleMlp
+from model.simple_gnn import SimpleGnn
 
 
 class AMGNNmodel(pl.LightningModule):
@@ -85,18 +88,18 @@ class AMGNNmodel(pl.LightningModule):
         model_name = self.configuration["model_name"]
 
         if model_name == "simple_mlp":
-            from model.simple_mlp import SimpleMlp
             return SimpleMlp(in_channels=self.configuration["input_channels"],
                              hidden_channels=self.configuration["hidden_channels"],
                              out_channels=self.configuration["out_channels"],
                              number_hidden=self.configuration["number_hidden_layers"])
+
         elif model_name == "simple_gnn":
-            from model.simple_gnn import SimpleGnn
+
             return SimpleGnn(in_channels=self.configuration["input_channels"],
                              hidden_channels=self.configuration["hidden_channels"],
                              out_channels=self.configuration["out_channels"],
                              number_hidden=self.configuration["number_hidden_layers"],
-                             aggregator= self.configuration["aggregator"])
+                             aggregator=self.configuration["aggregator"])
         else:
             raise f"{str(model_name)} is not a valid model name."
 
@@ -192,7 +195,7 @@ class AMGNNmodel(pl.LightningModule):
                 "lr_scheduler": scheduler,
                 "monitor": "train loss"
         """
-        optimizer = optim.Adam(self.network.parameters(), lr=self.lr)
+        optimizer = optim.Adam(self.parameters(), lr=self.lr)
         scheduler = ReduceLROnPlateau(optimizer)
         return {"optimizer": optimizer,
                 "lr_scheduler": scheduler,
