@@ -1,9 +1,11 @@
 import torch
 from torch import nn
 from torch import Tensor
-from torch_geometric.nn import MLP
+#from torch_geometric.nn import MLP
+from model.operations import MLP
 from torch_geometric.nn import MessagePassing
 from torch_geometric.nn.aggr import LSTMAggregation, MeanAggregation
+from torch_geometric.data import Data
 
 class TestNeuralNetwork(MessagePassing):
     def __init__(self, in_channels: int, hidden_channels: int, out_channels: int, aggregator: str, number_hidden: int):
