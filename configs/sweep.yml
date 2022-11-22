@@ -1,13 +1,12 @@
 program: main.py
-method: bayes
+method: grid
 metric:
   goal: minimize
   name: validation_loss
 parameters:
-  learning_rate:
-    min: 0.0001
-    max: 0.1
-  optimizer:
-    values: [ "sgd", "adam" ]
-  neighbour_k:
-    vales: [6, 26 ]
+  model_name:
+    values: [ "simple_gnn", "simple_mlp", "double_head_simple_gnn", "double_head_simple_mlp" ]
+  number_hidden_layers:
+    values: [ 2, 4, 16]
+  hidden_channels:
+    values: [128, 256, 512]
