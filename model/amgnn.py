@@ -16,8 +16,8 @@ from torch.optim.lr_scheduler import ReduceLROnPlateau
 import wandb
 from utils.logs import log_point_cloud_to_wandb
 import numpy as np
-from model.simple_mlp  import SimpleMlp
-from model.simple_gnn import SimpleGnn
+from model.simple_mlp  import SimpleMlp, DoubleHeadSimpleMlp
+from model.simple_gnn import SimpleGnn,DoubleHeadSimpleGnn
 from torch_geometric.loader import DataLoader
 
 
@@ -156,10 +156,19 @@ class AMGNNmodel(pl.LightningModule):
                              hidden_channels=self.configuration["hidden_channels"],
                              out_channels=self.configuration["out_channels"],
                              number_hidden=self.configuration["number_hidden_layers"])
-
+        elif model_name == "double_head_simple_mlp":
+            return DoubleHeadSimpleMlp(in_channels=self.configuration["input_channels"],
+                             hidden_channels=self.configuration["hidden_channels"],
+                             out_channels=self.configuration["out_channels"],
+                             number_hidden=self.configuration["number_hidden_layers"])
         elif model_name == "simple_gnn":
-
             return SimpleGnn(in_channels=self.configuration["input_channels"],
+                             hidden_channels=self.configuration["hidden_channels"],
+                             out_channels=self.configuration["out_channels"],
+                             number_hidden=self.configuration["number_hidden_layers"],
+                             aggregator=self.configuration["aggregator"])
+        elif model_name == "double_head_simple_gnn":
+            return DoubleHeadSimpleGnn(in_channels=self.configuration["input_channels"],
                              hidden_channels=self.configuration["hidden_channels"],
                              out_channels=self.configuration["out_channels"],
                              number_hidden=self.configuration["number_hidden_layers"],
