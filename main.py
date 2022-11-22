@@ -39,6 +39,7 @@ def run():
 
     # Create the deep learning model
     model = AMGNNmodel(configuration)
+    wandb_logger.watch(model.network, log="all")
     log.info("AMGNN model created")
 
     # Create the dataset
@@ -78,7 +79,7 @@ def run():
     log.info("Start model training")
     # Create a trained run the model on the GPU, with a wandb logger, saving the best 2 models in the checkpoints dir
     checkpoint_callback = ModelCheckpoint(dirpath=f"checkpoints/{name}/", save_top_k=2, monitor="val loss")
-    lr_callback = LearningRateMonitor()
+    lr_callback = LearningRateMonitor(logging_interval="step")
     trainer = pl.Trainer(accelerator="gpu",
                          devices=1,
                          logger=wandb_logger,
@@ -89,6 +90,8 @@ def run():
                          accumulate_grad_batches=int(configuration["accumulate_grad_batches"]),
                          auto_scale_batch_size="binsearch",
                          check_val_every_n_epoch=1)
+                         log_every_n_steps= 1,
+                         )
 
     # From https://pytorch-lightning.readthedocs.io/en/1.4.5/advanced/lr_finder.html
     # Found the optimal learning rate:
@@ -97,10 +100,9 @@ def run():
     # Pick point based on plot, or get suggestion
     new_lr = lr_finder.suggestion()
     # update hparams of the model
-    model.hparams.lr = new_lr
+    model.lr = new_lr
     print(f"New learning rate found: {new_lr}")
 
-    wandb.watch(model.network)
     trainer.fit(model)
     #trainer.fit(model, train_loader, validation_loader)
     log.info("End model training")
