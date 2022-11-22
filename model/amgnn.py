@@ -217,7 +217,7 @@ class AMGNNmodel(pl.LightningModule):
         # Save the output
         batch_cpu = batch.to("cpu")
         batch_cpu.y = torch.hstack([batch_cpu.y, y_hat.to("cpu")])
-        test_output_folder = osp.join(self.configuration["raw_data"], "test_output")
+        test_output_folder = osp.join(self.configuration["raw_data"], f"{wandb.run.name} test_output")
         # Create the output folder if it did not exist
         Path(test_output_folder).mkdir(parents=True, exist_ok=True)
         pt_path = osp.join(test_output_folder, f'{batch_idx}.pt')
