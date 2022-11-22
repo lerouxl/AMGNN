@@ -119,7 +119,7 @@ def arc_features_extraction(arc: Arc_reader, past_arc: Arc_reader, config: dict)
     x_laser_speed = x_laser_speed / float(config["scaling_speed"])
 
     # Scale time step length
-    x_time_step_length = x_time_step_length / 10000
+    x_time_step_length = x_time_step_length / 100_000
 
     #scale time
     x_time_step = x_time_step / float(config["scalling_time"])
