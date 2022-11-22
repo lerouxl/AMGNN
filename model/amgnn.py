@@ -260,12 +260,11 @@ class AMGNNmodel(pl.LightningModule):
                 "monitor": "train loss"
         """
         optimizer = optim.Adam(self.parameters(), lr=self.lr)
-        #scheduler = ReduceLROnPlateau(optimizer)
-        #return {"optimizer": optimizer,
-        #        "lr_scheduler": scheduler,
-        #        "monitor": "train loss"
-        #        }
-        return optimizer
+        scheduler = ReduceLROnPlateau(optimizer)
+        return {"optimizer": optimizer,
+                "lr_scheduler": scheduler,
+                "monitor": "train loss"
+                }
 
     def get_preds_loss(self, batch: Batch) -> Tuple[torch.Tensor, torch.Tensor]:
         """ Use the network to make a prediction from the batch and compute the loss.
