@@ -49,7 +49,7 @@ class MLP(torch.nn.Module):
         layers = [torch.nn.Linear(self.in_channels, self.hidden_channels),
                   self.activation()]
 
-        for _ in range(self.hidden_channels):
+        for _ in range(self.num_layers):
             layers.append(torch.nn.Linear(self.hidden_channels, self.hidden_channels))
             layers.append(self.activation())
 
