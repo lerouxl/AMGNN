@@ -37,6 +37,9 @@ def run():
     configuration = dict(wandb.config)
     print(configuration)
 
+    # Add model name to the tags
+    wandb_logger.experiment.tags = wandb_logger.experiment.tags + (configuration["model_name"],)
+
     # Create the deep learning model
     model = AMGNNmodel(configuration)
     wandb_logger.watch(model.network, log="all")
