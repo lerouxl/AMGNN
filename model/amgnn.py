@@ -291,14 +291,34 @@ class AMGNNmodel(pl.LightningModule):
         loss_disp: The gradient loss of the displacement.
         loss_temp: The gradient loss of the temperature.
         """
+        # Check input
+        self._check_tensors(batch.x)
+
         # Output of the network
         y_hat = self.network(batch)
 
         y = batch.y
-        assert (y.max() <= 1)
+        # Check variable
+        self._check_tensors(y)
 
         # Compute the losses
         loss, loss_mse, loss_disp, loss_temp = AMGNN_loss(batch, y, y_hat, detail_loss=True,
                                                           lambda_weight=self.lambda_weight)
 
         return y_hat, loss, loss_mse, loss_disp, loss_temp
+
+    def _check_tensors(self, tensor: Tensor):
+        """ Check if a tensor is valid.
+
+        Check if a tensor contain infinite values, NaN values or value superior to 1.
+        Raise an error if so.
+
+        Parameters
+        ----------
+        tensor: Tensor
+            The tensor to check.
+        """
+        assert (tensor.max() <= 1)
+        assert (torch.isnan(tensor).any() == False)
+        assert (torch.isinf(tensor).any() == False)
+        assert (torch.isneginf(tensor).any() == False)
