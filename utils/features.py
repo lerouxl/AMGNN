@@ -39,10 +39,10 @@ def arc_features_extraction(arc: Arc_reader, past_arc: Arc_reader, config: dict)
             - Z nodes coordinates
 
         - Y (target):
+            - TEMPTURE
             - XDIS
             - YDIS
             - ZDIS
-            - TEMPTURE
 
     Parameters
     ----------
