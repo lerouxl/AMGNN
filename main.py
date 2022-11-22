@@ -89,7 +89,7 @@ def run():
                          max_epochs=configuration["max_epochs"],
                          accumulate_grad_batches=int(configuration["accumulate_grad_batches"]),
                          auto_scale_batch_size="binsearch",
-                         check_val_every_n_epoch=1)
+                         check_val_every_n_epoch=1,
                          log_every_n_steps= 1,
                          )
 
