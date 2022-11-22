@@ -18,6 +18,7 @@ from utils.logs import log_point_cloud_to_wandb
 import numpy as np
 from model.simple_mlp  import SimpleMlp
 from model.simple_gnn import SimpleGnn
+from torch_geometric.loader import DataLoader
 
 
 class AMGNNmodel(pl.LightningModule):
@@ -70,6 +71,69 @@ class AMGNNmodel(pl.LightningModule):
         self.lambda_weight = torch.tensor(config["lambda_parameters"], dtype=torch.float32).view(3, 1)
         # self.example_input_array = torch.Tensor(32, 1, 28, 28)
         self.save_hyperparameters()
+
+        # Define the dataloader to none, they can be loader with the set_train_dataloader function
+        self._train_dataloader = None
+        self._test_dataloader = None
+        self._val_dataloader = None
+
+    def set_train_dataloader(self, train_dataloader: DataLoader) -> None:
+        """ Load the train dataloader to this class
+
+        Loading the dataloader allow the use of lr rate finder.
+
+        Parameters
+        ----------
+        train_dataloader: DataLoader
+            The train dataloader.
+        """
+        self._train_dataloader = train_dataloader
+
+    def train_dataloader(self) -> DataLoader:
+        dl = self._train_dataloader
+        if  dl is not None:
+            return dl
+        else:
+            raise "Data loader not configured"
+
+    def set_val_dataloader(self, val_dataloader: DataLoader) -> None:
+        """ Load the val dataloader to this class
+
+        Loading the dataloader allow the use of lr rate finder.
+
+        Parameters
+        ----------
+        val_dataloader: DataLoader
+            The train dataloader.
+        """
+        self._val_dataloader = val_dataloader
+
+    def val_dataloader(self) -> DataLoader:
+        dl = self._val_dataloader
+        if  dl is not None:
+            return dl
+        else:
+            raise "Data loader not configured"
+
+    def set_test_dataloader(self, test_dataloader: DataLoader) -> None:
+        """ Load the test dataloader to this class
+
+        Loading the dataloader allow the use of lr rate finder.
+
+        Parameters
+        ----------
+        test_dataloader: DataLoader
+            The train dataloader.
+        """
+        self._test_dataloader = test_dataloader
+
+    def test_dataloader(self) -> DataLoader:
+        dl = self._test_dataloader
+        if  dl is not None:
+            return dl
+        else:
+            raise "Data loader not configured"
+
 
     def get_ai_model(self) -> MessagePassing:
         """Get the deep learning model.
@@ -196,11 +260,12 @@ class AMGNNmodel(pl.LightningModule):
                 "monitor": "train loss"
         """
         optimizer = optim.Adam(self.parameters(), lr=self.lr)
-        scheduler = ReduceLROnPlateau(optimizer)
-        return {"optimizer": optimizer,
-                "lr_scheduler": scheduler,
-                "monitor": "train loss"
-                }
+        #scheduler = ReduceLROnPlateau(optimizer)
+        #return {"optimizer": optimizer,
+        #        "lr_scheduler": scheduler,
+        #        "monitor": "train loss"
+        #        }
+        return optimizer
 
     def get_preds_loss(self, batch: Batch) -> Tuple[torch.Tensor, torch.Tensor]:
         """ Use the network to make a prediction from the batch and compute the loss.
@@ -229,8 +294,11 @@ class AMGNNmodel(pl.LightningModule):
         # Output of the network
         y_hat = self.network(batch)
 
+        y = batch.y
+        assert (y.max() <= 1)
+
         # Compute the losses
-        loss, loss_mse, loss_disp, loss_temp = AMGNN_loss(batch, batch.y, y_hat, detail_loss=True,
+        loss, loss_mse, loss_disp, loss_temp = AMGNN_loss(batch, y, y_hat, detail_loss=True,
                                                           lambda_weight=self.lambda_weight)
 
         return y_hat, loss, loss_mse, loss_disp, loss_temp

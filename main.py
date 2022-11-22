@@ -30,7 +30,7 @@ def run():
     configuration = read_config(Path("configs"))
     name = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
     wandb_logger = WandbLogger(project="AMGNN", config=configuration, name=name, offline=configuration["offline"],
-                               notes=configuration["notes"], tags=configuration["tags"])
+                               notes=configuration["notes"], tags=configuration["tags"], log_model=True)
     log.info("Configuration loaded")
 
     # Access all hyperparameters values through wandb.config
@@ -69,6 +69,11 @@ def run():
     test_loader = DataLoader(dataset=test_dataset, batch_size=batch_size)
     log.info(f"Dataloader created with {batch_size=}")
 
+    # Set the data loader into the model
+    model.set_train_dataloader(train_loader)
+    model.set_test_dataloader(test_loader)
+    model.set_val_dataloader(validation_loader)
+
     # Create the pytorch lightning trainer.
     log.info("Start model training")
     # Create a trained run the model on the GPU, with a wandb logger, saving the best 2 models in the checkpoints dir
@@ -83,8 +88,21 @@ def run():
                          max_epochs=configuration["max_epochs"],
                          accumulate_grad_batches=int(configuration["accumulate_grad_batches"]),
                          auto_scale_batch_size="binsearch",
-                         check_val_every_n_epoch=10)
-    trainer.fit(model, train_loader, validation_loader)
+                         check_val_every_n_epoch=1)
+
+    # From https://pytorch-lightning.readthedocs.io/en/1.4.5/advanced/lr_finder.html
+    # Found the optimal learning rate:
+    # Run learning rate finder
+    lr_finder = trainer.tuner.lr_find(model)
+    # Pick point based on plot, or get suggestion
+    new_lr = lr_finder.suggestion()
+    # update hparams of the model
+    model.hparams.lr = new_lr
+    print(f"New learning rate found: {new_lr}")
+
+    wandb.watch(model.network)
+    trainer.fit(model)
+    #trainer.fit(model, train_loader, validation_loader)
     log.info("End model training")
 
     # Test the model on unseen data with the best model
