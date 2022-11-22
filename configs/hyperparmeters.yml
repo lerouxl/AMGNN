@@ -3,15 +3,15 @@ learning_rate: 1e-03
 neighbour_k: 26
 input_channels: 22
 hidden_channels: 125
-number_hidden_layers: 5
+number_hidden_layers: 3
 out_channels: 4
 aggregator: mean
 distance_upper_bound: 0.3 # Tolerance used for aligning old to new features (in mm)
-batch_size: 12
+batch_size: 15
 max_epochs: 100
 accumulate_grad_batches: 1
-lambda_parameters: [1,1,1] # weight MSE loss, weight temperature gradient loss, weight displacement gradient loss
-model_name: simple_mlp
+lambda_parameters: [1,0,0] # weight MSE loss, weight temperature gradient loss, weight displacement gradient loss
+model_name: simple_gnn
 
 # Wandb parameters
 offline: No # If Yes, wandb will not try to save the trainning online. If No, wandb will save the results online.
