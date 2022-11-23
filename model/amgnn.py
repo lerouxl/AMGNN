@@ -16,8 +16,9 @@ from torch.optim.lr_scheduler import ReduceLROnPlateau
 import wandb
 from utils.logs import log_point_cloud_to_wandb
 import numpy as np
-from model.simple_mlp  import SimpleMlp, DoubleHeadSimpleMlp
-from model.simple_gnn import SimpleGnn,DoubleHeadSimpleGnn
+from model.simple_mlp import SimpleMlp, DoubleHeadSimpleMlp
+from model.simple_gnn import SimpleGnn, DoubleHeadSimpleGnn
+from model.simple_conv import SimpleSAGEConv
 from torch_geometric.loader import DataLoader
 
 
@@ -91,7 +92,7 @@ class AMGNNmodel(pl.LightningModule):
 
     def train_dataloader(self) -> DataLoader:
         dl = self._train_dataloader
-        if  dl is not None:
+        if dl is not None:
             return dl
         else:
             raise "Data loader not configured"
@@ -110,7 +111,7 @@ class AMGNNmodel(pl.LightningModule):
 
     def val_dataloader(self) -> DataLoader:
         dl = self._val_dataloader
-        if  dl is not None:
+        if dl is not None:
             return dl
         else:
             raise "Data loader not configured"
@@ -129,11 +130,10 @@ class AMGNNmodel(pl.LightningModule):
 
     def test_dataloader(self) -> DataLoader:
         dl = self._test_dataloader
-        if  dl is not None:
+        if dl is not None:
             return dl
         else:
             raise "Data loader not configured"
-
 
     def get_ai_model(self) -> MessagePassing:
         """Get the deep learning model.
@@ -158,9 +158,9 @@ class AMGNNmodel(pl.LightningModule):
                              number_hidden=self.configuration["number_hidden_layers"])
         elif model_name == "double_head_simple_mlp":
             return DoubleHeadSimpleMlp(in_channels=self.configuration["input_channels"],
-                             hidden_channels=self.configuration["hidden_channels"],
-                             out_channels=self.configuration["out_channels"],
-                             number_hidden=self.configuration["number_hidden_layers"])
+                                       hidden_channels=self.configuration["hidden_channels"],
+                                       out_channels=self.configuration["out_channels"],
+                                       number_hidden=self.configuration["number_hidden_layers"])
         elif model_name == "simple_gnn":
             return SimpleGnn(in_channels=self.configuration["input_channels"],
                              hidden_channels=self.configuration["hidden_channels"],
@@ -169,10 +169,15 @@ class AMGNNmodel(pl.LightningModule):
                              aggregator=self.configuration["aggregator"])
         elif model_name == "double_head_simple_gnn":
             return DoubleHeadSimpleGnn(in_channels=self.configuration["input_channels"],
-                             hidden_channels=self.configuration["hidden_channels"],
-                             out_channels=self.configuration["out_channels"],
-                             number_hidden=self.configuration["number_hidden_layers"],
-                             aggregator=self.configuration["aggregator"])
+                                       hidden_channels=self.configuration["hidden_channels"],
+                                       out_channels=self.configuration["out_channels"],
+                                       number_hidden=self.configuration["number_hidden_layers"],
+                                       aggregator=self.configuration["aggregator"])
+        elif model_name == "simple_conv":
+            return SimpleSAGEConv(in_channels=self.configuration["input_channels"],
+                                  hidden_channels=self.configuration["hidden_channels"],
+                                  out_channels=self.configuration["out_channels"],
+                                  number_hidden=self.configuration["number_hidden_layers"])
         else:
             raise f"{str(model_name)} is not a valid model name."
 
