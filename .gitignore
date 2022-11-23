@@ -15,3 +15,4 @@ AMGNN.xmind
 *.zip
 docs/*
 checkpoints/
+.idea/
