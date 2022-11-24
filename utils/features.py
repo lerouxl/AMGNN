@@ -9,6 +9,7 @@ from utils.edges_creation import create_edge_list_and_length
 from numba import njit
 from sklearn import preprocessing
 from utils.align_features import align_features
+from model.amgnn import check_tensors
 
 
 @torch.no_grad()
@@ -21,28 +22,28 @@ def arc_features_extraction(arc: Arc_reader, past_arc: Arc_reader, config: dict)
     The extracted features are:
         - coordinates
         - edges
-        - edges length
-        - x:
-            - Type (support, part) (one hot)
-            - Laser Power
-            - Laser Speed
-            - Layer height
-            - Layer processing time
-            - Past points temperature
-            - Past point X displacement
-            - Past point Y displacement
-            - Past point Z displacement
-            - process features
-            - process class [AM_Layer, process, Postcooling, Powderremoval, Unclamping, Cooling-1]
-            - X nodes coordinates
-            - Y nodes coordinates
-            - Z nodes coordinates
-
+        - edges lengt
+        - X: 22 features for each nodes used for predict Y
+            - Laser speed (m/s scaled with `scaling_speed`)
+            - Laser power (W scaled with `scaling_power`)
+            - Layer thickness (um/100)
+            - Time step length (s  scaled by `100 000`)
+            - Time step (s scaled with `scalling_time`)
+            - Type: One hot vector for ["baseplate", "part", "supports"]
+            - Past temperature (in Celsius scaled with `scaling_temperature`)
+            - Past displacement X (in `mm` scaled with `scaling_deformation`)
+            - Past displacement Y (in `mm` scaled with `scaling_deformation`)
+            - Past displacement Z (in `mm` scaled with `scaling_deformation`)
+            - Process features (number of printed voxel layer scaled with `max_number_of_layer`)
+            - Process category: One hot vector for [AM_Layer, process, Postcooling, Powderromval, Unclamping, Cooling-1]
+            - Coordinate X (in `mm` scaled with scaling_size)
+            - Coordinate Y (in `mm` scaled with scaling_size)
+            - Coordinate Z (in `mm` scaled with scaling_size)
         - Y (target):
-            - TEMPTURE
-            - XDIS
-            - YDIS
-            - ZDIS
+            - TEMPTURE (in Celsius scaled with `scaling_temperature`)
+            - XDIS (in `mm` scaled with `scaling_deformation`)
+            - YDIS (in `mm` scaled with `scaling_deformation`)
+            - ZDIS (in `mm` scaled with `scaling_deformation`)
 
     Parameters
     ----------
@@ -109,7 +110,7 @@ def arc_features_extraction(arc: Arc_reader, past_arc: Arc_reader, config: dict)
 
     x_laser_speed = torch.full(y_temp.shape, arc.metaparameters.speed_m_s, dtype=torch.float)
     x_laser_power = torch.full(y_temp.shape, arc.metaparameters.power_W, dtype=torch.float)
-    x_layer_thickness = torch.full(y_temp.shape, arc.metaparameters.layerThickness_m * 1e4, dtype=torch.float)
+    x_layer_thickness = torch.full(y_temp.shape, arc.metaparameters.layerThickness_m, dtype=torch.float)
     x_time_step = torch.full(y_temp.shape, arc.metaparameters.time_steps_s, dtype=torch.float)
     x_time_step_length = torch.full(y_temp.shape, arc.metaparameters.time_steps_length_s, dtype=torch.float)
     # x = torch.stack([x_laser_speed,x_laser_power,x_layer_thickness,x_time_step,x_time_step_length, x_type])
@@ -157,4 +158,8 @@ def arc_features_extraction(arc: Arc_reader, past_arc: Arc_reader, config: dict)
     X = torch.cat([X, process_category],1) # [n, 19]
     X = torch.cat([X, coordinates],1) # [n, 22]
 
+    # Check that no infinite value, NaN value or values superior to 1 are in the input and target tensors
+    check_tensors(X)
+    check_tensors(Y)
     return coordinates, part_edge_index, X, Y
+
