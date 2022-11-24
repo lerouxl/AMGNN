@@ -18,8 +18,28 @@ from utils.logs import log_point_cloud_to_wandb
 import numpy as np
 from model.simple_mlp import SimpleMlp, DoubleHeadSimpleMlp
 from model.simple_gnn import SimpleGnn, DoubleHeadSimpleGnn
-from model.simple_conv import SimpleSAGEConv
+from model.simple_conv import SimpleSAGEConv, DoubleHeadSimpleSAGEConv
 from torch_geometric.loader import DataLoader
+
+
+def check_tensors(tensor: Tensor):
+    """ Check if a tensor is valid.
+
+    Check if a tensor contain infinite values, NaN values or value superior to 1.
+    Raise an error if so.
+
+    Parameters
+    ----------
+    tensor: Tensor
+        The tensor to check.
+    """
+    assert (tensor.max() <= 1), f"A value superior to 1 was found ({str(int(tensor.max()))}) in columns {str((tensor > 1.0).nonzero(as_tuple=True)[1].unique().detach().cpu())}"
+    assert (torch.isnan(tensor).any() == False)
+    assert (torch.isinf(tensor).any() == False)
+    assert (torch.isneginf(tensor).any() == False)
+
+    #for i in range(22):
+    # print(f"{i} : max val {float(tensor[:,i].max())}")
 
 
 class AMGNNmodel(pl.LightningModule):
@@ -135,7 +155,7 @@ class AMGNNmodel(pl.LightningModule):
         else:
             raise "Data loader not configured"
 
-    def get_ai_model(self) -> MessagePassing:
+    def get_ai_model(self) -> DoubleHeadSimpleSAGEConv:
         """Get the deep learning model.
 
         Using the parameter `model_name`, this class is loading, and configuring the neural network.
@@ -175,6 +195,12 @@ class AMGNNmodel(pl.LightningModule):
                                        aggregator=self.configuration["aggregator"])
         elif model_name == "simple_conv":
             return SimpleSAGEConv(in_channels=self.configuration["input_channels"],
+                                  hidden_channels=self.configuration["hidden_channels"],
+                                  out_channels=self.configuration["out_channels"],
+                                  number_hidden=self.configuration["number_hidden_layers"])
+
+        elif model_name == "double_head_simple_conv":
+            return DoubleHeadSimpleSAGEConv(in_channels=self.configuration["input_channels"],
                                   hidden_channels=self.configuration["hidden_channels"],
                                   out_channels=self.configuration["out_channels"],
                                   number_hidden=self.configuration["number_hidden_layers"])
@@ -305,33 +331,17 @@ class AMGNNmodel(pl.LightningModule):
         loss_temp: The gradient loss of the temperature.
         """
         # Check input
-        self._check_tensors(batch.x)
+        check_tensors(batch.x)
 
         # Output of the network
         y_hat = self.network(batch)
 
         y = batch.y
         # Check variable
-        self._check_tensors(y)
+        check_tensors(y)
 
         # Compute the losses
         loss, loss_mse, loss_disp, loss_temp = AMGNN_loss(batch, y, y_hat, detail_loss=True,
                                                           lambda_weight=self.lambda_weight)
 
         return y_hat, loss, loss_mse, loss_disp, loss_temp
-
-    def _check_tensors(self, tensor: Tensor):
-        """ Check if a tensor is valid.
-
-        Check if a tensor contain infinite values, NaN values or value superior to 1.
-        Raise an error if so.
-
-        Parameters
-        ----------
-        tensor: Tensor
-            The tensor to check.
-        """
-        assert (tensor.max() <= 1)
-        assert (torch.isnan(tensor).any() == False)
-        assert (torch.isinf(tensor).any() == False)
-        assert (torch.isneginf(tensor).any() == False)
