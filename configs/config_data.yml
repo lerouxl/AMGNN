@@ -1,16 +1,16 @@
-raw_data: "E:\\Leopold\\Chapter 6 - datasets\\One_cube"
+raw_data: "E:\\Leopold\\Chapter 6 - datasets\\Cubes"
 project: "AMGNN"
 float_type: "float64"
 pooling_process: 10
 default_powder_temperature: 25
-scaling_temperature: 3000 # Temperature used to scale the temperature (T/scaling_temperature) in KELVIN
-scaling_power: 1000
-scaling_speed: 1500
-scalling_time : 30000
+scaling_temperature: 3500 # Temperature used to scale the temperature (T/scaling_temperature) in KELVIN
+scaling_power: 300
+scaling_speed: 1800
+scalling_time : 300000
 scaling_size: 250 # max coordinate value in mm
 scaling_deformation: 2 # Max deformation in mm
 #  Scaling deformation work as Y = (Y + scaling deformation) / (2*scaling deformation)
-max_number_of_layer: 10000 # 10 000 is the max number of layer for the EOS M290 with a layer thickness of 0.03mm
+max_number_of_layer: 10_000 # 10 000 is the max number of layer for the EOS M290 with a layer thickness of 0.03mm
 
 # What simulated components to use as input.
 # Can be ["part", "baseplate", "supports"], part should always be here
