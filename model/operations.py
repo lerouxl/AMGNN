@@ -36,7 +36,6 @@ class MLP(torch.nn.Module):
 
         """
         super(MLP, self).__init__()
-        print("test ")
 
         self.in_channels = int(in_channels)
         self.hidden_channels = int(hidden_channels)
