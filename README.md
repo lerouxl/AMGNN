@@ -5,6 +5,12 @@ ___
 This graph neural network is intended to predict the state, step by step of an additive manufacturing process.
 
 ## Installation
+AMGNN environement was developed on Python 3.9.7, you can install it and its library with Anaconda:
+``` conda env create -f environment.yml```
+
+If you want to precise where the environement folder will be created, use the prefix arguement:
+``` conda env create --prefix ENV_PATH  -f environment.yml```
+
 Install Simufact arc reader with : 
 ```pip install git+https://github.com/lerouxl/Simufact_ARC_reader.git@main```
 
