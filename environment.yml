@@ -10,7 +10,7 @@ dependencies:
   - pandocfilters=1.5.*
   - pillow=8.4.*
   - pip
-  - python=3.9.7=h6244533_1
+  - python=3.9.*
   - pytorch=1.11.*
   - pyg=2.1.0
   - pyyaml=6.*
@@ -35,5 +35,4 @@ dependencies:
     - vtk==9.1.0
     - wandb==0.13.4
     - class-resolver
-    - -e git+https://github.com/lerouxl/Simufact_ARC_reader.git#egg=simufact_arc_reader
-prefix: C:\ProgramData\Anaconda3\envs\AMGNN
+
