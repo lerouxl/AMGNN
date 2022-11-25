@@ -61,11 +61,11 @@ class SimpleGnn(MessagePassing):
         x = self.decoder(x)
         return x
 
-    def message(self, x_j):
+    def message(self, x_i, x_j):
         """Compute the message passing by the graph.
         The message is the features of the neighbors node.
         """
-        return x_j
+        return x_i - x_j
 
 class DoubleHeadSimpleGnn(MessagePassing):
     """"""
@@ -127,8 +127,8 @@ class DoubleHeadSimpleGnn(MessagePassing):
         x_2 = self.decoder2(x) # Displacement
         return torch.hstack([x_1 , x_2])
 
-    def message(self, x_j):
+    def message(self, x_i, x_j):
         """Compute the message passing by the graph.
         The message is the features of the neighbors node.
         """
-        return x_j
+        return x_i - x_j
