@@ -11,23 +11,38 @@ import wandb
 from tqdm import tqdm
 from multiprocessing import Pool
 
-
 class ARCDataset(Dataset):
     """A dataset loading the csv of part and supports for each simulation step.
 
     This :obj:Dataset object is containing the graph of a simulation step. In each step, the printed voxels are
     represented by a datapoint linked together using a graph structure.
     Each nodes of the graph contain the following information.
+    TODO: Update ARCDataset X tensors description, we now have 22 values.
     Data:
-        - X: Tensor of shape [n, 11] containing: *laser speed,  laser power, layer thickness, time step duration, x_type,
-                    x_type, x_type, past temperature, x past displacement, y past displacement, z past displacement*.
-                    All values should have been scaled between 0 and 1.
-        - Y: Tensor of shape [n, 4] containing: actual temperature, actual x displacement , actual y displacement,
-                    actual z displacement*
-        - pos: Tensor of shape [n, 3] containing the non deformed position of the voxels.
-        - edge_attr: Tensor of shape [n] containing the distance between the two linked nodes (non deformed).
+        - X: 22 features for each nodes used for predict Y
+            - Laser speed (m/s scaled with `scaling_speed`)
+            - Laser power (W scaled with `scaling_power`)
+            - Layer thickness (um/100)
+            - Time step length (s  scaled by `100 000`)
+            - Time step (s scaled with `scalling_time`)
+            - Type: One hot vector for ["baseplate", "part", "supports"]
+            - Past temperature (in Celsius scaled with `scaling_temperature`)
+            - Past displacement X (in `mm` scaled with `scaling_deformation`)
+            - Past displacement Y (in `mm` scaled with `scaling_deformation`)
+            - Past displacement Z (in `mm` scaled with `scaling_deformation`)
+            - Process features (number of printed voxel layer scaled with `max_number_of_layer`)
+            - Process category: One hot vector for [AM_Layer, process, Postcooling, Powderromval, Unclamping, Cooling-1]
+            - Coordinate X (in `mm` scaled with scaling_size)
+            - Coordinate Y (in `mm` scaled with scaling_size)
+            - Coordinate Z (in `mm` scaled with scaling_size)
+        - Y (target):
+            - TEMPTURE (in Celsius scaled with `scaling_temperature`)
+            - XDIS (in `mm` scaled with `scaling_deformation`)
+            - YDIS (in `mm` scaled with `scaling_deformation`)
+            - ZDIS (in `mm` scaled with `scaling_deformation`)
+        - pos: Tensor of shape [n, 3] containing the non deformed position of the voxels (in `mm` scaled with scaling_size).
 
-    Notes: All values must be scaled between 0 and 1 using the configuration scaling variables.
+    Notes: All values are scaled between 0 and 1 using the configuration scaling variables.
     """
 
     def __init__(self, root: Path, transform=None, pre_transform=None):

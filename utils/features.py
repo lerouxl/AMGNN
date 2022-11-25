@@ -22,7 +22,6 @@ def arc_features_extraction(arc: Arc_reader, past_arc: Arc_reader, config: dict)
     The extracted features are:
         - coordinates
         - edges
-        - edges lengt
         - X: 22 features for each nodes used for predict Y
             - Laser speed (m/s scaled with `scaling_speed`)
             - Laser power (W scaled with `scaling_power`)
