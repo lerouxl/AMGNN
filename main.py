@@ -22,6 +22,8 @@ def run():
     Training, validation and testing results are saved using the Wandb library.
     The dataset is randomly split into 3 sets (train, test and validation)
     """
+    # Set the seed of torch, numpy and random.
+    pl.seed_everything(51, workers=True)
     # Configure a text logger
     init_logger('logs.log')
     log = logging.getLogger(__name__)
@@ -95,6 +97,7 @@ def run():
                          auto_scale_batch_size="binsearch",
                          check_val_every_n_epoch=1,
                          log_every_n_steps= 1,
+                         deterministic=True
                          )
 
     # From https://pytorch-lightning.readthedocs.io/en/1.4.5/advanced/lr_finder.html
