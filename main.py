@@ -47,6 +47,7 @@ def run():
 
     # Create the dataset
     data_path = Path(configuration["raw_data"])
+    # , T.RadiusGraph(r=2/ configuration["scaling_size"])
     transform = T.Compose([T.ToUndirected(), T.AddSelfLoops(), T.Distance()])
     arc_dataset = ARCDataset(data_path, transform=transform)
     log.info(f"ARCDataset created from {str(data_path)}")
