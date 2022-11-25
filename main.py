@@ -11,7 +11,7 @@ from utils.visualise import display_dataset
 import torch_geometric.transforms as T
 import logging
 from utils.logs import init_logger
-from pytorch_lightning.callbacks import ModelCheckpoint, LearningRateMonitor
+from pytorch_lightning.callbacks import ModelCheckpoint, LearningRateMonitor, StochasticWeightAveraging
 from datetime import datetime
 
 
@@ -30,7 +30,7 @@ def run():
 
     # Initialise wandb
     configuration = read_config(Path("configs"))
-    name = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
+    name = str(datetime.now().strftime("%Y_%m_%d_%H_%M_%S")) + "_" + configuration["model_name"]
     wandb_logger = WandbLogger(project="AMGNN", config=configuration, name=name, offline=configuration["offline"],
                                notes=configuration["notes"], tags=configuration["tags"], log_model=True)
     log.info("Configuration loaded")
@@ -84,20 +84,23 @@ def run():
     # Create the pytorch lightning trainer.
     log.info("Start model training")
     # Create a trained run the model on the GPU, with a wandb logger, saving the best 2 models in the checkpoints dir
-    checkpoint_callback = ModelCheckpoint(dirpath=f"checkpoints/{name}/", save_top_k=2, monitor="val loss")
+    checkpoint_callback = ModelCheckpoint(dirpath=f"checkpoints/{name}/",
+                                          save_top_k=1, monitor="val loss",
+                                          filename='amgnn-{epoch:02d}')
     lr_callback = LearningRateMonitor(logging_interval="step")
+    stocha_weight_ave = StochasticWeightAveraging(swa_lrs=1e-2, )
+
     trainer = pl.Trainer(accelerator="gpu",
                          devices=1,
                          logger=wandb_logger,
                          auto_lr_find=True,
-                         callbacks=[checkpoint_callback, lr_callback],
+                         callbacks=[checkpoint_callback, lr_callback, stocha_weight_ave],
                          default_root_dir=f"checkpoints/{name}/",
                          max_epochs=configuration["max_epochs"],
                          accumulate_grad_batches=int(configuration["accumulate_grad_batches"]),
                          auto_scale_batch_size="binsearch",
                          check_val_every_n_epoch=1,
-                         log_every_n_steps= 1,
-                         deterministic=True
+                         log_every_n_steps= 50,
                          )
 
     # From https://pytorch-lightning.readthedocs.io/en/1.4.5/advanced/lr_finder.html
