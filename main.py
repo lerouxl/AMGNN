@@ -101,6 +101,7 @@ def run():
                          auto_scale_batch_size="binsearch",
                          check_val_every_n_epoch=1,
                          log_every_n_steps= 50,
+                         gradient_clip_val=0.8
                          )
 
     # From https://pytorch-lightning.readthedocs.io/en/1.4.5/advanced/lr_finder.html
