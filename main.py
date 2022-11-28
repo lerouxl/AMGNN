@@ -88,7 +88,7 @@ def run():
                                           save_top_k=1, monitor="val loss",
                                           filename='amgnn-{epoch:02d}')
     lr_callback = LearningRateMonitor(logging_interval="step")
-    stocha_weight_ave = StochasticWeightAveraging(swa_lrs=1e-2, )
+    stocha_weight_ave = StochasticWeightAveraging(swa_lrs=1e-4, )
 
     trainer = pl.Trainer(accelerator="gpu",
                          devices=1,
