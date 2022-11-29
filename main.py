@@ -101,7 +101,7 @@ def run():
     stocha_weight_ave = StochasticWeightAveraging(swa_lrs=1e-4, swa_epoch_start=20 )
 
     trainer = pl.Trainer(accelerator="gpu",
-                         devices=1,
+                         devices=-1,
                          logger=wandb_logger,
                          auto_lr_find=True,
                          callbacks=[checkpoint_callback, lr_callback, stocha_weight_ave],

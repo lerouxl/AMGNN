@@ -224,10 +224,10 @@ class AMGNNmodel(pl.LightningModule):
         None
         """
         _, loss, loss_mse, loss_disp, loss_temp = self.get_preds_loss(batch)
-        self.log("train loss", loss, batch_size=self.batch_size)
-        self.log("train loss mse", loss_mse, batch_size=self.batch_size)
-        self.log("train loss gradient displacement", loss_disp, batch_size=self.batch_size)
-        self.log("train loss gradient temperature", loss_temp, batch_size=self.batch_size)
+        self.log("train loss", loss, batch_size=self.batch_size, on_step=True, on_epoch=True, sync_dist=True)
+        self.log("train loss mse", loss_mse, batch_size=self.batch_size, on_step=True, on_epoch=True, sync_dist=True)
+        self.log("train loss gradient displacement", loss_disp, batch_size=self.batch_size, on_step=True, on_epoch=True, sync_dist=True)
+        self.log("train loss gradient temperature", loss_temp, batch_size=self.batch_size, on_step=True, on_epoch=True, sync_dist=True)
         return loss
 
     def test_step(self, batch: Batch, batch_idx: int):
@@ -249,10 +249,10 @@ class AMGNNmodel(pl.LightningModule):
         None
         """
         y_hat, loss, loss_mse, loss_disp, loss_temp = self.get_preds_loss(batch)
-        self.log("test loss", loss, batch_size=self.batch_size)
-        self.log("test loss mse", loss_mse, batch_size=self.batch_size)
-        self.log("test loss gradient displacement", loss_disp, batch_size=self.batch_size)
-        self.log("test loss gradient temperature", loss_temp, batch_size=self.batch_size)
+        self.log("test loss", loss, batch_size=self.batch_size, on_step=True, on_epoch=True, sync_dist=True)
+        self.log("test loss mse", loss_mse, batch_size=self.batch_size, on_step=True, on_epoch=True, sync_dist=True)
+        self.log("test loss gradient displacement", loss_disp, batch_size=self.batch_size, on_step=True, on_epoch=True, sync_dist=True)
+        self.log("test loss gradient temperature", loss_temp, batch_size=self.batch_size, on_step=True, on_epoch=True, sync_dist=True)
 
         # Save the output
         batch_cpu = batch.to("cpu")
@@ -282,10 +282,10 @@ class AMGNNmodel(pl.LightningModule):
             Id of the actual batch
         """
         y_hat, loss, loss_mse, loss_disp, loss_temp = self.get_preds_loss(batch)
-        self.log("val loss", loss, batch_size=self.batch_size)
-        self.log("val loss mse", loss_mse, batch_size=self.batch_size)
-        self.log("val loss gradient displacement", loss_disp, batch_size=self.batch_size)
-        self.log("val loss gradient temperature", loss_temp, batch_size=self.batch_size)
+        self.log("val loss", loss, batch_size=self.batch_size, on_step=True, on_epoch=True, sync_dist=True)
+        self.log("val loss mse", loss_mse, batch_size=self.batch_size, on_step=True, on_epoch=True, sync_dist=True)
+        self.log("val loss gradient displacement", loss_disp, batch_size=self.batch_size, on_step=True, on_epoch=True, sync_dist=True)
+        self.log("val loss gradient temperature", loss_temp, batch_size=self.batch_size, on_step=True, on_epoch=True, sync_dist=True)
 
         return loss
 
