@@ -57,7 +57,7 @@ class SimpleGnn(MessagePassing):
 
         x = self.encoder(batch.x)
 
-        x = self.propagate(batch.edge_index, x=x)
+        x = self.propagate(batch.edge_index, x=x) + x
         x = self.decoder(x)
         return x
 
@@ -122,7 +122,7 @@ class DoubleHeadSimpleGnn(MessagePassing):
 
         x = self.encoder(batch.x)
 
-        x = self.propagate(batch.edge_index, x=x)
+        x = self.propagate(batch.edge_index, x=x) + x
         x_1 = self.decoder1(x) # Temperature
         x_2 = self.decoder2(x) # Displacement
         return torch.hstack([x_1 , x_2])

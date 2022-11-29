@@ -30,9 +30,18 @@ def run():
 
     # Initialise wandb
     configuration = read_config(Path("configs"))
-    name = str(datetime.now().strftime("%Y_%m_%d_%H_%M_%S")) + "_" + configuration["model_name"]
+    name = str(datetime.now().strftime("%Y_%m_%d_%H_%M_%S")) #  + "_" + configuration["model_name"]
+
+    # Try to log the model on Wandb
+    if configuration["offline"]:
+        # If the run is offline, log_model cannot be true as this is an invalid configuration"
+        # since model checkpoints cannot be uploaded in offline mode
+        log_model = False
+    else:
+        log_model = True
+
     wandb_logger = WandbLogger(project="AMGNN", config=configuration, name=name, offline=configuration["offline"],
-                               notes=configuration["notes"], tags=configuration["tags"], log_model=True)
+                               notes=configuration["notes"], tags=configuration["tags"], log_model=log_model)
     log.info("Configuration loaded")
 
     # Access all hyperparameters values through wandb.config
@@ -41,7 +50,8 @@ def run():
 
     # Add model name to the tags
     wandb_logger.experiment.tags = wandb_logger.experiment.tags + (configuration["model_name"],)
-
+    # The name update is moved there as the model_name variable can be updated by a sweep
+    wandb_logger.experiment.name = name + "_" + configuration["model_name"]
     # Create the deep learning model
     model = AMGNNmodel(configuration)
     wandb_logger.watch(model.network, log="all")
@@ -88,7 +98,7 @@ def run():
                                           save_top_k=1, monitor="val loss",
                                           filename='amgnn-{epoch:02d}')
     lr_callback = LearningRateMonitor(logging_interval="step")
-    stocha_weight_ave = StochasticWeightAveraging(swa_lrs=1e-2, )
+    stocha_weight_ave = StochasticWeightAveraging(swa_lrs=1e-4, swa_epoch_start=20 )
 
     trainer = pl.Trainer(accelerator="gpu",
                          devices=1,
@@ -102,6 +112,7 @@ def run():
                          auto_scale_batch_size="binsearch",
                          check_val_every_n_epoch=1,
                          log_every_n_steps= 50,
+                         gradient_clip_val=0.8
                          )
 
     # From https://pytorch-lightning.readthedocs.io/en/1.4.5/advanced/lr_finder.html
