@@ -13,15 +13,26 @@ import logging
 from utils.logs import init_logger
 from pytorch_lightning.callbacks import ModelCheckpoint, LearningRateMonitor, StochasticWeightAveraging
 from datetime import datetime
+import argparse
 
 
-def run():
+def run(num_nodes:int=1, devices:int=1):
     """Entry strips to train an test AMGNN model on data.
     The configuration of AMGNN and the training is defined in the *configs* folder.
 
     Training, validation and testing results are saved using the Wandb library.
     The dataset is randomly split into 3 sets (train, test and validation)
+
+    Parameters
+    ----------
+    num_nodes: int
+        Number of GPU nodes for distributed training.
+    devices: int
+        Will be mapped to either gpus, tpu_cores, num_processes or ipus, based on the accelerator type.
     """
+    num_nodes = int(num_nodes)
+    devices = int(devices)
+
     # Set the seed of torch, numpy and random.
     pl.seed_everything(51, workers=True)
     # Configure a text logger
@@ -101,8 +112,8 @@ def run():
     stocha_weight_ave = StochasticWeightAveraging(swa_lrs=1e-4, swa_epoch_start=20)
 
     trainer = pl.Trainer(accelerator="gpu",
-                         devices=-1,
-                         num_nodes=-1,
+                         devices=devices,
+                         num_nodes=num_nodes,
                          logger=wandb_logger,
                          auto_lr_find=True,
                          callbacks=[checkpoint_callback, lr_callback, stocha_weight_ave],
@@ -143,4 +154,13 @@ def run():
 
 
 if __name__ == "__main__":
-    run()
+    parser = argparse.ArgumentParser(
+        description="Neural network as a surrogate model for additive manufacturing. If using SLURM, num_nodes must "
+                    "be equal to #SBATCH --nodes and  devices must be equal to -ntasks-per-node=Y"
+    )
+    parser.add_argument("-n", "--num_nodes", type=int, default=1,
+                        help="Number of GPU nodes for distributed training. Default: 1")
+    parser.add_argument("-d", "--devices", type=int, default=-1,
+                        help="Will be mapped to either gpus, tpu_cores, num_processes or ipus. Default: -1")
+    args = parser.parse_args()
+    run(devices=-1)
