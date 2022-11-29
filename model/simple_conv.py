@@ -113,7 +113,7 @@ class DoubleHeadSimpleSAGEConv(torch.nn.Module):
         aggregator: str
             Type of aggregation function to use for passing message in the graph.
         """
-        super(SimpleSAGEConv, self).__init__()
+        super(DoubleHeadSimpleSAGEConv, self).__init__()
 
         self.name = "Simple Conv"
 
