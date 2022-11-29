@@ -92,6 +92,7 @@ def run():
 
     trainer = pl.Trainer(accelerator="gpu",
                          devices=1,
+			 num_nodes = 1,
                          logger=wandb_logger,
                          auto_lr_find=True,
                          callbacks=[checkpoint_callback, lr_callback, stocha_weight_ave],
