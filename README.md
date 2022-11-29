@@ -44,3 +44,14 @@ The nodes features are:
 | 19                	| X coordinate (Normalised by `scaling_size`)                  	|
 | 20                	| Y coordinate (Normalised by `scaling_size`)                  	|
 | 21                	| Z coordinate (Normalised by `scaling_size`)                  	|
+
+
+## Multi GPUs and nodes supports
+If you want to use multiple GPUs and multiple nodes with a SLURM scheduler, you can use the `slurm_multi_gpu.sh` code 
+for run with GPUs.
+
+From https://pytorch-lightning.readthedocs.io/en/latest/clouds/cluster_advanced.html#troubleshooting
+There are two parametres in the SLURM submission script that determine how many processes will run your training,
+the #SBATCH --nodes=X setting and #SBATCH --ntasks-per-node=Y settings.
+The numbers there need to match what is configured in your Trainer in the code:
+Trainer(num_nodes=X, devices=Y). If you change the numbers, update them in BOTH places.
