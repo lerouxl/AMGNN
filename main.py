@@ -30,7 +30,7 @@ def run():
 
     # Initialise wandb
     configuration = read_config(Path("configs"))
-    name = str(datetime.now().strftime("%Y_%m_%d_%H_%M_%S")) #  + "_" + configuration["model_name"]
+    name = str(datetime.now().strftime("%Y_%m_%d_%H_%M_%S"))  # + "_" + configuration["model_name"]
 
     # Try to log the model on Wandb
     if configuration["offline"]:
@@ -98,11 +98,11 @@ def run():
                                           save_top_k=1, monitor="val loss",
                                           filename='amgnn-{epoch:02d}')
     lr_callback = LearningRateMonitor(logging_interval="step")
-    stocha_weight_ave = StochasticWeightAveraging(swa_lrs=1e-4, swa_epoch_start=20 )
+    stocha_weight_ave = StochasticWeightAveraging(swa_lrs=1e-4, swa_epoch_start=20)
 
     trainer = pl.Trainer(accelerator="gpu",
                          devices=-1,
-			             num_nodes = 1,
+                         num_nodes=-1,
                          logger=wandb_logger,
                          auto_lr_find=True,
                          callbacks=[checkpoint_callback, lr_callback, stocha_weight_ave],
@@ -111,7 +111,7 @@ def run():
                          accumulate_grad_batches=int(configuration["accumulate_grad_batches"]),
                          auto_scale_batch_size="binsearch",
                          check_val_every_n_epoch=1,
-                         log_every_n_steps= 50,
+                         log_every_n_steps=50,
                          gradient_clip_val=0.8
                          )
 
@@ -126,7 +126,7 @@ def run():
     print(f"New learning rate found: {new_lr}")
 
     trainer.fit(model)
-    #trainer.fit(model, train_loader, validation_loader)
+    # trainer.fit(model, train_loader, validation_loader)
     log.info("End model training")
 
     # Test the model on unseen data with the best model
