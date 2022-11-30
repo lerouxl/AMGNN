@@ -124,16 +124,6 @@ def run(num_nodes:int=1, devices:int=1):
                          gradient_clip_val=0.8
                          )
 
-    # From https://pytorch-lightning.readthedocs.io/en/1.4.5/advanced/lr_finder.html
-    # Found the optimal learning rate:
-    # Run learning rate finder
-    lr_finder = trainer.tuner.lr_find(model)
-    # Pick point based on plot, or get suggestion
-    new_lr = lr_finder.suggestion()
-    # update hparams of the model
-    model.lr = new_lr
-    print(f"New learning rate found: {new_lr}")
-
     trainer.fit(model)
     # trainer.fit(model, train_loader, validation_loader)
     log.info("End model training")
