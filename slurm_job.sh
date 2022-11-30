@@ -9,7 +9,7 @@
 #number of parallel processes (tasks) you are requesting - maps to MPI processes
 #SBATCH --ntasks=5
 #maximum job time in D-HH:MM
-#SBATCH --time=2-00:00
+#SBATCH --time=1-05:00
 #memory per process in MB
 #SBATCH --mem-per-cpu=8000
 #Number of GPU
@@ -27,5 +27,5 @@ module load proxy # Load the proxy system to be able to use internet for the Wan
 source activate /scratch/c.c1955852/envs/AMGNN
 
 # For a Wandb sweep, request the next set of parameters and run once.
-wandb agent --count 1 niut/AMGNN/siqfra63
+wandb agent --count 1 niut/AMGNN/o47nm12m
 python3 main.py
