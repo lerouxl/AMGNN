@@ -6,5 +6,5 @@ metric:
 parameters:
   model_name:
     values: [ "simple_gnn", "double_head_simple_gnn", "simple_mlp", "double_head_simple_mlp", "simple_conv", "double_head_simple_conv" ]
-  number_hidden_layers:
-    values: [ 2, 4]
+  lambda_parameters:
+    values: [[1,0,0], [0.70,0.15,0.15]]
