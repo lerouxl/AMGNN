@@ -109,14 +109,12 @@ def run(num_nodes:int=1, devices:int=1):
                                           save_top_k=1, monitor="val loss",
                                           filename='amgnn-{epoch:02d}')
     lr_callback = LearningRateMonitor(logging_interval="step")
-    stocha_weight_ave = StochasticWeightAveraging(swa_lrs=1e-4, swa_epoch_start=20)
 
     trainer = pl.Trainer(accelerator="gpu",
                          devices=devices,
                          num_nodes=num_nodes,
                          logger=wandb_logger,
-                         auto_lr_find=True,
-                         callbacks=[checkpoint_callback, lr_callback, stocha_weight_ave],
+                         callbacks=[checkpoint_callback, lr_callback],
                          default_root_dir=f"checkpoints/{name}/",
                          max_epochs=configuration["max_epochs"],
                          accumulate_grad_batches=int(configuration["accumulate_grad_batches"]),
