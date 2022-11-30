@@ -35,9 +35,6 @@ def run(num_nodes:int=1, devices:int=1):
 
     # Set the seed of torch, numpy and random.
     pl.seed_everything(51, workers=True)
-    # Configure a text logger
-    init_logger('logs.log')
-    log = logging.getLogger(__name__)
 
     # Initialise wandb
     configuration = read_config(Path("configs"))
@@ -53,7 +50,6 @@ def run(num_nodes:int=1, devices:int=1):
 
     wandb_logger = WandbLogger(project="AMGNN", config=configuration, name=name, offline=configuration["offline"],
                                notes=configuration["notes"], tags=configuration["tags"], log_model=log_model)
-    log.info("Configuration loaded")
 
     # Access all hyperparameters values through wandb.config
     configuration = dict(wandb.config)
@@ -63,6 +59,12 @@ def run(num_nodes:int=1, devices:int=1):
     wandb_logger.experiment.tags = wandb_logger.experiment.tags + (configuration["model_name"],)
     # The name update is moved there as the model_name variable can be updated by a sweep
     wandb_logger.experiment.name = name + "_" + configuration["model_name"]
+
+    # Configure a text logger
+    init_logger(f'logs_{wandb_logger.experiment.name}.log')
+    log = logging.getLogger(__name__)
+    log.info("Configuration loaded")
+
     # Create the deep learning model
     model = AMGNNmodel(configuration)
     wandb_logger.watch(model.network, log="all")
