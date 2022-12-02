@@ -35,4 +35,5 @@ dependencies:
     - vtk==9.1.0
     - wandb==0.13.4
     - class-resolver
+    - -e git+https://github.com/lerouxl/Simufact_ARC_reader.git#egg=simufact_arc_reader
 
