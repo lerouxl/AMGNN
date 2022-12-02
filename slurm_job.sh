@@ -7,7 +7,7 @@
 #job name
 #SBATCH -J AMGNN
 #number of parallel processes (tasks) you are requesting - maps to MPI processes
-#SBATCH --ntasks=5
+
 #maximum job time in D-HH:MM
 #SBATCH --time=1-05:00
 #memory per process in MB
@@ -29,4 +29,4 @@ source activate AMGNN
 
 # For a Wandb sweep, request the next set of parameters and run once.
 wandb agent --count 1 niut/AMGNN/o47nm12m
-python3 main.py
+#python3 main.py automaticaly launched by wandb
