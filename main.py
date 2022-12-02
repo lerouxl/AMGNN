@@ -14,9 +14,10 @@ from utils.logs import init_logger
 from pytorch_lightning.callbacks import ModelCheckpoint, LearningRateMonitor, StochasticWeightAveraging
 from datetime import datetime
 import argparse
+from ast import literal_eval
 
 
-def run(num_nodes:int=1, devices:int=1):
+def run(overwrite_config: dict):
     """Entry strips to train an test AMGNN model on data.
     The configuration of AMGNN and the training is defined in the *configs* folder.
 
@@ -25,13 +26,11 @@ def run(num_nodes:int=1, devices:int=1):
 
     Parameters
     ----------
-    num_nodes: int
-        Number of GPU nodes for distributed training.
-    devices: int
-        Will be mapped to either gpus, tpu_cores, num_processes or ipus, based on the accelerator type.
+    overwrite_config: dict
+        Dictionary to overwrite the file config
     """
-    num_nodes = int(num_nodes)
-    devices = int(devices)
+    num_nodes = int(overwrite_config["num_nodes"])
+    devices = int(overwrite_config["devices"])
 
     # Set the seed of torch, numpy and random.
     pl.seed_everything(51, workers=True)
@@ -53,15 +52,19 @@ def run(num_nodes:int=1, devices:int=1):
 
     # Access all hyperparameters values through wandb.config
     configuration = dict(wandb.config)
+
+    # Apply the overwrite parameters to the config
+    for key in list(overwrite_config.keys()):
+        configuration[key] = overwrite_config[key]
     print(configuration)
 
     # Add model name to the tags
     wandb_logger.experiment.tags = wandb_logger.experiment.tags + (configuration["model_name"],)
     # The name update is moved there as the model_name variable can be updated by a sweep
-    wandb_logger.experiment.name = name + "_" + configuration["model_name"]
+    wandb_logger.experiment.name = configuration["model_name"] + "_" + str(configuration["lambda_parameters"])
 
     # Configure a text logger
-    init_logger(f'logs_{wandb_logger.experiment.name}.log')
+    init_logger(f'logs/logs_{wandb_logger.experiment.name}.log')
     log = logging.getLogger(__name__)
     log.info("Configuration loaded")
 
@@ -152,5 +155,22 @@ if __name__ == "__main__":
                         help="Number of GPU nodes for distributed training. Default: 1")
     parser.add_argument("-d", "--devices", type=int, default=-1,
                         help="Will be mapped to either gpus, tpu_cores, num_processes or ipus. Default: -1")
+    parser.add_argument("--model_name", type=str, default=None)
+    parser.add_argument("--lambda_parameters", type=str, default=None)
+
     args = parser.parse_args()
-    run(devices=-1)
+
+    # Transform the NameSpace into a dictionary
+    args = vars(args)
+    args["test"] = None
+    # Remove None key
+    for key in list(args.keys()):
+        if args[key] is None:
+            args.pop(key)
+
+    try:
+        args['lambda_parameters'] = literal_eval(args['lambda_parameters'])
+    except:
+        pass
+
+    run(args)
