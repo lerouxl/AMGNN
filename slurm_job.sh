@@ -28,5 +28,5 @@ eval "$(/apps/languages/anaconda/2021.11/bin/conda shell.bash hook)"
 source activate AMGNN
 
 # For a Wandb sweep, request the next set of parameters and run once.
-wandb agent --count 1 niut/AMGNN/o47nm12m
+wandb agent --count 1 niut/AMGNN/fnh44aed
 #python3 main.py automaticaly launched by wandb
