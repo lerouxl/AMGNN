@@ -21,10 +21,18 @@ class MplColorHelper:
 
 
 def init_logger(file_name: str) -> None:
+    """Configure the logging library.
+    Configure the logging library by setting where the log file will be stored, that the level of logs is fixed to
+    debug and the format of the logs.
+
+    Logger can be called back with `log = logging.getLogger(__name__)`.
+
+    Parameters
+    ----------
+    file_name: str
+        Path of the file to save the logs. If the file or folder do not exist, they will be created.
     """
-    Configure the logging library.
-    logger can be now crated using `log = logging.getLogger(__name__)`
-    """
+    Path(file_name).parent.mkdir(parents=True, exist_ok=True)
     logging.basicConfig(
         filename=file_name,
         level=logging.DEBUG,
@@ -48,10 +56,6 @@ def log_point_cloud_to_wandb(name: str, points: np.array, value: np.array, epoch
         Actual epoch
     max_value:
         Max value to use for scaling for scaling
-
-    Returns
-    -------
-
     """
     COL = MplColorHelper('jet', 0, max_value)
 
