@@ -45,7 +45,7 @@ def run(overwrite_config: dict):
         # since model checkpoints cannot be uploaded in offline mode
         log_model = False
     else:
-        log_model = True
+        log_model = "all"
 
     wandb_logger = WandbLogger(project="AMGNN", config=configuration, name=name, offline=configuration["offline"],
                                notes=configuration["notes"], tags=configuration["tags"], log_model=log_model)
