@@ -110,7 +110,8 @@ def run(overwrite_config: dict):
     # Create the pytorch lightning trainer.
     log.info("Start model training")
     # Create a trained run the model on the GPU, with a wandb logger, saving the best 2 models in the checkpoints dir
-    checkpoint_callback = ModelCheckpoint(dirpath=f"checkpoints/{name}/",
+
+    checkpoint_callback = ModelCheckpoint(dirpath=f"checkpoints/{name}_checkpoint_{wandb.run.name}/",
                                           save_top_k=1, monitor="val loss",
                                           filename='amgnn-{epoch:02d}')
     lr_callback = LearningRateMonitor(logging_interval="step")
