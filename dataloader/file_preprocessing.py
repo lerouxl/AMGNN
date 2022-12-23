@@ -108,11 +108,16 @@ def preprocess_files(step_files: list, dest_folder: str) -> None:
         except:
             process_name = str(arc.metaparameters.subProcessName)
 
-        process_category, process_features = subprocessname_to_cat_features(process_name)
+        # The first step file, have a process_name equal to the simulation name instead of simulation step name.
+        if raw_path[0].parents[2].name.lower() == process_name:
+            # if we are at the step zeros (init), then place holder values are used.
+            process_category, process_features = [0, 0, 0, 0, 0, 0, 0, 0], 0
+        else:
+            process_category, process_features = subprocessname_to_cat_features(process_name)
 
         # Pass those features to all nodes
         arc.data.process_category = np.broadcast_to(np.array([process_category], dtype=float),
-                                                    [arc.data.XDIS.shape[0], 6])
+                                                    [arc.data.XDIS.shape[0], 8])
         arc.data.process_features = np.full_like(arc.data.XDIS, process_features, dtype=float)
 
         # Previous arc file
@@ -140,12 +145,14 @@ def subprocessname_to_cat_features(process_name: str) -> tuple[list[int], int]:
 
     The subProcessName will be classified into 6 categories.
     Categories:
-        - AM_Layer : [1,0,0,0,0,0]
-        - process : [0,1,0,0,0,0]
-        - Postcooling: [0,0,1,0,0,0]
-        - Powderremoval : [0,0,0,1,0,0]
-        - Unclamping : [0,0,0,0,1,0]
-        - Cooling-1 : [0,0,0,0,0,1]
+        - AM_Layer : [1,0,0,0,0,0,0,0]
+        - process : [0,1,0,0,0,0,0,0]
+        - Postcooling: [0,0,1,0,0,0,0,0]
+        - Powderremoval : [0,0,0,1,0,0,0,0]
+        - Unclamping : [0,0,0,0,1,0,0,0]
+        - Cooling-1 : [0,0,0,0,0,1,0,0]
+        - ImmediateXrelease : [0,0,0,0,0,0,1,0]
+        - SupportXremoval : [0,0,0,0,0,0,0,1]
 
     If the subProcessName is an AM_layer, then the layer number will be extracted and used as features.
     Examples:
@@ -170,7 +177,7 @@ def subprocessname_to_cat_features(process_name: str) -> tuple[list[int], int]:
         Warning, this values is not normalised.
     """
     # Initialise the category and features variables
-    cat = [0, 0, 0, 0, 0, 0]  # AM_Layer, process, Postcooling, Powderremoval, Unclamping, Cooling-1
+    cat = [0, 0, 0, 0, 0, 0, 0, 0]  # AM_Layer, process, Postcooling, Powderremoval, Unclamping, Cooling-1
     feature = 0
 
     log = logging.getLogger(__name__)
@@ -178,21 +185,27 @@ def subprocessname_to_cat_features(process_name: str) -> tuple[list[int], int]:
     # if we are in a layer step, we extract the layer number as feature
     if "AM_Layer" in process_name:
         feature = int((process_name.split(" ")[-1]))
-        cat = [1, 0, 0, 0, 0, 0]
+        cat = [1, 0, 0, 0, 0, 0, 0, 0]
     # Else, the feature stay at 0 and we change the process category
     elif "process" in process_name:
-        cat = [0, 1, 0, 0, 0, 0]
+        cat = [0, 1, 0, 0, 0, 0, 0, 0]
     elif "Postcooling" in process_name:
-        cat = [0, 0, 1, 0, 0, 0]
+        cat = [0, 0, 1, 0, 0, 0, 0, 0]
     elif "Powderremoval" in process_name:
-        cat = [0, 0, 0, 1, 0, 0]
+        cat = [0, 0, 0, 1, 0, 0, 0, 0]
     elif "Unclamping" in process_name:
-        cat = [0, 0, 0, 0, 1, 0]
+        cat = [0, 0, 0, 0, 1, 0, 0, 0]
     elif "Cooling-1" in process_name:
-        cat = [0, 0, 0, 0, 0, 1]
+        cat = [0, 0, 0, 0, 0, 1, 0, 0]
+    elif "ImmediateXrelease" in process_name:
+        cat = [0, 0, 0, 0, 0, 0, 1, 0]
+    elif "SupportXremoval":
+        cat = [0, 0, 0, 0, 0, 0, 0, 1]
     # In case of unknow categorie, raisen an error
-    if cat == [0, 0, 0, 0, 0, 0]:
+    if cat == [0, 0, 0, 0, 0, 0, 0]:
         log.debug( f"Unknow categorie for {process_name}")
-        #raise f"Unknow categorie for {process_name}"
+        raise f"Unknow categorie for {process_name}"
+        # If the step 0 file is processed, its process_name is the name of the simulation.
+        # This can raise error if not deal previously.
 
     return cat, feature
