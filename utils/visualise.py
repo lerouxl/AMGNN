@@ -35,6 +35,8 @@ def display_dataset(model: LightningModule, dataset: Subset, configuration, fold
 
     log = logging.getLogger(__name__)
     log.info("Start the display dataset function")
+    scaling_deformation = configuration["scaling_deformation"]
+
     with torch.no_grad():
         model.eval()
 
@@ -57,15 +59,15 @@ def display_dataset(model: LightningModule, dataset: Subset, configuration, fold
 
             # Process the data to be displayed
             y_temperature = batch.y[:, 0] * configuration["scaling_temperature"]
-            y_disp_x = batch.y[:, 1] * configuration["scaling_deformation"]
-            y_disp_y = batch.y[:, 2] * configuration["scaling_deformation"]
-            y_disp_z = batch.y[:, 3] * configuration["scaling_deformation"]
+            y_disp_x = 2 * scaling_deformation * batch.y[:, 1] - scaling_deformation
+            y_disp_y = 2 * scaling_deformation * batch.y[:, 2] - scaling_deformation
+            y_disp_z = 2 * scaling_deformation * batch.y[:, 3] - scaling_deformation
             y_displacement_vectors = np.vstack((y_disp_x, y_disp_y, y_disp_z)).T
 
             y_temperature_hat = y_hat[:, 0] * configuration["scaling_temperature"]
-            y_disp_x_hat = y_hat[:, 1] * configuration["scaling_deformation"]
-            y_disp_y_hat = y_hat[:, 2] * configuration["scaling_deformation"]
-            y_disp_z_hat = y_hat[:, 3] * configuration["scaling_deformation"]
+            y_disp_x_hat = 2 * scaling_deformation * y_hat[:, 1] - scaling_deformation
+            y_disp_y_hat = 2 * scaling_deformation * y_hat[:, 2] - scaling_deformation
+            y_disp_z_hat = 2 * scaling_deformation * y_hat[:, 3] - scaling_deformation
             y_hat_displacement_vectors = np.vstack((y_disp_x_hat, y_disp_y_hat, y_disp_z_hat)).T
 
             x_laser_speed = batch.x[:, 0] * configuration["scaling_speed"]
@@ -75,9 +77,9 @@ def display_dataset(model: LightningModule, dataset: Subset, configuration, fold
             x_time_step = batch.x[:, 4]
             x_type = np.argmax(batch.x[:, 5:8], axis=1)
             x_past_temp = batch.x[:, 8] * configuration["scaling_temperature"]
-            x_past_x_displacement = batch.x[:, 9] * configuration["scaling_deformation"]
-            x_past_y_displacement = batch.x[:, 10] * configuration["scaling_deformation"]
-            x_past_z_displacement = batch.x[:, 11] * configuration["scaling_deformation"]
+            x_past_x_displacement =  2 * scaling_deformation * batch.x[:, 9] - scaling_deformation
+            x_past_y_displacement =  2 * scaling_deformation * batch.x[:, 10] - scaling_deformation
+            x_past_z_displacement =  2 * scaling_deformation * batch.x[:, 11] - scaling_deformation
             x_past_displacement_vectors = np.vstack((x_past_x_displacement, x_past_y_displacement, x_past_z_displacement)).T
             x_process_features = batch.x[:, 12]
             x_process_category =  np.argmax(batch.x[:, 13:19], axis=1)
@@ -189,6 +191,7 @@ def read_pt_batch_results(file: Union[str, Path], configuration):
     """
     file = Path(file)
     batch = torch.load(file)
+    scaling_deformation = configuration["scaling_deformation"]
 
     # For every graph in the batch, we generate a visualisation:
     for graph_id in range(batch.num_graphs):
@@ -203,9 +206,9 @@ def read_pt_batch_results(file: Union[str, Path], configuration):
 
         # Process the data to be displayed
         y_temperature = y[:, 0] * configuration["scaling_temperature"]
-        y_disp_x = y[:, 1] * configuration["scaling_deformation"]
-        y_disp_y = y[:, 2] * configuration["scaling_deformation"]
-        y_disp_z = y[:, 3] * configuration["scaling_deformation"]
+        y_disp_x = 2 * scaling_deformation * y[:, 1] - scaling_deformation
+        y_disp_y = 2 * scaling_deformation * y[:, 2] - scaling_deformation
+        y_disp_z = 2 * scaling_deformation * y[:, 3] - scaling_deformation
         y_displacement_vectors = np.vstack((y_disp_x, y_disp_y, y_disp_z)).T
 
         x_laser_speed = graph.x[:, 0] * configuration["scaling_speed"]
@@ -215,9 +218,9 @@ def read_pt_batch_results(file: Union[str, Path], configuration):
         x_time_step = graph.x[:, 4]
         x_type = np.argmax(graph.x[:, 5:8], axis=1)
         x_past_temp = graph.x[:, 8] * configuration["scaling_temperature"]
-        x_past_x_displacement = graph.x[:, 9] * configuration["scaling_deformation"]
-        x_past_y_displacement = graph.x[:, 10] * configuration["scaling_deformation"]
-        x_past_z_displacement = graph.x[:, 11] * configuration["scaling_deformation"]
+        x_past_x_displacement = 2 * scaling_deformation * graph.x[:, 9] - scaling_deformation
+        x_past_y_displacement = 2 * scaling_deformation * graph.x[:, 10] - scaling_deformation
+        x_past_z_displacement = 2 * scaling_deformation * graph.x[:, 11] - scaling_deformation
         x_past_displacement_vectors = np.vstack((x_past_x_displacement, x_past_y_displacement, x_past_z_displacement)).T
         x_process_features = graph.x[:, 12]
         x_process_category = np.argmax(graph.x[:, 13:19], axis=1)
@@ -229,9 +232,9 @@ def read_pt_batch_results(file: Union[str, Path], configuration):
         # If we have some prediction
         if not y_hat is None:
             y_temperature_hat =y_hat[:, 0] * configuration["scaling_temperature"]
-            y_disp_x_hat = y_hat[:, 1] * configuration["scaling_deformation"]
-            y_disp_y_hat = y_hat[:, 2] * configuration["scaling_deformation"]
-            y_disp_z_hat = y_hat[:, 3] * configuration["scaling_deformation"]
+            y_disp_x_hat = 2 * scaling_deformation *y_hat[:, 1] - scaling_deformation
+            y_disp_y_hat = 2 * scaling_deformation *y_hat[:, 2] - scaling_deformation
+            y_disp_z_hat = 2 * scaling_deformation *y_hat[:, 3] - scaling_deformation
             y_hat_displacement_vectors = np.vstack((y_disp_x_hat, y_disp_y_hat, y_disp_z_hat)).T
 
             error_temperature = y_temperature - y_temperature_hat
