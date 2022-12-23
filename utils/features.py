@@ -27,14 +27,14 @@ def arc_features_extraction(arc: Arc_reader, past_arc: Arc_reader, config: dict)
             - Laser power (W scaled with `scaling_power`)
             - Layer thickness (um/100)
             - Time step length (s  scaled by `100 000`)
-            - Time step (s scaled with `scalling_time`)
+            - Time step (s scaled with `scaling_time`)
             - Type: One hot vector for ["baseplate", "part", "supports"]
             - Past temperature (in Celsius scaled with `scaling_temperature`)
             - Past displacement X (in `mm` scaled with `scaling_deformation`)
             - Past displacement Y (in `mm` scaled with `scaling_deformation`)
             - Past displacement Z (in `mm` scaled with `scaling_deformation`)
             - Process features (number of printed voxel layer scaled with `max_number_of_layer`)
-            - Process category: One hot vector for [AM_Layer, process, Postcooling, Powderromval, Unclamping, Cooling-1]
+            - Process category: One hot vector for [AM_Layer, process, Postcooling, Powderromval, Unclamping, Cooling-1, ImmediateXrelease]
             - Coordinate X (in `mm` scaled with scaling_size)
             - Coordinate Y (in `mm` scaled with scaling_size)
             - Coordinate Z (in `mm` scaled with scaling_size)
@@ -119,10 +119,10 @@ def arc_features_extraction(arc: Arc_reader, past_arc: Arc_reader, config: dict)
     x_laser_speed = x_laser_speed / float(config["scaling_speed"])
 
     # Scale time step length
-    x_time_step_length = x_time_step_length / 100_000
+    x_time_step_length = x_time_step_length / 50_000
 
     #scale time
-    x_time_step = x_time_step / float(config["scalling_time"])
+    x_time_step = x_time_step / float(config["scaling_time"])
 
     # scale max temperature
     x_past_temp = x_past_temp / float(config["scaling_temperature"])
@@ -130,12 +130,20 @@ def arc_features_extraction(arc: Arc_reader, past_arc: Arc_reader, config: dict)
 
 
     # scale
-    y_xdis = y_xdis / float(config["scaling_deformation"])
-    y_ydis = y_ydis / float(config["scaling_deformation"])
-    y_zdis = y_zdis / float(config["scaling_deformation"])
-    x_past_xdis = x_past_xdis / float(config["scaling_deformation"])
-    x_past_ydis = x_past_ydis / float(config["scaling_deformation"])
-    x_past_zdis = x_past_zdis / float(config["scaling_deformation"])
+    scaling_deformation = float(config["scaling_deformation"])
+    y_xdis = (y_xdis + scaling_deformation) / (2*scaling_deformation)
+    y_ydis = (y_ydis + scaling_deformation) / (2*scaling_deformation)
+    y_zdis = (y_zdis + scaling_deformation) / (2*scaling_deformation)
+    x_past_xdis = (x_past_xdis + scaling_deformation) / (2*scaling_deformation)
+    x_past_ydis = (x_past_ydis + scaling_deformation) / (2*scaling_deformation)
+    x_past_zdis = (x_past_zdis + scaling_deformation) / (2*scaling_deformation)
+
+    # Coordinates are in mm, we are rounding them to avoid any leak with the deformation as coordinates is
+    # from the saved coordinates - deformation
+    # Its ok to round to the milimeters are for my dataset, all points should be seperated by 5mm (voxel size)
+    coordinates = torch.round(coordinates,decimals=0) # rounded milimeters position
+    past_coordinates = torch.round(past_coordinates, decimals=0)  # rounded milimeters position
+
     past_coordinates /= float(config["scaling_size"])
     coordinates /= float(config["scaling_size"])
     process_features /= float(config["max_number_of_layer"])
@@ -154,8 +162,8 @@ def arc_features_extraction(arc: Arc_reader, past_arc: Arc_reader, config: dict)
 
     # Add the subprocess features to the nodes
     X = torch.cat([X, process_features.unsqueeze(1)], 1) # [n, 13]
-    X = torch.cat([X, process_category],1) # [n, 19]
-    X = torch.cat([X, coordinates],1) # [n, 22]
+    X = torch.cat([X, process_category],1) # [n, 20]
+    X = torch.cat([X, coordinates],1) # [n, 23]
 
     # Check that no infinite value, NaN value or values superior to 1 are in the input and target tensors
     check_tensors(X)
