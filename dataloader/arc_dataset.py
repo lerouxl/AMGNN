@@ -24,7 +24,7 @@ class ARCDataset(Dataset):
             - Laser power (W scaled with `scaling_power`)
             - Layer thickness (um/100)
             - Time step length (s  scaled by `100 000`)
-            - Time step (s scaled with `scalling_time`)
+            - Time step (s scaled with `scaling_time`)
             - Type: One hot vector for ["baseplate", "part", "supports"]
             - Past temperature (in Celsius scaled with `scaling_temperature`)
             - Past displacement X (in `mm` scaled with `scaling_deformation`)
@@ -203,17 +203,17 @@ class ARCDataset(Dataset):
 
         # Processing
         tmp_files = list(self.tmp_arc_folder.glob("*.npz"))
-        with Pool(wandb.config.pooling_process) as pool:
-            # If distance_upper_bound is too low, error can append in the processing
-            pool.starmap(processing_file, zip(tmp_files,
-                                              repeat(self.processed_dir),repeat(dict(wandb.config))))
+        #with Pool(wandb.config.pooling_process) as pool:
+        #    # If distance_upper_bound is too low, error can append in the processing
+        #    pool.starmap(processing_file, zip(tmp_files,
+        #                                      repeat(self.processed_dir),repeat(dict(wandb.config))))
         # Without multi processing (can be entered with the debugger
         #log = logging.getLogger(__name__)
         #log.info(f"Start processing tmp files")
-        #for data in zip(tmp_files,repeat(self.processed_dir),repeat(dict(wandb.config))):
-        #    #print()
-        #    try:
-        #        processing_file(*data)
+        for data in zip(tmp_files,repeat(self.processed_dir),repeat(dict(wandb.config))):
+            #print()
+            #try:
+            processing_file(*data)
         #    except Exception as e:
         #        s = str(e)
         #        log.critical(f"FAIL: {s} ")
