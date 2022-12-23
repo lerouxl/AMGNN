@@ -263,7 +263,8 @@ class AMGNNmodel(pl.LightningModule):
         pt_path = osp.join(test_output_folder, f'{batch_idx}.pt')
         torch.save(batch_cpu, pt_path)
         # Transform the pt file as a vtk file that can be read with Pyvista
-        read_pt_batch_results(pt_path, self.configuration)
+        if batch_idx == 1:
+            read_pt_batch_results(pt_path, self.configuration)
 
         return loss
 
