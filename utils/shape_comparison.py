@@ -7,6 +7,10 @@ from sklearn.neighbors import KDTree
 import numpy as np
 import pyvista as pv
 from copy import deepcopy
+import time
+from multiprocessing import Pool
+from itertools import repeat
+import multiprocessing as mp
 
 
 def surface_reconstruction_error(folder: str, configuration: dict):
@@ -27,6 +31,7 @@ def surface_reconstruction_error(folder: str, configuration: dict):
     pandas.DataFrame:
         DataFrame containing for each mesh file, the sum, max and mean reconstruction error
     """
+    np.seterr(invalid="ignore")
     results = get_empty_results_df()
 
     # List all bacth file to process
@@ -37,23 +42,51 @@ def surface_reconstruction_error(folder: str, configuration: dict):
         batch = torch.load(batch_file)
 
         local_results = get_empty_results_df()
-        for i in range(batch.num_graphs):
-            graph = batch[i]
+        local_results = list()
+        graphs = [batch[i] for i in range(batch.num_graphs)]
 
-            AMGNN = graph_error(graph, configuration["scaling_deformation"])
-            # Compute the error values
-            sum_error = np.nansum(AMGNN["Distances from simulation (mm)"])
-            mean_error = np.nanmean(AMGNN["Distances from simulation (mm)"])
+        ctx = mp.get_context('spawn')
+        # q = ctx.Queue()
+        processes = []
+        q = mp.Queue()
+        q.put(local_results)
+        for graph in tqdm(graphs):
+            p = mp.Process(target=compute_error, args=(q,
+                                                       graph,
+                                                       folder,
+                                                       configuration["scaling_deformation"], ))
+            processes.append(p)
+            p.start()
 
-            # Save file deformed by AMGNN
-            save_path = Path(folder) / f"{graph.file_name}_AMGNN_result.vtk"
-            AMGNN.save(save_path)
+        #for p in tqdm(processes):
+        #    local_result = q.get()
+        #    local_results.append(local_result)
 
-            local_results.loc[len(local_results)] = [graph.file_name, sum_error, mean_error]
+        for p in tqdm(processes):
+            p.join()
 
-        results = pd.concat([results, local_results], ignore_index=True, sort=False)
+
+    for vtk_file in Path(folder).glob("*_AMGNN_result.vtk"):
+        local_results = get_empty_results_df()
+
+    results = pd.concat([results, local_results], ignore_index=True, sort=False)
 
     return results
+
+
+def compute_error(queue, graph, folder, scaling_deformation):
+    AMGNN = graph_error(graph, scaling_deformation)
+    # Compute the error values
+    sum_error = np.nansum(AMGNN["Distances from simulation (mm)"])
+    mean_error = np.nanmean(AMGNN["Distances from simulation (mm)"])
+
+    # Save file deformed by AMGNN
+    save_path = Path(folder) / f"{graph.file_name}_AMGNN_result.vtk"
+    AMGNN.save(save_path)
+    #local_results = queue.get()
+    # local_results.loc[len(local_results)] = [graph.file_name, sum_error, mean_error]
+    #local_results.append([graph.file_name, sum_error, mean_error])
+    #queue.put(local_results)
 
 
 def get_empty_results_df() -> pd.DataFrame:
@@ -63,6 +96,12 @@ def get_empty_results_df() -> pd.DataFrame:
                                     "Sum_error",  # Sum of the norms of all error vectors,
                                     "Mean_error"])  # Mean of the norms of all error vectors,
     return results
+
+
+def time_step(name, past_time):
+    elapsed_time = time.perf_counter() - past_time
+    print(f" {name} Elapsed time: {elapsed_time:0.4f} seconds")
+    return time.perf_counter()
 
 
 def graph_error(graph, scaling_deformation):
@@ -83,7 +122,6 @@ def graph_error(graph, scaling_deformation):
     unique_normal = torch.zeros_like(unique_position)
 
     # For all unique position, where are creating a deformation label vector
-
     for u_p, i in zip(unique_position, range(len(counts))):
         # Gather all position index where of this unique position
         duplicate_indice = (position == u_p).all(axis=1).nonzero(as_tuple=True)[0]
@@ -125,7 +163,7 @@ def graph_error(graph, scaling_deformation):
         layer_normal = np.zeros_like(selected_layer)
 
         for point_id in range(len(selected_layer)):
-            neighbors = tree.query_radius([selected_layer[point_id].numpy()], r=5, count_only=False)
+            neighbors = tree.query_radius([selected_layer[point_id].numpy()], r=7, count_only=False)
             numb_neighbors = len(neighbors[0]) - 1  # remove self
 
             # If there is less than 4 neighbors then the points is on the skin of the part.
@@ -143,7 +181,6 @@ def graph_error(graph, scaling_deformation):
             raise "PB"
 
         normal_v[is_layer] = torch.Tensor(layer_normal)
-
     # Surface reconstruction
 
     mask_usefull_points = np.isclose(normal_v.numpy(), np.asarray([0., 0., 0.])).all(axis=1)
@@ -152,14 +189,13 @@ def graph_error(graph, scaling_deformation):
     points = pv.wrap(position.numpy()[mask_usefull_points])
 
     surf = points.delaunay_3d()
-
     # For all unique position, where are creating a deformation label vector
 
     for u_p, i in zip(unique_position, range(len(counts))):
         # Gather all position index where of this unique position
         duplicate_indice = (position == u_p).all(axis=1).nonzero(as_tuple=True)[0]
 
-        unique_normal[i] = torch.mean(normal_v[duplicate_indice], axis=0)
+        unique_normal[i] = torch.nanmean(normal_v[duplicate_indice], axis=0)
 
     # Add deformation to the meshes
 
@@ -169,34 +205,49 @@ def graph_error(graph, scaling_deformation):
     deformation["Normal"] = unique_normal.numpy()
 
     interpolated = surf.interpolate(deformation, radius=12.0)
-
     AMGNN = deepcopy(interpolated)
     Simu = deepcopy(interpolated)
 
     AMGNN.points += AMGNN["AMGNN"]
     Simu.points += Simu["Simufact"]
     AMGNN["Difference"] = AMGNN["AMGNN"] - AMGNN["Simufact"]
-
     # Compute error
     AMGNN["Distances from simulation (mm)"] = np.empty(AMGNN.n_points)
+
+    p = AMGNN.points
+    vec = AMGNN["Normal"] * 2
+    p0 = p - vec
+    p1 = p + vec
     for i in range(AMGNN.n_points):
-        p = AMGNN.points[i]
-        vec = AMGNN["Normal"][i]  # * Simu_n.length
-        p0 = p - vec  # * 10
-        p1 = p + vec  # * 10
-        ip, ic = Simu.extract_geometry().ray_trace(p0, p1, first_point=True)
-        dist = np.sqrt(np.sum((ip - p) ** 2))
+        ip, ic = Simu.extract_geometry().ray_trace(p0[i], p1[i], first_point=True)
+        dist = np.sqrt(np.sum((ip - p[i]) ** 2))
         AMGNN["Distances from simulation (mm)"][i] = dist
 
     return AMGNN
 
 
-if __name__ == "__main__":
+def init_worker(AMGNN):
+    global shared_AMGNN
 
-    alignment_error = surface_reconstruction_error(folder=r"E:\Leopold\Chapter 6 - datasets\One_file2\test_output",
-                                           configuration={"scaling_deformation": 0.2})
-    mean_alignment_error= alignment_error["Mean_error"].mean()
-    max_alignment_error= alignment_error["Mean_error"].max()
-    min_alignment_error= alignment_error["Mean_error"].min()
+    shared_AMGNN = AMGNN
+
+
+def compute_distance_from_simu(Simu, i):
+    # p = AMGNN.points[i]
+    # vec = AMGNN["Normal"][i]  # * Simu_n.length
+    # p0 = p - vec * 2  # * 10
+    ##p1 = p + vec * 2  # * 10
+    ip, ic = Simu.extract_geometry().ray_trace(shared_AMGNN["p0"][i], shared_AMGNN["p1"][i], first_point=True)
+    dist = np.sqrt(np.sum((ip - shared_AMGNN["p"][i]) ** 2))
+    shared_AMGNN["Distances from simulation (mm)"][i] = dist
+
+
+if __name__ == "__main__":
+    alignment_error = surface_reconstruction_error(
+        folder=r"E:\Leopold\Chapter 6 - datasets\Cubes\simple_conv_[1, 0, 0] test_output",
+        configuration={"scaling_deformation": 0.2})
+    mean_alignment_error = alignment_error["Mean_error"].mean()
+    max_alignment_error = alignment_error["Mean_error"].max()
+    min_alignment_error = alignment_error["Mean_error"].min()
 
     print(mean_alignment_error, max_alignment_error, min_alignment_error)
