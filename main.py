@@ -66,8 +66,7 @@ def run(overwrite_config: dict):
 
     # Add model name to the tags
     wandb_logger.experiment.tags = wandb_logger.experiment.tags + \
-                                   (configuration["model_name"]) + \
-                                   str(configuration["lambda_parameters"])
+                                   (configuration["model_name"],str(configuration["lambda_parameters"]))
     # The name update is moved there as the model_name variable can be updated by a sweep
 
     wandb_logger.experiment.name = name
