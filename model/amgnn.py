@@ -33,7 +33,7 @@ def check_tensors(tensor: Tensor):
     tensor: Tensor
         The tensor to check.
     """
-    assert (tensor.max() <= 1), f"A value superior to 1 was found ({str(int(tensor.max()))}) in columns {str((tensor > 1.0).nonzero(as_tuple=True)[1].unique().detach().cpu())}"
+    assert (tensor.max() <= 1), f"A value superior to 1 was found ({str(int(tensor.max()))}) in columns {str((tensor > 1.0).nonzero(as_tuple=True)[1].unique())}"
     assert (torch.isnan(tensor).any() == False)
     assert (torch.isinf(tensor).any() == False)
     assert (torch.isneginf(tensor).any() == False)
