@@ -39,6 +39,12 @@ def run(overwrite_config: dict):
 
     # Initialise wandb
     configuration = read_config(Path("configs"))
+
+    # Apply the overwrite parameters to the config
+    for key in list(overwrite_config.keys()):
+        configuration[key] = overwrite_config[key]
+    print(configuration)
+
     lb_param = ""
     for lb in configuration["lambda_parameters"]:
         lb_param = lb_param + "_" + str(lb)
@@ -58,11 +64,6 @@ def run(overwrite_config: dict):
 
     # Access all hyperparameters values through wandb.config
     configuration = dict(wandb.config)
-
-    # Apply the overwrite parameters to the config
-    for key in list(overwrite_config.keys()):
-        configuration[key] = overwrite_config[key]
-    print(configuration)
 
     # Add model name to the tags
     wandb_logger.experiment.tags = wandb_logger.experiment.tags + \
