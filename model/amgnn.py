@@ -34,9 +34,9 @@ def check_tensors(tensor: Tensor):
         The tensor to check.
     """
     assert (tensor.max() <= 1), f"A value superior to 1 was found ({str(int(tensor.max()))}) in columns {str((tensor > 1.0).nonzero(as_tuple=True)[1].unique())}"
-    assert (torch.isnan(tensor).any() is False)
-    assert (torch.isinf(tensor).any() is False)
-    assert (torch.isneginf(tensor).any() is False)
+    assert ( bool(torch.isnan(tensor).any()) is False)
+    assert ( bool(torch.isinf(tensor).any()) is False)
+    assert ( bool(torch.isneginf(tensor).any()) is False)
 
     #for i in range(22):
     # print(f"{i} : max val {float(tensor[:,i].max())}")
