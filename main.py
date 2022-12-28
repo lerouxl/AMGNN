@@ -1,3 +1,4 @@
+import os
 import torch
 import wandb
 from utils.config import read_config
@@ -15,9 +16,7 @@ from pytorch_lightning.callbacks import ModelCheckpoint, LearningRateMonitor, St
 from datetime import datetime
 import argparse
 from ast import literal_eval
-from utils.shape_comparison import surface_reconstruction_error
-import os.path as osp
-import numpy as np
+import platform
 
 def run(overwrite_config: dict):
     """Entry strips to train an test AMGNN model on data.
@@ -48,7 +47,7 @@ def run(overwrite_config: dict):
     lb_param = ""
     for lb in configuration["lambda_parameters"]:
         lb_param = lb_param + "_" + str(lb)
-    name = str(datetime.now().strftime("%Y_%m_%d_%H_%M")) + "_" + configuration["model_name"] +  lb_param
+    name = str(datetime.now().strftime("%Y_%m_%d_%H_%M")) + "_" + configuration["model_name"] + lb_param
 
     # Try to log the model on Wandb
     if configuration["offline"]:
@@ -67,11 +66,11 @@ def run(overwrite_config: dict):
 
     # Add model name to the tags
     wandb_logger.experiment.tags = wandb_logger.experiment.tags + \
-                                   (configuration["model_name"],str(configuration["lambda_parameters"]))
+                                   (configuration["model_name"], str(configuration["lambda_parameters"]))
     # The name update is moved there as the model_name variable can be updated by a sweep
 
     wandb_logger.experiment.name = name
-    #wandb_logger.experiment.name = configuration["model_name"] + "_" + str(configuration["lambda_parameters"])
+    # wandb_logger.experiment.name = configuration["model_name"] + "_" + str(configuration["lambda_parameters"])
 
     # Configure a text logger
     init_logger(f'logs/logs_{wandb_logger.experiment.name}.log')
@@ -107,9 +106,31 @@ def run(overwrite_config: dict):
 
     # Create the dataloader
     batch_size = int(configuration["batch_size"])
-    train_loader = DataLoader(dataset=train_dataset, batch_size=batch_size, shuffle=True)
-    validation_loader = DataLoader(dataset=validation_dataset, batch_size=batch_size)
-    test_loader = DataLoader(dataset=test_dataset, batch_size=batch_size)
+    num_workers = 0
+    os_is = platform.system()
+    if os_is == "Linux":
+        num_workers = os.cpu_count()
+    else:
+        num_workers = 0
+
+    if torch.cuda.is_available():
+        pin_memory = True
+    else:
+        pin_memory = False
+
+    train_loader = DataLoader(dataset=train_dataset,
+                              batch_size=batch_size,
+                              shuffle=True,
+                              num_workers=num_workers,
+                              pin_memory=pin_memory)
+    validation_loader = DataLoader(dataset=validation_dataset,
+                                   batch_size=batch_size,
+                                   num_workers=num_workers,
+                                   pin_memory=pin_memory)
+    test_loader = DataLoader(dataset=test_dataset,
+                             batch_size=batch_size,
+                             num_workers=num_workers,
+                             pin_memory=pin_memory)
     log.info(f"Dataloader created with {batch_size=}")
 
     # Set the data loader into the model
@@ -153,16 +174,19 @@ def run(overwrite_config: dict):
 
     # Save the best model on WandB
     # Best model can be found on the artifact
-    #wandb_logger.experiment.save(best_model_)
-    #artifact = wandb.Artifact(name=f"AMGNN-{name}", type="model")
-    #artifact.add_reference(best_model_, name="model.ckpt")
-    #wandb_logger.experiment.log_artifact(artifact, aliases=["best"])
-
+    # wandb_logger.experiment.save(best_model_)
+    # artifact = wandb.Artifact(name=f"AMGNN-{name}", type="model")
+    # artifact.add_reference(best_model_, name="model.ckpt")
+    # wandb_logger.experiment.log_artifact(artifact, aliases=["best"])
 
     # Test the model on unseen data with the best model
     log.info(f"Start model testing with {str(best_model_)}")
     trainer.test(dataloaders=test_loader, ckpt_path=best_model_)
     log.info("End model testing")
+
+    #from utils.shape_comparison import surface_reconstruction_error
+    #import os.path as osp
+    # import numpy as np
 
     # Display the test dataset results in vtk files (can be open with Paraview)
     # log.info("Generate visualisation of the results")
@@ -170,13 +194,13 @@ def run(overwrite_config: dict):
 
     # Compute the mean alignment error and log it
     # Take too mutch time
-    #pt_folder = osp.join(model.configuration["raw_data"], f"{wandb.run.name} test_output")
-    #alignment_error = surface_reconstruction_error(pt_folder,configuration )
-    #mean_alignment_error= np.nanmean(alignment_error["Distances from simulation (mm)"])
-    #max_alignment_error= alignment_error["Distances from simulation (mm)"].max()
-    #min_alignment_error= alignment_error["Distances from simulation (mm)"].min()
-    #wandb_logger.log_table(dataframe=alignment_error)
-    #wandb_logger.log_metrics({"Mean alignment error":mean_alignment_error,
+    # pt_folder = osp.join(model.configuration["raw_data"], f"{wandb.run.name} test_output")
+    # alignment_error = surface_reconstruction_error(pt_folder,configuration )
+    # mean_alignment_error= np.nanmean(alignment_error["Distances from simulation (mm)"])
+    # max_alignment_error= alignment_error["Distances from simulation (mm)"].max()
+    # min_alignment_error= alignment_error["Distances from simulation (mm)"].min()
+    # wandb_logger.log_table(dataframe=alignment_error)
+    # wandb_logger.log_metrics({"Mean alignment error":mean_alignment_error,
     #                          "Max alignment error":max_alignment_error,
     #                          "Min alignment error":min_alignment_error,})
 
