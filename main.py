@@ -109,7 +109,7 @@ def run(overwrite_config: dict):
     num_workers = 0
     os_is = platform.system()
     if os_is == "Linux":
-        num_workers = os.cpu_count()
+        num_workers = min(2, os.cpu_count())
     else:
         num_workers = 0
 
