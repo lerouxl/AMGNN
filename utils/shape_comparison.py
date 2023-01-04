@@ -237,5 +237,5 @@ if __name__ == "__main__":
 
             df = alignment_error.iloc[-1:]
             print(f'{i+1} - The {folder_path.name} mean deformation error is {df["Mean_error"]} mm')
-        except:
-            print(f'{i+1} - FAIL {folder_path.name}')
+        except Exception as e:
+            print(f'{i+1} - FAIL {folder_path.name} : {e}')
