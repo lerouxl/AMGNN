@@ -43,7 +43,7 @@ def surface_reconstruction_error(folder: str, configuration: dict):
 
         graphs = [batch[i] for i in range(batch.num_graphs)]
         pool = mp.Pool(5)
-        pool.starmap(compute_error, (graphs, repeat(folder), repeat(configuration["scaling_deformation"]) ))
+        pool.starmap(compute_error, zip(graphs, repeat(folder), repeat(configuration["scaling_deformation"]) ))
         #processes = []
         #for graph in graphs:
         #    p = mp.Process(target=compute_error, args=(graph,
