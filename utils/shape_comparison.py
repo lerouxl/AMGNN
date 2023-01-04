@@ -1,6 +1,5 @@
 import pandas as pd
 import torch
-import torch_geometric as tg
 from tqdm import tqdm
 from pathlib import Path
 from sklearn.neighbors import KDTree
@@ -8,9 +7,8 @@ import numpy as np
 import pyvista as pv
 from copy import deepcopy
 import time
-from multiprocessing import Pool
-from itertools import repeat
 import multiprocessing as mp
+from itertools import repeat
 
 
 def surface_reconstruction_error(folder: str, configuration: dict):
@@ -38,63 +36,54 @@ def surface_reconstruction_error(folder: str, configuration: dict):
     batchs = Path(folder).glob("*.pt")
     batchs = list(batchs)
 
-    for batch_file in tqdm(batchs):
+    # Do a multi processing a all files in batchs.
+    for batch_file in batchs:
+        # load batch
         batch = torch.load(batch_file)
 
-        local_results = get_empty_results_df()
-        local_results = list()
         graphs = [batch[i] for i in range(batch.num_graphs)]
+        pool = mp.Pool(5)
+        pool.starmap(compute_error, (graphs, repeat(folder), repeat(configuration["scaling_deformation"]) ))
+        #processes = []
+        #for graph in graphs:
+        #    p = mp.Process(target=compute_error, args=(graph,
+        #                                               folder,
+        #                                               configuration["scaling_deformation"], ))
+        #    processes.append(p)
+        #    p.start()
 
-        ctx = mp.get_context('spawn')
-        # q = ctx.Queue()
-        processes = []
-        q = mp.Queue()
-        q.put(local_results)
-        for graph in tqdm(graphs):
-            p = mp.Process(target=compute_error, args=(q,
-                                                       graph,
-                                                       folder,
-                                                       configuration["scaling_deformation"], ))
-            processes.append(p)
-            p.start()
+        #for p in processes:
+        #    p.join()
 
-        #for p in tqdm(processes):
-        #    local_result = q.get()
-        #    local_results.append(local_result)
-
-        for p in tqdm(processes):
-            p.join()
-
-
+    # Read all vtk output file and generate the metrics
     for vtk_file in Path(folder).glob("*_AMGNN_result.vtk"):
-        local_results = get_empty_results_df()
+        mesh = pv.read(vtk_file)
+        nb_points = len(mesh.points)
+        sum_error = np.nansum(mesh["Distances from simulation (mm)"])
+        mean_error = np.nanmean(mesh["Distances from simulation (mm)"])
+        median_error = np.nanmedian(mesh["Distances from simulation (mm)"])
+        results.loc[len(results)] = [vtk_file.name, sum_error, mean_error, median_error, nb_points]
 
-    results = pd.concat([results, local_results], ignore_index=True, sort=False)
-
+    mean_total_error = (results["Mean_error"] * results["Nb_points"]).sum() / results["Nb_points"].sum()
+    results.loc[len(results)] = ["total", 0, mean_total_error, 0, results["Nb_points"].sum()]
     return results
 
 
-def compute_error(queue, graph, folder, scaling_deformation):
+def compute_error(graph, folder, scaling_deformation):
     AMGNN = graph_error(graph, scaling_deformation)
-    # Compute the error values
-    sum_error = np.nansum(AMGNN["Distances from simulation (mm)"])
-    mean_error = np.nanmean(AMGNN["Distances from simulation (mm)"])
 
     # Save file deformed by AMGNN
     save_path = Path(folder) / f"{graph.file_name}_AMGNN_result.vtk"
     AMGNN.save(save_path)
-    #local_results = queue.get()
-    # local_results.loc[len(local_results)] = [graph.file_name, sum_error, mean_error]
-    #local_results.append([graph.file_name, sum_error, mean_error])
-    #queue.put(local_results)
-
 
 def get_empty_results_df() -> pd.DataFrame:
     """ Generate an empty results dataframe.
     """
     results = pd.DataFrame(columns=["Name",  # Mesh file name
                                     "Sum_error",  # Sum of the norms of all error vectors,
-                                    "Mean_error"])  # Mean of the norms of all error vectors,
+                                    "Mean_error",
+                                    "Median_error",
+                                    "Nb_points"])  # Mean of the norms of all error vectors,
     return results
 
 
@@ -204,7 +193,7 @@ def graph_error(graph, scaling_deformation):
     deformation["AMGNN"] = 2 * scaling_deformation * deformation_amgnn.numpy() - scaling_deformation
     deformation["Normal"] = unique_normal.numpy()
 
-    interpolated = surf.interpolate(deformation, radius=12.0)
+    interpolated = surf.interpolate(deformation, radius=4.5)
     AMGNN = deepcopy(interpolated)
     Simu = deepcopy(interpolated)
 
@@ -215,7 +204,7 @@ def graph_error(graph, scaling_deformation):
     AMGNN["Distances from simulation (mm)"] = np.empty(AMGNN.n_points)
 
     p = AMGNN.points
-    vec = AMGNN["Normal"] * 2
+    vec = AMGNN["Normal"] * 2 * scaling_deformation
     p0 = p - vec
     p1 = p + vec
     for i in range(AMGNN.n_points):
@@ -226,28 +215,27 @@ def graph_error(graph, scaling_deformation):
     return AMGNN
 
 
-def init_worker(AMGNN):
-    global shared_AMGNN
-
-    shared_AMGNN = AMGNN
-
-
-def compute_distance_from_simu(Simu, i):
-    # p = AMGNN.points[i]
-    # vec = AMGNN["Normal"][i]  # * Simu_n.length
-    # p0 = p - vec * 2  # * 10
-    ##p1 = p + vec * 2  # * 10
-    ip, ic = Simu.extract_geometry().ray_trace(shared_AMGNN["p0"][i], shared_AMGNN["p1"][i], first_point=True)
-    dist = np.sqrt(np.sum((ip - shared_AMGNN["p"][i]) ** 2))
-    shared_AMGNN["Distances from simulation (mm)"][i] = dist
-
-
 if __name__ == "__main__":
-    alignment_error = surface_reconstruction_error(
-        folder=r"E:\Leopold\Chapter 6 - datasets\Cubes\simple_conv_[1, 0, 0] test_output",
-        configuration={"scaling_deformation": 0.2})
-    mean_alignment_error = alignment_error["Mean_error"].mean()
-    max_alignment_error = alignment_error["Mean_error"].max()
-    min_alignment_error = alignment_error["Mean_error"].min()
+    from pathlib import Path
 
-    print(mean_alignment_error, max_alignment_error, min_alignment_error)
+    super_folder = Path(r"E:\Leopold\Chapitre 6 - AMGNN\Results\Sweep ktcmxme2 full features\test_output")
+    folders = [x for x in super_folder.glob("*test_output") if x.is_dir()]
+    print(f"{len(folders)} folders detected")
+
+    for i,folder_path in enumerate(folders):
+        try:
+            # Choose the folder to analyse
+            #folder_path = Path(r"E:\Leopold\Chapter 6 - datasets\Cubes\2022_12_28_10_29_simple_mlp_0.7_0.15_0.15 test_output")
+
+            # Analyse it
+            alignment_error = surface_reconstruction_error(
+                folder=folder_path,
+                configuration={"scaling_deformation": 0.2})
+
+            # Save the csv results
+            alignment_error.to_csv(folder_path / "alignment_error.csv")
+
+            df = alignment_error.iloc[-1:]
+            print(f'{i+1} - The {folder_path.name} mean deformation error is {df["Mean_error"]} mm')
+        except Exception as e:
+            print(f'{i+1} - FAIL {folder_path.name} : {e}')
