@@ -218,6 +218,7 @@ if __name__ == "__main__":
                         help="Will be mapped to either gpus, tpu_cores, num_processes or ipus. Default: -1")
     parser.add_argument("--model_name", type=str, default=None)
     parser.add_argument("--lambda_parameters", type=str, default=None)
+    parser.add_argument("--learning_rate", type=float, default=None)
 
     args = parser.parse_args()
 
