@@ -47,7 +47,8 @@ def run(overwrite_config: dict):
     lb_param = ""
     for lb in configuration["lambda_parameters"]:
         lb_param = lb_param + "_" + str(lb)
-    name = str(datetime.now().strftime("%Y_%m_%d_%H_%M")) + "_" + configuration["model_name"] + lb_param
+    name = str(datetime.now().strftime("%Y_%m_%d_%H_%M")) + "_" + configuration["model_name"] + lb_param + \
+           f"lr_{configuration['learning_rate']}"
 
     # Try to log the model on Wandb
     if configuration["offline"]:
