@@ -42,8 +42,15 @@ def surface_reconstruction_error(folder: str, configuration: dict):
         batch = torch.load(batch_file)
 
         graphs = [batch[i] for i in range(batch.num_graphs)]
-        pool = mp.Pool(5)
-        pool.starmap(compute_error, zip(graphs, repeat(folder), repeat(configuration["scaling_deformation"]) ))
+
+        # On some configuration, the multithreading is not working well with Pytorch. You can descativate it.
+        if True:
+            pool = mp.Pool(5)
+            pool.starmap(compute_error, zip(graphs, repeat(folder), repeat(configuration["scaling_deformation"])))
+        else:
+            print("SLOW PROCESS MODE USED")
+            for graph in graphs:
+                compute_error(graph, folder, configuration["scaling_deformation"])
         #processes = []
         #for graph in graphs:
         #    p = mp.Process(target=compute_error, args=(graph,
@@ -62,7 +69,8 @@ def surface_reconstruction_error(folder: str, configuration: dict):
         sum_error = np.nansum(mesh["Distances from simulation (mm)"])
         mean_error = np.nanmean(mesh["Distances from simulation (mm)"])
         median_error = np.nanmedian(mesh["Distances from simulation (mm)"])
-        results.loc[len(results)] = [vtk_file.name, sum_error, mean_error, median_error, nb_points]
+        mean_mse = np.nanmean(mesh["MSE"])
+        results.loc[len(results)] = [vtk_file.name, sum_error, mean_error, median_error, mean_mse, nb_points]
 
     mean_total_error = (results["Mean_error"] * results["Nb_points"]).sum() / results["Nb_points"].sum()
     results.loc[len(results)] = ["total", 0, mean_total_error, 0, results["Nb_points"].sum()]
@@ -83,6 +91,7 @@ def get_empty_results_df() -> pd.DataFrame:
                                     "Sum_error",  # Sum of the norms of all error vectors,
                                     "Mean_error",
                                     "Median_error",
+                                    "Mean_MSE",
                                     "Nb_points"])  # Mean of the norms of all error vectors,
     return results
 
@@ -200,6 +209,7 @@ def graph_error(graph, scaling_deformation):
     AMGNN.points += AMGNN["AMGNN"]
     Simu.points += Simu["Simufact"]
     AMGNN["Difference"] = AMGNN["AMGNN"] - AMGNN["Simufact"]
+    AMGNN["MSE"] = ((AMGNN["Difference"])**2).mean(axis=1)
     # Compute error
     AMGNN["Distances from simulation (mm)"] = np.empty(AMGNN.n_points)
 
