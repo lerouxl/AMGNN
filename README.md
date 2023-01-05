@@ -55,3 +55,18 @@ There are two parametres in the SLURM submission script that determine how many 
 the #SBATCH --nodes=X setting and #SBATCH --ntasks-per-node=Y settings.
 The numbers there need to match what is configured in your Trainer in the code:
 Trainer(num_nodes=X, devices=Y). If you change the numbers, update them in BOTH places.
+
+## Generate a dataset with only AM_layer step
+
+If you want to only apply AMGNN on a dataset with file from the AM_step, it's possible to filter them from the main 
+dataset using `utils/dataset_extract_layer_creation_steps.py`
+
+To use it, you need an input folder, the `process` folder where your original dataset is and an output folder, where you
+want to save the transformed files.
+
+Example:
+```commandline
+python utils/dataset_extract_layer_creation_steps.py --input "data\Cubes\processed" --output "data\Cubes_AM_step\processed"
+```
+For the cubes dataset, this tool take approximately 5 minutes to runs.
+The inputs shape is transformed from 24 to 16. 
