@@ -19,14 +19,14 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    input_folder = Path(args["input"])
-    output_folder = Path(args["output"])
+    input_folder = Path(args.input)
+    output_folder = Path(args.output)
     # Create folder if do not exist
     output_folder.mkdir(parents=True, exist_ok=True)
 
-    input_files = input_folder.glob("*step*.pt")
+    input_files = list(input_folder.glob("*step*.pt"))
 
-    for input_file in tqdm(input_files):
+    for input_file in tqdm(input_files, total=len(input_files)):
         file = torch.load(input_file)
 
         # Test if this file is from an AM_layer step:
