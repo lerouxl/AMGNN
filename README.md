@@ -70,3 +70,14 @@ python utils/dataset_extract_layer_creation_steps.py --input "data\Cubes\process
 ```
 For the cubes dataset, this tool take approximately 5 minutes to runs.
 The inputs shape is transformed from 24 to 16. 
+
+
+## Performance evaluation
+
+To evaluate the performance of a model, the saved results generated during the test evaluation can be used with the 
+shape_comparison.py script with compare the distance between the simulated and AI deformed mesh.
+
+To modify the processed dataset, update the variable super_folder path in the file.
+```commandline
+python utils/shapre_comparison.py"
+```
