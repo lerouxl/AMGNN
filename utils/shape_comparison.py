@@ -10,7 +10,9 @@ import time
 import multiprocessing as mp
 from itertools import repeat
 
-
+# Flag to select if the error processing is done by multithreading
+# On some configuration, the multithreading is not working well with Pytorch. You can turn it off.
+USE_MULTITHREADING = True
 def surface_reconstruction_error(folder: str, configuration: dict):
     """ Compute the deformation error on the mesh surfaces.
 
@@ -43,8 +45,8 @@ def surface_reconstruction_error(folder: str, configuration: dict):
 
         graphs = [batch[i] for i in range(batch.num_graphs)]
 
-        # On some configuration, the multithreading is not working well with Pytorch. You can descativate it.
-        if True:
+        # On some configuration, the multithreading is not working well with Pytorch. You can deactivate it.
+        if USE_MULTITHREADING:
             pool = mp.Pool(5)
             pool.starmap(compute_error, zip(graphs, repeat(folder), repeat(configuration["scaling_deformation"])))
         else:
