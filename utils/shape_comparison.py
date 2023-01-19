@@ -12,7 +12,7 @@ from itertools import repeat
 
 # Flag to select if the error processing is done by multithreading
 # On some configuration, the multithreading is not working well with Pytorch. You can turn it off.
-USE_MULTITHREADING = True
+USE_MULTITHREADING = False
 def surface_reconstruction_error(folder: str, configuration: dict):
     """ Compute the deformation error on the mesh surfaces.
 
@@ -227,17 +227,9 @@ def graph_error(graph, scaling_deformation, m_to_mm=True):
     AMGNN["Difference"] = AMGNN["AMGNN"] - AMGNN["Simufact"]
     AMGNN["MSE"] = ((AMGNN["Difference"])**2).mean(axis=1)
     # Compute error
-    AMGNN["Distances from simulation (mm)"] = np.empty(AMGNN.n_points)
-
-    p = AMGNN.points
-    vec = AMGNN["Normal"] * 2 * scaling_deformation
-    p0 = p - vec
-    p1 = p + vec
-    for i in range(AMGNN.n_points):
-        ip, ic = Simu.extract_geometry().ray_trace(p0[i], p1[i], first_point=True)
-        dist = np.sqrt(np.sum((ip - p[i]) ** 2))
-        AMGNN["Distances from simulation (mm)"][i] = dist
-
+    # How this is calculated https://github.com/pyvista/pyvista/discussions/1834
+    AMGNN.compute_implicit_distance(Simu.extract_surface(), inplace=True)
+    AMGNN["Distances from simulation (mm)"] = AMGNN['implicit_distance']
     return AMGNN
 
 
