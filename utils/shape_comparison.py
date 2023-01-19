@@ -104,8 +104,22 @@ def time_step(name, past_time):
     return time.perf_counter()
 
 
-def graph_error(graph, scaling_deformation):
-    graph.pos = graph.pos * 1000  # Transform the position from meter to millimeter
+def graph_error(graph, scaling_deformation, m_to_mm=True):
+    """
+    From a graph of points and deformation, recreate the surface and compute the difference between the prediction and label.
+
+    Parameters
+    ----------
+    graph: tg.data.Data with pos [n,3] and y [n,8]
+    scaling_deformation: Scale used to unnormalise the deformation
+    m_to_mm: bool if the pos data must be scaled by 1000
+
+    Returns
+    -------
+
+    """
+    if m_to_mm:
+        graph.pos = graph.pos * 1000  # Transform the position from meter to millimeter
     graph.y, graph.y_hat = torch.split(graph.y, 4, dim=1)
 
     # normal vector of all points
