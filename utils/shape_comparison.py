@@ -12,7 +12,7 @@ from itertools import repeat
 
 # Flag to select if the error processing is done by multithreading
 # On some configuration, the multithreading is not working well with Pytorch. You can turn it off.
-USE_MULTITHREADING = False
+USE_MULTITHREADING = True
 def surface_reconstruction_error(folder: str, configuration: dict):
     """ Compute the deformation error on the mesh surfaces.
 
@@ -67,7 +67,8 @@ def surface_reconstruction_error(folder: str, configuration: dict):
         dist_mean_error = np.nanmean(array_)
         dist_median_error = np.nanmedian(array_)
         dist_max_error = np.nanmax(array_)
-        csv_line.extend([dist_sum_error, dist_mean_error, dist_median_error, dist_max_error])
+        dist_std_error = np.nanstd(array_)
+        csv_line.extend([dist_sum_error, dist_mean_error, dist_median_error, dist_max_error, dist_std_error])
 
         # MSE
         array_ = mesh["MSE"]
@@ -75,7 +76,8 @@ def surface_reconstruction_error(folder: str, configuration: dict):
         mse_mean_error = np.nanmean(array_)
         mse_median_error = np.nanmedian(array_)
         mse_max_error = np.nanmax(array_)
-        csv_line.extend([mse_sum_error,mse_mean_error,mse_median_error,mse_max_error])
+        mse_std_error = np.nanstd(array_)
+        csv_line.extend([mse_sum_error,mse_mean_error,mse_median_error,mse_max_error,mse_std_error])
 
         # L1
         array_ = mesh["L1"]
@@ -83,7 +85,8 @@ def surface_reconstruction_error(folder: str, configuration: dict):
         l1_mean_error = np.nanmean(array_)
         l1_median_error = np.nanmedian(array_)
         l1_max_error = np.nanmax(array_)
-        csv_line.extend([l1_sum_error,l1_mean_error,l1_median_error,l1_max_error])
+        l1_std_error = np.nanstd(array_)
+        csv_line.extend([l1_sum_error,l1_mean_error,l1_median_error,l1_max_error,l1_std_error])
 
         # L2
         array_ = mesh["L2"]
@@ -91,7 +94,8 @@ def surface_reconstruction_error(folder: str, configuration: dict):
         l2_mean_error = np.nanmean(array_)
         l2_median_error = np.nanmedian(array_)
         l2_max_error = np.nanmax(array_)
-        csv_line.extend([l2_sum_error, l2_mean_error, l2_median_error, l2_max_error])
+        l2_std_error = np.nanstd(array_)
+        csv_line.extend([l2_sum_error, l2_mean_error, l2_median_error, l2_max_error,l2_std_error])
 
         nb_points = len(mesh.points)
         csv_line.append(nb_points)
@@ -103,23 +107,32 @@ def surface_reconstruction_error(folder: str, configuration: dict):
     mse_mean_total_error = (results["MSE_mean_error"] * results["Nb_points"]).sum() / results["Nb_points"].sum()
     dist_mean_total_error = (results["Dist_mean_error"] * results["Nb_points"]).sum() / results["Nb_points"].sum()
 
+    l1_std_total_error = (results["L1_std_error"] * results["Nb_points"]).sum() / results["Nb_points"].sum()
+    l2_std_total_error = (results["L2_std_error"] * results["Nb_points"]).sum() / results["Nb_points"].sum()
+    mse_std_total_error = (results["MSE_std_error"] * results["Nb_points"]).sum() / results["Nb_points"].sum()
+    dist_std_total_error = (results["Dist_std_error"] * results["Nb_points"]).sum() / results["Nb_points"].sum()
+
     results.loc[len(results)] = ["total",
                                  "Dist_sum_error",
                                  dist_mean_total_error,
                                  "Dist_median_error",
                                  "Dist_max_error",
+                                 dist_std_total_error,
                                  "MSE_sum_error",
                                  mse_mean_total_error,
                                  "MSE_median_error",
                                  "MSE_max_error",
+                                 mse_std_total_error,
                                  "L1_sum_error",
                                  l1_mean_total_error,
                                  "L1_median_error",
                                  "L1_max_error",
+                                 l1_std_total_error,
                                  "L2_sum_error",
                                  l2_mean_total_error,
                                  "L2_median_error",
                                  "L2_max_error",
+                                 l2_std_total_error,
                                  results["Nb_points"].sum()]
 
     return results
@@ -140,18 +153,22 @@ def get_empty_results_df() -> pd.DataFrame:
                                     "Dist_mean_error",
                                     "Dist_median_error",
                                     "Dist_max_error",
+                                    "Dist_std_error",
                                     "MSE_sum_error",
                                     "MSE_mean_error",
                                     "MSE_median_error",
                                     "MSE_max_error",
+                                    "MSE_std_error",
                                     "L1_sum_error",
                                     "L1_mean_error",
                                     "L1_median_error",
                                     "L1_max_error",
+                                    "L1_std_error",
                                     "L2_sum_error",
                                     "L2_mean_error",
                                     "L2_median_error",
                                     "L2_max_error",
+                                    "L2_std_error",
                                     "Nb_points"])  # Mean of the norms of all error vectors,
     return results
 
@@ -284,12 +301,12 @@ def graph_error(graph, scaling_deformation, m_to_mm=True):
     Simu.points += Simu["Simufact"]
     AMGNN["Difference"] = AMGNN["AMGNN"] - AMGNN["Simufact"]
     AMGNN["MSE"] = np.sqrt((AMGNN["Difference"])**2).mean(axis=1)
-    AMGNN["L1"] = AMGNN["Difference"].sum(axis=1)
+    AMGNN["L1"] = np.abs(AMGNN["Difference"]).sum(axis=1)
     AMGNN["L2"] = np.sqrt(((AMGNN["Difference"]) ** 2).sum(axis=1))
     # Compute error
     # How this is calculated https://github.com/pyvista/pyvista/discussions/1834
     AMGNN.compute_implicit_distance(Simu.extract_surface(), inplace=True)
-    AMGNN["Distances from simulation (mm)"] = AMGNN['implicit_distance']
+    AMGNN["Distances from simulation (mm)"] = np.abs(AMGNN['implicit_distance'])
     return AMGNN
 
 
@@ -312,6 +329,7 @@ if __name__ == "__main__":
 
             # Save the csv results
             alignment_error.to_csv(folder_path / "alignment_error.csv")
+            alignment_error.to_csv(super_folder / f"{folder_path.name}.csv")
 
             df = alignment_error.iloc[-1:]
             print(f'{i+1} - The {folder_path.name} L2 mean error is {float(df["L2_mean_error"])} mm')
