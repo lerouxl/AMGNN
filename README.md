@@ -56,6 +56,25 @@ the #SBATCH --nodes=X setting and #SBATCH --ntasks-per-node=Y settings.
 The numbers there need to match what is configured in your Trainer in the code:
 Trainer(num_nodes=X, devices=Y). If you change the numbers, update them in BOTH places.
 
+## Generate a dataset
+To transform a Simufact project with multiple simulation into a dataset, this code expected the following folder architure: 
+```commandline
+dataset_name:
+    |__raw:
+        |__ Simulation_1
+        |__ Simulation_2
+        |__ Simulation_3
+        |__ ...
+        |__ Simulation_n
+```
+Witch `raw` is the name of the folder where you put all simulation folder (`Simulation_n`) that you copied from your simulation project folder.
+
+Using the script `arc_files_to_csv.py`, you can transform the ARC files into csv files that can be read by python.
+To do that modify the script to direct to have `arc_tool_exe_path` to direct to our ArcToolCmd.exe (usualy stored into your Simufact installation).
+Then modify `dataset_path` to be the path to your `Simufact_project` folder and run this script.
+
+Now by just running `main.py` the `tmp_arc` and `processed` folder will be created with `processed` containing the different graph representing your dataset.
+
 ## Generate a dataset with only AM_layer step
 
 If you want to only apply AMGNN on a dataset with file from the AM_step, it's possible to filter them from the main 
