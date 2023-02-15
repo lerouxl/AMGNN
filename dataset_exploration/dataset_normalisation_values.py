@@ -13,8 +13,9 @@ from pathlib import Path
 from tqdm import tqdm
 import numpy as np
 
-dirs = Path(r"E:\Leopold\Chapter 6 - datasets\Cubes\raw").iterdir() # .rglob("*.csv")
+dirs = Path(r"E:\Leopold\Chapter 6 - datasets\Complex_dataset\raw").iterdir() # .rglob("*.csv")
 dirs = list(dirs)
+print(dirs)
 
 max_deformation = 0.0
 max_temperature = 0.0
@@ -31,7 +32,7 @@ all_process_name = {}
 for j,dir in enumerate(dirs):
     if dir.is_dir():
         # list all part and supports simulation files
-        csv_files = dir.rglob("*.csv")
+        csv_files = (dir / "_Results_").rglob("*.csv")
         csv_files = list(csv_files)
 
         # For all simulation file
@@ -40,7 +41,7 @@ for j,dir in enumerate(dirs):
             pbar.set_description(f"Simulation folder {j} / {len(dirs)}")
 
             # Check that we are working on the dataset
-            if not( "Cube" in file.name):
+            if not(dir.name in file.name):
                 continue
 
             if ("part" in file.name) or ("supports" in file.name):
