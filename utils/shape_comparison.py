@@ -12,7 +12,7 @@ from itertools import repeat
 
 # Flag to select if the error processing is done by multithreading
 # On some configuration, the multithreading is not working well with Pytorch. You can turn it off.
-USE_MULTITHREADING = True
+USE_MULTITHREADING = False
 def surface_reconstruction_error(folder: str, configuration: dict):
     """ Compute the deformation error on the mesh surfaces.
 
@@ -97,6 +97,15 @@ def surface_reconstruction_error(folder: str, configuration: dict):
         l2_std_error = np.nanstd(array_)
         csv_line.extend([l2_sum_error, l2_mean_error, l2_median_error, l2_max_error,l2_std_error])
 
+        # Ray trace
+        array_ = mesh["Distances from simulation ray trace (mm)"]
+        ray_trace_sum_error = np.nansum(array_)
+        ray_trace_mean_error = np.nanmean(array_)
+        ray_trace_median_error = np.nanmedian(array_)
+        ray_trace_max_error = np.nanmax(array_)
+        ray_trace_std_error = np.nanstd(array_)
+        csv_line.extend([ray_trace_sum_error, ray_trace_mean_error, ray_trace_median_error, ray_trace_max_error,ray_trace_std_error])
+
         nb_points = len(mesh.points)
         csv_line.append(nb_points)
 
@@ -106,11 +115,13 @@ def surface_reconstruction_error(folder: str, configuration: dict):
     l2_mean_total_error = (results["L2_mean_error"] * results["Nb_points"]).sum() / results["Nb_points"].sum()
     mse_mean_total_error = (results["MSE_mean_error"] * results["Nb_points"]).sum() / results["Nb_points"].sum()
     dist_mean_total_error = (results["Dist_mean_error"] * results["Nb_points"]).sum() / results["Nb_points"].sum()
+    ray_trace_mean = (results["Ray_trace_mean"] * results["Nb_points"]).sum() / results["Nb_points"].sum()
 
     l1_std_total_error = (results["L1_std_error"] * results["Nb_points"]).sum() / results["Nb_points"].sum()
     l2_std_total_error = (results["L2_std_error"] * results["Nb_points"]).sum() / results["Nb_points"].sum()
     mse_std_total_error = (results["MSE_std_error"] * results["Nb_points"]).sum() / results["Nb_points"].sum()
     dist_std_total_error = (results["Dist_std_error"] * results["Nb_points"]).sum() / results["Nb_points"].sum()
+    ray_trace_std = (results["Ray_trace_std"] * results["Nb_points"]).sum() / results["Nb_points"].sum()
 
     results.loc[len(results)] = ["total",
                                  "Dist_sum_error",
@@ -133,6 +144,9 @@ def surface_reconstruction_error(folder: str, configuration: dict):
                                  "L2_median_error",
                                  "L2_max_error",
                                  l2_std_total_error,
+                                 "ray_trace_max",
+                                 ray_trace_mean,
+                                 ray_trace_std,
                                  results["Nb_points"].sum()]
 
     return results
@@ -169,6 +183,11 @@ def get_empty_results_df() -> pd.DataFrame:
                                     "L2_median_error",
                                     "L2_max_error",
                                     "L2_std_error",
+                                    "Ray_trace_sum",
+                                    "Ray_trace_mean",
+                                    "Ray_trace_median",
+                                    "Ray_trace_max",
+                                    "Ray_trace_std",
                                     "Nb_points"])  # Mean of the norms of all error vectors,
     return results
 
@@ -307,6 +326,17 @@ def graph_error(graph, scaling_deformation, m_to_mm=True):
     # How this is calculated https://github.com/pyvista/pyvista/discussions/1834
     AMGNN.compute_implicit_distance(Simu.extract_surface(), inplace=True)
     AMGNN["Distances from simulation (mm)"] = np.abs(AMGNN['implicit_distance'])
+
+    AMGNN["Distances from simulation ray trace (mm)"] = np.empty(AMGNN.n_points)
+    p = AMGNN.points
+    vec = AMGNN["Normal"] * 2 * scaling_deformation
+    p0 = p - vec
+    p1 = p + vec
+    for i in range(AMGNN.n_points):
+        ip, ic = Simu.extract_geometry().ray_trace(p0[i], p1[i], first_point=True)
+        dist = np.sqrt(np.sum((ip - p[i]) ** 2))
+        AMGNN["Distances from simulation ray trace (mm)"][i] = dist
+
     return AMGNN
 
 
@@ -318,20 +348,22 @@ if __name__ == "__main__":
     print(f"{len(folders)} folders detected")
 
     for i,folder_path in enumerate(folders):
-        try:
+        #try:
             # Choose the folder to analyse
             #folder_path = Path(r"E:\Leopold\Chapter 6 - datasets\Cubes\2022_12_28_10_29_simple_mlp_0.7_0.15_0.15 test_output")
 
             # Analyse it
-            alignment_error = surface_reconstruction_error(
-                folder=folder_path,
-                configuration={"scaling_deformation": 0.2})
+        alignment_error = surface_reconstruction_error(
+            folder=folder_path,
+            configuration={"scaling_deformation": 0.2})
 
-            # Save the csv results
-            alignment_error.to_csv(folder_path / "alignment_error.csv")
-            alignment_error.to_csv(super_folder / f"{folder_path.name}.csv")
+        # Save the csv results
+        alignment_error.to_csv(folder_path / "alignment_error.csv")
+        alignment_error.to_csv(super_folder / f"{folder_path.name}.csv")
 
-            df = alignment_error.iloc[-1:]
-            print(f'{i+1} - The {folder_path.name} L2 mean error is {float(df["L2_mean_error"])} mm')
+        df = alignment_error.iloc[-1:]
+        print(f'{i+1} - The {folder_path.name} L2 mean error is {float(df["L2_mean_error"])} mm')
+        try:
+            pass
         except Exception as e:
             print(f'{i+1} - FAIL {folder_path.name} : {e}')
