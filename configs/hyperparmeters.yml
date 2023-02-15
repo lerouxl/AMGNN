@@ -15,10 +15,10 @@ model_name: simple_conv
 
 # Wandb parameters
 offline: No # If Yes, wandb will not try to save the trainning online. If No, wandb will save the results online.
-notes: "Run of AMGNN on one cube dataset CubeX1X150WX750mmsX8umX3um with full features" # Note to add to the run
+notes: "Run of AMGNN on with the complex dataet" # Note to add to the run
 # Tags to give to this amgnn run
 tags:
   - "train"
-  - "one cube dataset"
+  - "complex dataset dataset"
   - "full features"
   # - "simple mlp" Now the model name is automaticaly add to the tag
