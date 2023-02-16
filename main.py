@@ -63,7 +63,10 @@ def run(overwrite_config: dict):
                                dir=f"checkpoints/{name}")
 
     # Access all hyperparameters values through wandb.config
-    configuration = dict(wandb.config)
+    try:
+      configuration = dict(wandb.config)
+    except:
+      print("No wandb sweep used as no configuration were found in wandb,config") 
 
     # Add model name to the tags
     wandb_logger.experiment.tags = wandb_logger.experiment.tags + \
