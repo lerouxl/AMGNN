@@ -9,7 +9,7 @@
 #number of parallel processes (tasks) you are requesting - maps to MPI processes
 
 #maximum job time in D-HH:MM
-#SBATCH --time=1-05:00
+#SBATCH --time=1-23:50
 #memory per process in MB
 #SBATCH --mem-per-cpu=8000
 #Number of GPU
@@ -28,5 +28,5 @@ eval "$(/apps/languages/anaconda/2021.11/bin/conda shell.bash hook)"
 source activate AMGNN
 
 # For a Wandb sweep, request the next set of parameters and run once.
-wandb agent --count 1 niut/AMGNN/fnh44aed
+wandb agent --count 1 niut/AMGNN/k0fzqk71
 #python3 main.py automaticaly launched by wandb

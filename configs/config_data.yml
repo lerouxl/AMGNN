@@ -1,4 +1,4 @@
-raw_data: "E:\\Leopold\\Chapter 6 - datasets\\Complex_dataset"
+raw_data: "/scratch/c.c1955852/AMGNN/data/Complex_dataset"
 project: "AMGNN"
 float_type: "float64"
 pooling_process: 10
