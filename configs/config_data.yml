@@ -1,7 +1,9 @@
 raw_data: "/scratch/c.c1955852/AMGNN/data/Complex_dataset"
 project: "AMGNN"
 float_type: "float64"
-pooling_process: 10
+do_preprocessing: True # Boolean to skip the pre processing of the dataset
+do_multi_processing: True # Boolean to use or not multiprocessing for hte preprocessing.
+pooling_process: 10 # Number of process to use for the preprocessing of the dataset.
 default_powder_temperature: 25
 scaling_temperature: 1900 # Temperature used to scale the temperature (T/scaling_temperature) in Cecilius
 scaling_power: 300
