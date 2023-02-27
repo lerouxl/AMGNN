@@ -193,7 +193,7 @@ class ARCDataset(Dataset):
         # Pre processing
         # TODO: Do a proper test if the preporcessing is done
         # preprocessing_done = len(list(self.tmp_arc_folder.glob("*.npz"))) > 0
-        preprocessing_done = wandb.config.do_preprocessing  # Controlled now with the config_data.yml
+        preprocessing_done = wandb.config.preprocessing_done  # Controlled now with the config_data.yml
 
         if not preprocessing_done:
             # Is the multiprocessing boolean is set to True, then use pooling_process_th pools to preprocess the data
