@@ -2,6 +2,7 @@ import copy
 import logging
 import wandb
 import numpy as np
+from pathlib import Path
 
 from dataloader import simulation_files
 from utils.load_arc import load_arcs_list
@@ -63,81 +64,92 @@ def preprocess_files(step_files: list, dest_folder: str) -> None:
     """
     for i, raw_path in enumerate(step_files):
 
-        arc = load_arcs_list(raw_path, )
-        arc.load_meta_parameters(
-            increment_id=i, build_path=None, increments_path=None
-        )
-        # Convert data from meter to mm
-        arc.coordinate = arc.coordinate * 1000
-        arc.data.XDIS, arc.data.YDIS, arc.data.ZDIS = arc.data.XDIS*1000, arc.data.YDIS*1000, arc.data.ZDIS*1000
-
-        # Convert from Kelvin to Celsius
-        arc.data.TEMPTURE = arc.data.TEMPTURE - 273.15
-
-        # Change data type to remove unecesary precision
-
-        try:
-            # Try to get the memory type from wandb
-            float_type = wandb.config.float_type
-        except:
-            float_type = "float32"
-        arc.coordinate = arc.coordinate.astype(float_type)
-        arc.data.XDIS, arc.data.YDIS, arc.data.ZDIS = arc.data.XDIS.astype(float_type), arc.data.YDIS.astype(
-            float_type), arc.data.ZDIS.astype(float_type)
-        arc.data.TEMPTURE = arc.data.TEMPTURE.astype(float_type)
-
-        # Clear raw_data
-        arc.raw_data = None
-
-        # Clear data
-        for dat in dir(arc.data):
-            if (dat in ["XDIS", "YDIS", "ZDIS", "TEMPTURE"]) or dat.startswith("__"):
-                pass
-            else:
-                setattr(arc.data, dat, None)
-
-        arc.original_coordinate = arc.coordinate - np.stack([arc.data.XDIS, arc.data.YDIS, arc.data.ZDIS],
-                                                            axis=1)
-        arc.original_coordinate = arc.original_coordinate.astype(float_type)
-
-        # Add the process step to the data:
-        arc.data.subProcessName = np.full_like(arc.data.XDIS,
-                                               f"{arc.metaparameters.subProcessName}", dtype="S120")
-        try:
-            process_name = str(arc.metaparameters.subProcessName, "utf-8")
-        except:
-            process_name = str(arc.metaparameters.subProcessName)
-
-        # The first step file, have a process_name equal to the simulation name instead of simulation step name.
-        if raw_path[0].parents[2].name.lower() == process_name:
-            # if we are at the step zeros (init), then place holder values are used.
-            process_category, process_features = [0, 0, 0, 0, 0, 0, 0, 0], 0
-        else:
-            process_category, process_features = subprocessname_to_cat_features(process_name)
-
-        # Pass those features to all nodes
-        arc.data.process_category = np.broadcast_to(np.array([process_category], dtype=float),
-                                                    [arc.data.XDIS.shape[0], 8])
-        arc.data.process_features = np.full_like(arc.data.XDIS, process_features, dtype=float)
-
-        # Previous arc file
-        if i == 0:
-            # If this is the initialisation file
-            previous_file_name = None
-            is_first_step = True
-        else:
-            # For the next simulation files
-            folder_name = simulation_files.extract_the_simulation_folder(step_files[i - 1][0])
-            step_ = simulation_files.extract_step_folder(step_files[i - 1][0])
-            previous_file_name = f"{folder_name}_at_step_{step_}"
-            is_first_step = False
-            arc.previous_arc = previous_arc
-        arc.previous_file_name = previous_file_name  # Gave the name of the previous file
-        arc.is_first_step = is_first_step
+        # Check if this file was already processed:
         step_name = f"{simulation_files.extract_the_simulation_folder(raw_path[0])}_at_step_{simulation_files.extract_step_folder(raw_path[0])}"
-        save_arc(arc, dest_folder, step_name)
+        file_path = Path(dest_folder) / f"{step_name}.npz"
+        already_processed = file_path.is_file()
 
-        previous_arc = copy.deepcopy(arc)
+        if already_processed:
+            # Load the previously processed file as previous_arc
+            previous_arc = load_arc(file=file_path, load_past_arc=False)
+
+        else:
+            # This file was not processed before
+            arc = load_arcs_list(raw_path, )
+            arc.load_meta_parameters(
+                increment_id=i, build_path=None, increments_path=None
+            )
+            # Convert data from meter to mm
+            arc.coordinate = arc.coordinate * 1000
+            arc.data.XDIS, arc.data.YDIS, arc.data.ZDIS = arc.data.XDIS*1000, arc.data.YDIS*1000, arc.data.ZDIS*1000
+
+            # Convert from Kelvin to Celsius
+            arc.data.TEMPTURE = arc.data.TEMPTURE - 273.15
+
+            # Change data type to remove unecesary precision
+
+            try:
+                # Try to get the memory type from wandb
+                float_type = wandb.config.float_type
+            except:
+                float_type = "float32"
+            arc.coordinate = arc.coordinate.astype(float_type)
+            arc.data.XDIS, arc.data.YDIS, arc.data.ZDIS = arc.data.XDIS.astype(float_type), arc.data.YDIS.astype(
+                float_type), arc.data.ZDIS.astype(float_type)
+            arc.data.TEMPTURE = arc.data.TEMPTURE.astype(float_type)
+
+            # Clear raw_data
+            arc.raw_data = None
+
+            # Clear data
+            for dat in dir(arc.data):
+                if (dat in ["XDIS", "YDIS", "ZDIS", "TEMPTURE"]) or dat.startswith("__"):
+                    pass
+                else:
+                    setattr(arc.data, dat, None)
+
+            arc.original_coordinate = arc.coordinate - np.stack([arc.data.XDIS, arc.data.YDIS, arc.data.ZDIS],
+                                                                axis=1)
+            arc.original_coordinate = arc.original_coordinate.astype(float_type)
+
+            # Add the process step to the data:
+            arc.data.subProcessName = np.full_like(arc.data.XDIS,
+                                                   f"{arc.metaparameters.subProcessName}", dtype="S120")
+            try:
+                process_name = str(arc.metaparameters.subProcessName, "utf-8")
+            except:
+                process_name = str(arc.metaparameters.subProcessName)
+
+            # The first step file, have a process_name equal to the simulation name instead of simulation step name.
+            if raw_path[0].parents[2].name.lower() == process_name:
+                # if we are at the step zeros (init), then place holder values are used.
+                process_category, process_features = [0, 0, 0, 0, 0, 0, 0, 0], 0
+            else:
+                process_category, process_features = subprocessname_to_cat_features(process_name)
+
+            # Pass those features to all nodes
+            arc.data.process_category = np.broadcast_to(np.array([process_category], dtype=float),
+                                                        [arc.data.XDIS.shape[0], 8])
+            arc.data.process_features = np.full_like(arc.data.XDIS, process_features, dtype=float)
+
+            # Previous arc file
+            if i == 0:
+                # If this is the initialisation file
+                previous_file_name = None
+                is_first_step = True
+            else:
+                # For the next simulation files
+                folder_name = simulation_files.extract_the_simulation_folder(step_files[i - 1][0])
+                step_ = simulation_files.extract_step_folder(step_files[i - 1][0])
+                previous_file_name = f"{folder_name}_at_step_{step_}"
+                is_first_step = False
+                arc.previous_arc = previous_arc
+            arc.previous_file_name = previous_file_name  # Gave the name of the previous file
+            arc.is_first_step = is_first_step
+
+            save_arc(arc, dest_folder, step_name)
+
+            previous_arc = copy.deepcopy(arc)
 
 
 def subprocessname_to_cat_features(process_name: str) -> tuple[list[int], int]:

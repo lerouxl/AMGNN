@@ -191,7 +191,9 @@ class ARCDataset(Dataset):
         # The ARC_reader object is saved with pickle
 
         # Pre processing
-        preprocessing_done = len(list(self.tmp_arc_folder.glob("*.npz"))) > 0
+        # TODO: Do a proper test if the preporcessing is done
+        # preprocessing_done = len(list(self.tmp_arc_folder.glob("*.npz"))) > 0
+        preprocessing_done = False  # Deactivated since the pre processing script can now restart
         if not preprocessing_done:
             # TODO: Re use the Pool for performance reasons
             with Pool(wandb.config.pooling_process) as pool:
