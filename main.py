@@ -160,15 +160,17 @@ def run(overwrite_config: dict):
                          default_root_dir=f"checkpoints/{name}/",
                          max_epochs=configuration["max_epochs"],
                          accumulate_grad_batches=int(configuration["accumulate_grad_batches"]),
-                         auto_scale_batch_size="binsearch",
+                         auto_scale_batch_size="power",
                          check_val_every_n_epoch=1,
                          log_every_n_steps=50,
+                         precision=16,
+                         auto_lr_find=True,
                          #gradient_clip_val=0.8,
                          #limit_train_batches=0.01,
                          #limit_val_batches=0.02,
                          #limit_test_batches=0.5
                          )
-
+    trainer.tune(model) # Find the best lr
     trainer.fit(model)
     # trainer.fit(model, train_loader, validation_loader)
     log.info("End model training")
