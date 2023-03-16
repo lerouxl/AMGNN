@@ -144,8 +144,10 @@ def surface_reconstruction_error(folder: str, configuration: dict):
                                  "L2_median_error",
                                  "L2_max_error",
                                  l2_std_total_error,
-                                 "ray_trace_max",
-                                 ray_trace_mean,
+                                 ray_trace_sum_error,
+                                 ray_trace_mean_error,
+                                 ray_trace_median_error,
+                                 ray_trace_max_error,
                                  ray_trace_std,
                                  results["Nb_points"].sum()]
 
