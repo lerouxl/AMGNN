@@ -92,6 +92,7 @@ class AMGNNmodel(pl.LightningModule):
         self.lambda_weight = torch.tensor(config["lambda_parameters"], dtype=torch.float32).view(3, 1)
         # self.example_input_array = torch.Tensor(32, 1, 28, 28)
         self.save_hyperparameters()
+        self.use_ReduceLROnPlateau = False
 
         # Define the dataloader to none, they can be loader with the set_train_dataloader function
         self._train_dataloader = None
@@ -301,11 +302,17 @@ class AMGNNmodel(pl.LightningModule):
                 "monitor": "train loss"
         """
         optimizer = optim.Adam(self.parameters(), lr=self.lr)
-        scheduler = ReduceLROnPlateau(optimizer)
-        return {"optimizer": optimizer,
-                "lr_scheduler": scheduler,
-                "monitor": "train loss"
-                }
+
+        if self.use_ReduceLROnPlateau:
+            print("Use ReduceLROnPlateau")
+            scheduler = ReduceLROnPlateau(optimizer)
+            return {"optimizer": optimizer,
+                    "lr_scheduler": scheduler,
+                    "monitor": "train loss_epoch"
+                    }
+        else:
+            print("Do not use ReduceLROnPlateau")
+            return optimizer
 
     def get_preds_loss(self, batch: Batch) -> Tuple[torch.Tensor, torch.Tensor]:
         """ Use the network to make a prediction from the batch and compute the loss.
