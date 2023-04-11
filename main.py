@@ -147,7 +147,7 @@ def run(overwrite_config: dict):
     # Create a trained run the model on the GPU, with a wandb logger, saving the best 2 models in the checkpoints dir
 
     checkpoint_callback = ModelCheckpoint(dirpath=f"checkpoints/{name}",
-                                          save_top_k=5, monitor="val loss mse_epoch",
+                                          save_top_k=5, monitor="val loss",
                                           filename='amgnn-{epoch:02d}',
                                           save_last=True)
     lr_callback = LearningRateMonitor(logging_interval="step")
