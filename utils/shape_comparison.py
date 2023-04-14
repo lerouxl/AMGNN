@@ -43,7 +43,11 @@ def surface_reconstruction_error(folder: str, configuration: dict):
         # load batch
         batch = torch.load(batch_file)
 
-        graphs = [batch[i] for i in range(batch.num_graphs)]
+        if hasattr(batch, "num_graphs"):
+            graphs = [batch[i] for i in range(batch.num_graphs)]
+        else:
+            graphs = [batch]
+            USE_MULTITHREADING = False
 
         # On some configuration, the multithreading is not working well with Pytorch. You can deactivate it.
         if USE_MULTITHREADING:
@@ -111,17 +115,18 @@ def surface_reconstruction_error(folder: str, configuration: dict):
 
         results.loc[len(results)] = csv_line
 
+    # Compute the error statistic on all
     l1_mean_total_error = (results["L1_mean_error"] * results["Nb_points"]).sum() / results["Nb_points"].sum()
     l2_mean_total_error = (results["L2_mean_error"] * results["Nb_points"]).sum() / results["Nb_points"].sum()
     mse_mean_total_error = (results["MSE_mean_error"] * results["Nb_points"]).sum() / results["Nb_points"].sum()
     dist_mean_total_error = (results["Dist_mean_error"] * results["Nb_points"]).sum() / results["Nb_points"].sum()
-    ray_trace_mean = (results["Ray_trace_mean"] * results["Nb_points"]).sum() / results["Nb_points"].sum()
+    ray_trace_total_mean = (results["Ray_trace_mean"] * results["Nb_points"]).sum() / results["Nb_points"].sum()
 
     l1_std_total_error = (results["L1_std_error"] * results["Nb_points"]).sum() / results["Nb_points"].sum()
     l2_std_total_error = (results["L2_std_error"] * results["Nb_points"]).sum() / results["Nb_points"].sum()
     mse_std_total_error = (results["MSE_std_error"] * results["Nb_points"]).sum() / results["Nb_points"].sum()
     dist_std_total_error = (results["Dist_std_error"] * results["Nb_points"]).sum() / results["Nb_points"].sum()
-    ray_trace_std = (results["Ray_trace_std"] * results["Nb_points"]).sum() / results["Nb_points"].sum()
+    ray_trace_total_std = (results["Ray_trace_std"] * results["Nb_points"]).sum() / results["Nb_points"].sum()
 
     results.loc[len(results)] = ["total",
                                  "Dist_sum_error",
@@ -145,10 +150,10 @@ def surface_reconstruction_error(folder: str, configuration: dict):
                                  "L2_max_error",
                                  l2_std_total_error,
                                  ray_trace_sum_error,
-                                 ray_trace_mean_error,
+                                 ray_trace_total_mean,
                                  ray_trace_median_error,
                                  ray_trace_max_error,
-                                 ray_trace_std,
+                                 ray_trace_total_std,
                                  results["Nb_points"].sum()]
 
     return results
