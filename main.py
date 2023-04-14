@@ -225,6 +225,8 @@ if __name__ == "__main__":
     parser.add_argument("--model_name", type=str, default=None)
     parser.add_argument("--lambda_parameters", type=str, default=None)
     parser.add_argument("--learning_rate", type=float, default=None)
+    parser.add_argument("--hidden_channels", type=int, default=None)
+    parser.add_argument("--number_hidden_layers", type=int, default=None)
 
     args = parser.parse_args()
 
