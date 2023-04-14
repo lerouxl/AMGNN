@@ -116,7 +116,7 @@ class AMGNNmodel(pl.LightningModule):
         if dl is not None:
             return dl
         else:
-            raise "Data loader not configured"
+            raise AttributeError("Data loader not configured")
 
     def set_val_dataloader(self, val_dataloader: DataLoader) -> None:
         """ Load the val dataloader to this class
@@ -135,7 +135,7 @@ class AMGNNmodel(pl.LightningModule):
         if dl is not None:
             return dl
         else:
-            raise "Data loader not configured"
+            raise AttributeError("Data loader not configured")
 
     def set_test_dataloader(self, test_dataloader: DataLoader) -> None:
         """ Load the test dataloader to this class
@@ -154,7 +154,7 @@ class AMGNNmodel(pl.LightningModule):
         if dl is not None:
             return dl
         else:
-            raise "Data loader not configured"
+            raise AttributeError("Data loader not configured")
 
     def get_ai_model(self) -> DoubleHeadSimpleSAGEConv:
         """Get the deep learning model.
