@@ -27,23 +27,23 @@ Sweep parameters of wandb
 This neural network is loading graph as inputs.
 The nodes features are:
 
-| ID                	| Description                                                  	|
-|-------------------	|--------------------------------------------------------------	|
-| 0                 	| Laser speed (Normalised by dividing it with `scaling_speed`) 	|
-| 1                 	| Laser power (Normalised by dividing it with `scaling_power`) 	|
-| 2                 	| Layer thickness                                              	|
-| 3                 	| Time step lenght                                             	|
-| 4                 	| Time step                                                    	|
-| 5,6,7             	| Type of node                                                 	|
-| 8                 	| Past node temperature (Normalised by `scaling_temperature`)  	|
-| 9                 	| Past X displacement (Normalised by `scaling_deformation`)    	|
-| 10                	| Past Y displacement (Normalised by `scaling_deformation`)    	|
-| 11                	| Past Z displacement (Normalised by `scaling_deformation`)    	|
-| 12                	| Process features                                             	|
-| 13<14,15,16,17,18 	| Process category                                             	|
-| 19                	| X coordinate (Normalised by `scaling_size`)                  	|
-| 20                	| Y coordinate (Normalised by `scaling_size`)                  	|
-| 21                	| Z coordinate (Normalised by `scaling_size`)                  	|
+| ID                	       | Description                                                  	|
+|---------------------------|--------------------------------------------------------------	|
+| 0                 	       | Laser speed (Normalised by dividing it with `scaling_speed`) 	|
+| 1                 	       | Laser power (Normalised by dividing it with `scaling_power`) 	|
+| 2                 	       | Layer thickness                                              	|
+| 3                 	       | Time step lenght                                             	|
+| 4                 	       | Time step                                                    	|
+| 5,6,7             	       | Type of node                                                 	|
+| 8                 	       | Past node temperature (Normalised by `scaling_temperature`)  	|
+| 9                 	       | Past X displacement (Normalised by `scaling_deformation`)    	|
+| 10                	       | Past Y displacement (Normalised by `scaling_deformation`)    	|
+| 11                	       | Past Z displacement (Normalised by `scaling_deformation`)    	|
+| 12                	       | Process features                                             	|
+| 13,14,15,16,17,18,19,20 	 | Process category                                             	|
+| 21                	       | X coordinate (Normalised by `scaling_size`)                  	|
+| 22                	       | Y coordinate (Normalised by `scaling_size`)                  	|
+| 23                	       | Z coordinate (Normalised by `scaling_size`)                  	|
 
 
 ## Multi GPUs and nodes supports

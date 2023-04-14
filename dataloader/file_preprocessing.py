@@ -155,7 +155,7 @@ def preprocess_files(step_files: list, dest_folder: str) -> None:
 def subprocessname_to_cat_features(process_name: str) -> tuple[list[int], int]:
     """Transform the subProcessName in a category and a features.
 
-    The subProcessName will be classified into 6 categories.
+    The subProcessName will be classified into 8 categories.
     Categories:
         - AM_Layer : [1,0,0,0,0,0,0,0]
         - process : [0,1,0,0,0,0,0,0]
