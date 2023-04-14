@@ -35,11 +35,12 @@ def align_features(actual_features: torch.Tensor, past_features: torch.Tensor, c
 
     past_coor_no_def = past_features[:, :3]
     actual_coor_no_def = actual_features[:, :3].detach().clone()
-    kd = KDTree(past_coor_no_def*config["scaling_size"])
+    kd = KDTree(past_coor_no_def * config["scaling_size"])
 
     for i, coor in enumerate(actual_coor_no_def):
 
-        distance, id_point = kd.query(coor*config["scaling_size"], distance_upper_bound=float(config["distance_upper_bound"]))
+        distance, id_point = kd.query(coor * config["scaling_size"],
+                                      distance_upper_bound=float(config["distance_upper_bound"]))
 
         if distance == float("inf"):
             # If no matching point are returned, set default value.
@@ -68,3 +69,49 @@ def align_features(actual_features: torch.Tensor, past_features: torch.Tensor, c
         Y[i] = good_target
 
     return actual_coor_no_def, X, Y
+
+
+@torch.no_grad()
+def align_x_and_y(x1: torch.Tensor, y1: torch.Tensor, x2: torch.Tensor, config: dict) -> torch.Tensor:
+    """Align an graph x tensor with the y AI result from a previous graph.
+    Return the new graph x tensor with AI results.
+
+    Parameters
+    ----------
+    x1: torch.Tensor, Features tensor of the previous graph.
+    y1: torch.Tensor, Results tensor of the AI.
+    x2: torch.Tensor, Features tensor of the next graph
+    config: dict, containing the scaling size to scale up the point coordinates for the alignment.
+
+    Returns
+    -------
+    x2y: torch.Tensor, Features tensor of the next graph with AI previous results.
+    """
+    # Initialise the return tensor
+    x2y = x2.clone()
+
+    # Default scaled temperature
+    def_temperature = float(config["default_powder_temperature"]) / float(config["scaling_temperature"])
+
+    # Create a tensor with a scaled displacement of 0.5 and a scaled temperature of def_temperature
+    x2y[:, 8:12] = torch.tensor([[def_temperature, 0.5, 0.5, 0.5]] * x2y.shape[0])
+
+    # Unscale coordinate
+    x1_coor = x1[:, -3:] * config["scaling_size"]
+    x2_coor = x2[:, -3:] * config["scaling_size"]
+
+    # Create the KD tree for alignment
+    kd = KDTree(x2_coor)
+
+    # For all points in x1, look for the closest in x2
+    for i, coor in enumerate(x1_coor):
+        distance, id_point = kd.query(coor * config["scaling_size"],
+                                      distance_upper_bound=float(config["distance_upper_bound"]))
+        if distance == float("inf"):
+            # No matching point have been found (no point in a radius of distance_upper_bound)
+            pass
+        else:
+            # The point i in x1 correspond to the point id_point in x2
+            x2y[id_point] = y1[i].clone()
+
+    return x2y
