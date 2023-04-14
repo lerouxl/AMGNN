@@ -164,7 +164,7 @@ def run(overwrite_config: dict):
                          check_val_every_n_epoch=1,
                          log_every_n_steps=1,
                          precision=32,
-                         #auto_lr_find=True,
+                         auto_lr_find=True,
                          #gradient_clip_val=0.8,
                          #limit_train_batches=0.01,
                          #limit_val_batches=0.02,
