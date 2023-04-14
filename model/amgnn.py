@@ -92,7 +92,7 @@ class AMGNNmodel(pl.LightningModule):
         self.lambda_weight = torch.tensor(config["lambda_parameters"], dtype=torch.float32).view(3, 1)
         # self.example_input_array = torch.Tensor(32, 1, 28, 28)
         self.save_hyperparameters()
-        self.use_ReduceLROnPlateau = False
+        self.use_ReduceLROnPlateau = True
 
         # Define the dataloader to none, they can be loader with the set_train_dataloader function
         self._train_dataloader = None
