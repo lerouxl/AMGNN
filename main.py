@@ -124,7 +124,7 @@ def run(overwrite_config: dict):
 
     train_loader = DataLoader(dataset=train_dataset,
                               batch_size=batch_size,
-                              shuffle=True,
+                              shuffle=False,
                               num_workers=num_workers,
                               pin_memory=pin_memory)
     validation_loader = DataLoader(dataset=validation_dataset,
