@@ -307,8 +307,11 @@ class AMGNNmodel(pl.LightningModule):
             print("Use ReduceLROnPlateau")
             scheduler = ReduceLROnPlateau(optimizer)
             return {"optimizer": optimizer,
-                    "lr_scheduler": scheduler,
-                    "monitor": "train loss_epoch"
+                    "lr_scheduler": {
+                        "scheduler": scheduler,
+                        "monitor": "train loss_step",
+                        "frequency":10
+                        }
                     }
         else:
             print("Do not use ReduceLROnPlateau")
@@ -340,6 +343,11 @@ class AMGNNmodel(pl.LightningModule):
         """
         # Check input
         check_tensors(batch.x)
+
+        # Add noise to simulate noise input from a previous results
+        # This noise is only to the past node temperature, and displacement
+        batch.x[:,8:12] = batch.x[:,8:12] + torch.tensor(np.random.normal(loc=0.0, scale=0.0003, size=batch.x[:,8:12].size()),
+                                                         device=batch.x.device)
 
         # Output of the network
         y_hat = self.network(batch)
