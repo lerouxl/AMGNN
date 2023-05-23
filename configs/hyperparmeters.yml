@@ -3,22 +3,23 @@ learning_rate: 1e-03
 neighbour_k: 26
 input_channels: 24
 hidden_channels: 128
-number_hidden_layers: 2
+number_hidden_layers: 4
 out_channels: 4
 aggregator: mean
 distance_upper_bound: 0.3 # Tolerance used for aligning old to new features (in mm)
-batch_size: 15
-max_epochs: 3000
-accumulate_grad_batches: 1
-lambda_parameters: [0.5,0.25,0.25] # weight MSE loss, weight temperature gradient loss, weight displacement gradient loss
+batch_size: 16
+max_epochs: 1000
+accumulate_grad_batches: 5
+lambda_parameters: [0.33,0.33,0.33] # weight MSE loss, weight temperature gradient loss, weight displacement gradient loss
 model_name: simple_conv
 
 # Wandb parameters
 offline: No # If Yes, wandb will not try to save the trainning online. If No, wandb will save the results online.
-notes: "Run of AMGNN on with the complex dataet" # Note to add to the run
+notes: "Run of AMGNN with noise" # Note to add to the run
 # Tags to give to this amgnn run
 tags:
   - "train"
-  - "hilberCube1 dataset"
+  - "Cubes dataset"
   - "full features"
+  - "Noisy input"
   # - "simple mlp" Now the model name is automaticaly add to the tag

@@ -1,18 +1,18 @@
-raw_data: "E:\\Leopold\\Chapter 6 - datasets\\Complex_dataset"
+raw_data: "E:\\Leopold\\Chapter 6 - datasets\\Cubes" #"E:\\Leopold\\Chapter 6 - datasets\\Complex_dataset"
 project: "AMGNN"
-float_type: "float64"
-preprocessing_done: False # Boolean to skip the pre processing of the dataset
+float_type: "float32" #"float64"
+preprocessing_done: True # Boolean to skip the pre processing of the dataset
 do_multi_processing: False # Boolean to use or not multiprocessing for hte preprocessing.
 pooling_process: 10 # Number of process to use for the preprocessing of the dataset.
 default_powder_temperature: 25
 scaling_temperature: 1900 # Temperature used to scale the temperature (T/scaling_temperature) in Cecilius
 scaling_power: 300
 scaling_speed: 1850
-scaling_time: 110000
-scaling_size: 200 # max coordinate value in mm
-scaling_deformation: 5 # Max deformation in mm
+scaling_time: 32000
+scaling_size: 150 # max coordinate value in mm
+scaling_deformation: 0.2 # Max deformation in mm
 #  Scaling deformation work as Y' = (Y + scaling deformation) / (2*scaling deformation)
-max_number_of_layer: 70 # 10 000 is the max number of layer for the EOS M290 with a layer thickness of 0.03mm
+max_number_of_layer: 30 # 10 000 is the max number of layer for the EOS M290 with a layer thickness of 0.03mm
 
 # What simulated components to use as input.
 # Can be ["part", "baseplate", "supports"], part should always be here
