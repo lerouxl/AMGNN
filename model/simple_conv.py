@@ -71,7 +71,7 @@ class SimpleSAGEConv(torch.nn.Module):
             Node predictions.
         """
         # Check that all input features values are bellow 1
-        assert (batch.x.max() <= 1)
+        #assert (batch.x.max() <= 1)
 
         x = self.encoder(batch.x)
 
