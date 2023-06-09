@@ -346,7 +346,7 @@ class AMGNNmodel(pl.LightningModule):
 
         # Add noise to simulate noise input from a previous results
         # This noise is only to the past node temperature, and displacement
-        batch.x[:,8:12] = batch.x[:,8:12] + torch.tensor(np.random.normal(loc=0.0, scale=0.0003, size=batch.x[:,8:12].size()),
+        batch.x[:,8:12] = batch.x[:,8:12] + torch.tensor(np.random.normal(loc=0.0, scale=0.03, size=batch.x[:,8:12].size()),
                                                          device=batch.x.device)
 
         # Output of the network
