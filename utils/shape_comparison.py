@@ -12,7 +12,7 @@ from itertools import repeat
 
 # Flag to select if the error processing is done by multithreading
 # On some configuration, the multithreading is not working well with Pytorch. You can turn it off.
-USE_MULTITHREADING = False
+USE_MULTITHREADING = True
 def surface_reconstruction_error(folder: str, configuration: dict):
     """ Compute the deformation error on the mesh surfaces.
 
@@ -31,6 +31,7 @@ def surface_reconstruction_error(folder: str, configuration: dict):
     pandas.DataFrame:
         DataFrame containing for each mesh file, the sum, max and mean reconstruction error
     """
+    global USE_MULTITHREADING
     np.seterr(invalid="ignore")
     results = get_empty_results_df()
 
@@ -66,7 +67,7 @@ def surface_reconstruction_error(folder: str, configuration: dict):
         csv_line.append(vtk_file.name)
 
         # Distances from simulation
-        array_ = mesh["Distances from simulation (mm)"]
+        array_ = np.array(mesh["Distances from simulation (mm)"])
         dist_sum_error = np.nansum(array_)
         dist_mean_error = np.nanmean(array_)
         dist_median_error = np.nanmedian(array_)
@@ -76,6 +77,7 @@ def surface_reconstruction_error(folder: str, configuration: dict):
 
         # MSE
         array_ = mesh["MSE"]
+        array_ = np.array(array_)
         mse_sum_error = np.nansum(array_)
         mse_mean_error = np.nanmean(array_)
         mse_median_error = np.nanmedian(array_)
@@ -85,6 +87,7 @@ def surface_reconstruction_error(folder: str, configuration: dict):
 
         # L1
         array_ = mesh["L1"]
+        array_ = np.array(array_)
         l1_sum_error = np.nansum(array_)
         l1_mean_error = np.nanmean(array_)
         l1_median_error = np.nanmedian(array_)
@@ -94,6 +97,7 @@ def surface_reconstruction_error(folder: str, configuration: dict):
 
         # L2
         array_ = mesh["L2"]
+        array_ = np.array(array_)
         l2_sum_error = np.nansum(array_)
         l2_mean_error = np.nanmean(array_)
         l2_median_error = np.nanmedian(array_)
@@ -101,14 +105,15 @@ def surface_reconstruction_error(folder: str, configuration: dict):
         l2_std_error = np.nanstd(array_)
         csv_line.extend([l2_sum_error, l2_mean_error, l2_median_error, l2_max_error,l2_std_error])
 
-        # Ray trace
-        array_ = mesh["Distances from simulation ray trace (mm)"]
-        ray_trace_sum_error = np.nansum(array_)
-        ray_trace_mean_error = np.nanmean(array_)
-        ray_trace_median_error = np.nanmedian(array_)
-        ray_trace_max_error = np.nanmax(array_)
-        ray_trace_std_error = np.nanstd(array_)
-        csv_line.extend([ray_trace_sum_error, ray_trace_mean_error, ray_trace_median_error, ray_trace_max_error,ray_trace_std_error])
+        # Closest surface error
+        array_ = mesh["Closest surface error (mm)"]
+        array_ = np.array(array_)
+        closest_surface_sum_error = np.nansum(array_)
+        closest_surface_mean_error = np.nanmean(array_)
+        closest_surface_median_error = np.nanmedian(array_)
+        closest_surface_max_error = np.nanmax(array_)
+        closest_surface_std_error = np.nanstd(array_)
+        csv_line.extend([closest_surface_sum_error, closest_surface_mean_error, closest_surface_median_error, closest_surface_max_error,closest_surface_std_error])
 
         nb_points = len(mesh.points)
         csv_line.append(nb_points)
@@ -120,13 +125,13 @@ def surface_reconstruction_error(folder: str, configuration: dict):
     l2_mean_total_error = (results["L2_mean_error"] * results["Nb_points"]).sum() / results["Nb_points"].sum()
     mse_mean_total_error = (results["MSE_mean_error"] * results["Nb_points"]).sum() / results["Nb_points"].sum()
     dist_mean_total_error = (results["Dist_mean_error"] * results["Nb_points"]).sum() / results["Nb_points"].sum()
-    ray_trace_total_mean = (results["Ray_trace_mean"] * results["Nb_points"]).sum() / results["Nb_points"].sum()
+    closest_surface_total_mean = (results["Closest_surface_mean"] * results["Nb_points"]).sum() / results["Nb_points"].sum()
 
     l1_std_total_error = (results["L1_std_error"] * results["Nb_points"]).sum() / results["Nb_points"].sum()
     l2_std_total_error = (results["L2_std_error"] * results["Nb_points"]).sum() / results["Nb_points"].sum()
     mse_std_total_error = (results["MSE_std_error"] * results["Nb_points"]).sum() / results["Nb_points"].sum()
     dist_std_total_error = (results["Dist_std_error"] * results["Nb_points"]).sum() / results["Nb_points"].sum()
-    ray_trace_total_std = (results["Ray_trace_std"] * results["Nb_points"]).sum() / results["Nb_points"].sum()
+    closest_surface_total_std = (results["Closest_surface_std"] * results["Nb_points"]).sum() / results["Nb_points"].sum()
 
     results.loc[len(results)] = ["total",
                                  "Dist_sum_error",
@@ -149,11 +154,11 @@ def surface_reconstruction_error(folder: str, configuration: dict):
                                  "L2_median_error",
                                  "L2_max_error",
                                  l2_std_total_error,
-                                 ray_trace_sum_error,
-                                 ray_trace_total_mean,
-                                 ray_trace_median_error,
-                                 ray_trace_max_error,
-                                 ray_trace_total_std,
+                                 closest_surface_sum_error,
+                                 closest_surface_total_mean,
+                                 closest_surface_median_error,
+                                 closest_surface_max_error,
+                                 closest_surface_total_std,
                                  results["Nb_points"].sum()]
 
     return results
@@ -190,11 +195,11 @@ def get_empty_results_df() -> pd.DataFrame:
                                     "L2_median_error",
                                     "L2_max_error",
                                     "L2_std_error",
-                                    "Ray_trace_sum",
-                                    "Ray_trace_mean",
-                                    "Ray_trace_median",
-                                    "Ray_trace_max",
-                                    "Ray_trace_std",
+                                    "Closest_surface_sum",
+                                    "Closest_surface_mean",
+                                    "Closest_surface_median",
+                                    "Closest_surface_max",
+                                    "Closest_surface_std",
                                     "Nb_points"])  # Mean of the norms of all error vectors,
     return results
 
@@ -334,15 +339,18 @@ def graph_error(graph, scaling_deformation, m_to_mm=True):
     AMGNN.compute_implicit_distance(Simu.extract_surface(), inplace=True)
     AMGNN["Distances from simulation (mm)"] = np.abs(AMGNN['implicit_distance'])
 
-    AMGNN["Distances from simulation ray trace (mm)"] = np.empty(AMGNN.n_points)
+    AMGNN["Closest surface error (mm)"] = np.empty(AMGNN.n_points)
     p = AMGNN.points
+    p_simufact = Simu.points
     vec = AMGNN["Normal"] * 2 * scaling_deformation
     p0 = p - vec
     p1 = p + vec
     for i in range(AMGNN.n_points):
-        ip, ic = Simu.extract_geometry().ray_trace(p0[i], p1[i], first_point=True)
-        dist = np.sqrt(np.sum((ip - p[i]) ** 2))
-        AMGNN["Distances from simulation ray trace (mm)"][i] = dist
+        #ip, ic = Simu.extract_geometry().ray_trace(p0[i], p1[i], first_point=True)
+        #dist = np.sqrt(np.sum((ip - p[i]) ** 2))
+        closest_cells, closest_points = AMGNN.find_closest_cell(p_simufact[i], return_closest_point=True)
+        dist = np.linalg.norm(p_simufact[i] - closest_points)
+        AMGNN["Closest surface error (mm)"][i] = dist
 
     return AMGNN
 
@@ -350,7 +358,7 @@ def graph_error(graph, scaling_deformation, m_to_mm=True):
 if __name__ == "__main__":
     from pathlib import Path
 
-    super_folder = Path(r"E:\Leopold\Chapitre 6 - AMGNN\Results\Sweep ktcmxme2 full features\test_output")
+    super_folder = Path(r"E:\Leopold\Chapitre 6 - AMGNN\Results\Sweep 1 HilbertCube1 shape\test_output")
     folders = [x for x in super_folder.glob("*test_output") if x.is_dir()]
     print(f"{len(folders)} folders detected")
 
