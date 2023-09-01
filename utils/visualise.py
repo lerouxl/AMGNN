@@ -77,12 +77,13 @@ def display_dataset(model: LightningModule, dataset: Subset, configuration, fold
             x_time_step = batch.x[:, 4]
             x_type = np.argmax(batch.x[:, 5:8], axis=1)
             x_past_temp = batch.x[:, 8] * configuration["scaling_temperature"]
-            x_past_x_displacement =  2 * scaling_deformation * batch.x[:, 9] - scaling_deformation
-            x_past_y_displacement =  2 * scaling_deformation * batch.x[:, 10] - scaling_deformation
-            x_past_z_displacement =  2 * scaling_deformation * batch.x[:, 11] - scaling_deformation
-            x_past_displacement_vectors = np.vstack((x_past_x_displacement, x_past_y_displacement, x_past_z_displacement)).T
+            x_past_x_displacement = 2 * scaling_deformation * batch.x[:, 9] - scaling_deformation
+            x_past_y_displacement = 2 * scaling_deformation * batch.x[:, 10] - scaling_deformation
+            x_past_z_displacement = 2 * scaling_deformation * batch.x[:, 11] - scaling_deformation
+            x_past_displacement_vectors = np.vstack(
+                (x_past_x_displacement, x_past_y_displacement, x_past_z_displacement)).T
             x_process_features = batch.x[:, 12]
-            x_process_category =  np.argmax(batch.x[:, 13:19], axis=1)
+            x_process_category = np.argmax(batch.x[:, 13:19], axis=1)
             x_x = batch.x[:, 19] * configuration["scaling_size"]
             x_y = batch.x[:, 20] * configuration["scaling_size"]
             x_z = batch.x[:, 21] * configuration["scaling_size"]
@@ -191,105 +192,115 @@ def read_pt_batch_results(file: Union[str, Path], configuration):
     """
     file = Path(file)
     batch = torch.load(file)
+
+    # We have multiple graph
+    if hasattr(batch, "num_graphs"):
+        # For every graph in the batch, we generate a visualisation:
+        for graph_id in range(batch.num_graphs):
+            graph = batch[graph_id].to("cpu")
+            name = graph.file_name
+            process_one_graph(graph, configuration, file, name)
+    else:
+        process_one_graph(batch, configuration, file, Path(file).stem)
+
+
+def process_one_graph(graph, configuration, file, name):
     scaling_deformation = configuration["scaling_deformation"]
 
-    # For every graph in the batch, we generate a visualisation:
-    for graph_id in range(batch.num_graphs):
-        graph = batch[graph_id].to("cpu")
-        name = graph.file_name
-        # graph.y is expected to be of shape [n, 8] as it's the stack of y and y_hat vector
-        if graph.y.shape[1] == 8:
-            y, y_hat = torch.split(graph.y, 4, dim=1) # Un split the saved y and y_hat features
-        else:
-            y = graph.y
-            y_hat = None
+    # graph.y is expected to be of shape [n, 8] as it's the stack of y and y_hat vector
+    if graph.y.shape[1] == 8:
+        y, y_hat = torch.split(graph.y, 4, dim=1)  # Un split the saved y and y_hat features
+    else:
+        y = graph.y
+        y_hat = None
 
-        # Process the data to be displayed
-        y_temperature = y[:, 0] * configuration["scaling_temperature"]
-        y_disp_x = 2 * scaling_deformation * y[:, 1] - scaling_deformation
-        y_disp_y = 2 * scaling_deformation * y[:, 2] - scaling_deformation
-        y_disp_z = 2 * scaling_deformation * y[:, 3] - scaling_deformation
-        y_displacement_vectors = np.vstack((y_disp_x, y_disp_y, y_disp_z)).T
+    # Process the data to be displayed
+    y_temperature = y[:, 0] * configuration["scaling_temperature"]
+    y_disp_x = 2 * scaling_deformation * y[:, 1] - scaling_deformation
+    y_disp_y = 2 * scaling_deformation * y[:, 2] - scaling_deformation
+    y_disp_z = 2 * scaling_deformation * y[:, 3] - scaling_deformation
+    y_displacement_vectors = np.vstack((y_disp_x, y_disp_y, y_disp_z)).T
 
-        x_laser_speed = graph.x[:, 0] * configuration["scaling_speed"]
-        x_laser_power = graph.x[:, 1] * configuration["scaling_power"]
-        x_layer_thickness = graph.x[:, 2]
-        x_time_step_length = graph.x[:, 3]
-        x_time_step = graph.x[:, 4]
-        x_type = np.argmax(graph.x[:, 5:8], axis=1)
-        x_past_temp = graph.x[:, 8] * configuration["scaling_temperature"]
-        x_past_x_displacement = 2 * scaling_deformation * graph.x[:, 9] - scaling_deformation
-        x_past_y_displacement = 2 * scaling_deformation * graph.x[:, 10] - scaling_deformation
-        x_past_z_displacement = 2 * scaling_deformation * graph.x[:, 11] - scaling_deformation
-        x_past_displacement_vectors = np.vstack((x_past_x_displacement, x_past_y_displacement, x_past_z_displacement)).T
-        x_process_features = graph.x[:, 12]
-        x_process_category = np.argmax(graph.x[:, 13:19], axis=1)
-        x_x = graph.x[:, 19] * configuration["scaling_size"]
-        x_y = graph.x[:, 20] * configuration["scaling_size"]
-        x_z = graph.x[:, 21] * configuration["scaling_size"]
+    x_laser_speed = graph.x[:, 0] * configuration["scaling_speed"]
+    x_laser_power = graph.x[:, 1] * configuration["scaling_power"]
+    x_layer_thickness = graph.x[:, 2]
+    x_time_step_length = graph.x[:, 3]
+    x_time_step = graph.x[:, 4]
+    x_type = np.argmax(graph.x[:, 5:8], axis=1)
+    x_past_temp = graph.x[:, 8] * configuration["scaling_temperature"]
+    x_past_x_displacement = 2 * scaling_deformation * graph.x[:, 9] - scaling_deformation
+    x_past_y_displacement = 2 * scaling_deformation * graph.x[:, 10] - scaling_deformation
+    x_past_z_displacement = 2 * scaling_deformation * graph.x[:, 11] - scaling_deformation
+    x_past_displacement_vectors = np.vstack((x_past_x_displacement, x_past_y_displacement, x_past_z_displacement)).T
+    x_process_features = graph.x[:, 12]
+    x_process_category = np.argmax(graph.x[:, 13:19], axis=1)
+    x_x = graph.x[:, 19] * configuration["scaling_size"]
+    x_y = graph.x[:, 20] * configuration["scaling_size"]
+    x_z = graph.x[:, 21] * configuration["scaling_size"]
 
+    # If we have some prediction
+    if not y_hat is None:
+        y_temperature_hat = y_hat[:, 0] * configuration["scaling_temperature"]
+        y_disp_x_hat = 2 * scaling_deformation * y_hat[:, 1] - scaling_deformation
+        y_disp_y_hat = 2 * scaling_deformation * y_hat[:, 2] - scaling_deformation
+        y_disp_z_hat = 2 * scaling_deformation * y_hat[:, 3] - scaling_deformation
+        y_hat_displacement_vectors = np.vstack((y_disp_x_hat, y_disp_y_hat, y_disp_z_hat)).T
 
-        # If we have some prediction
-        if not y_hat is None:
-            y_temperature_hat =y_hat[:, 0] * configuration["scaling_temperature"]
-            y_disp_x_hat = 2 * scaling_deformation *y_hat[:, 1] - scaling_deformation
-            y_disp_y_hat = 2 * scaling_deformation *y_hat[:, 2] - scaling_deformation
-            y_disp_z_hat = 2 * scaling_deformation *y_hat[:, 3] - scaling_deformation
-            y_hat_displacement_vectors = np.vstack((y_disp_x_hat, y_disp_y_hat, y_disp_z_hat)).T
+        error_temperature = y_temperature - y_temperature_hat
+        error_deformation = y_displacement_vectors - y_hat_displacement_vectors
 
-            error_temperature = y_temperature - y_temperature_hat
-            error_deformation = y_displacement_vectors - y_hat_displacement_vectors
+        # Create a dictionary representation
+        data = {
+            "laser speed": x_laser_speed,
+            "laser power": x_laser_power,
+            "layer thickness": x_layer_thickness,
+            "time step": x_time_step,
+            "time step length": x_time_step_length,
+            "type": x_type,
+            "past temperature": x_past_temp,
+            "past displacement": x_past_displacement_vectors,
+            "Label temperature": y_temperature,
+            "Predicted temperature": y_temperature_hat,
+            "Label displacement vector": y_displacement_vectors,
+            "Predicted displacement vector": y_hat_displacement_vectors,
+            "Process features": x_process_features,
+            "Process category": x_process_category,
+            "Coordinate x": x_x,
+            "Coordinate y": x_y,
+            "Coordinate z": x_z,
+            "Error temperature": error_temperature,
+            "Error deformation": error_deformation
 
-            # Create a dictionary representation
-            data = {
-                "laser speed": x_laser_speed,
-                "laser power": x_laser_power,
-                "layer thickness": x_layer_thickness,
-                "time step": x_time_step,
-                "time step length": x_time_step_length,
-                "type": x_type,
-                "past temperature": x_past_temp,
-                "past displacement": x_past_displacement_vectors,
-                "Label temperature": y_temperature,
-                "Predicted temperature": y_temperature_hat,
-                "Label displacement vector": y_displacement_vectors,
-                "Predicted displacement vector": y_hat_displacement_vectors,
-                "Process features": x_process_features,
-                "Process category": x_process_category,
-                "Coordinate x": x_x,
-                "Coordinate y": x_y,
-                "Coordinate z": x_z,
-                "Error temperature": error_temperature,
-                "Error deformation": error_deformation
+        }
+    else:
+        # Create a dictionary representation
+        data = {
+            "laser speed": x_laser_speed,
+            "laser power": x_laser_power,
+            "layer thickness": x_layer_thickness,
+            "time step": x_time_step,
+            "time step length": x_time_step_length,
+            "type": x_type,
+            "past temperature": x_past_temp,
+            "past displacement": x_past_displacement_vectors,
+            "Label temperature": y_temperature,
+            "Label displacement vector": y_displacement_vectors,
+            "Process features": x_process_features,
+            "Process category": x_process_category,
+            "Coordinate x": x_x,
+            "Coordinate y": x_y,
+            "Coordinate z": x_z,
+        }
 
-            }
-        else:
-            # Create a dictionary representation
-            data = {
-                "laser speed": x_laser_speed,
-                "laser power": x_laser_power,
-                "layer thickness": x_layer_thickness,
-                "time step": x_time_step,
-                "time step length": x_time_step_length,
-                "type": x_type,
-                "past temperature": x_past_temp,
-                "past displacement": x_past_displacement_vectors,
-                "Label temperature": y_temperature,
-                "Label displacement vector": y_displacement_vectors,
-                "Process features": x_process_features,
-                "Process category": x_process_category,
-                "Coordinate x": x_x,
-                "Coordinate y": x_y,
-                "Coordinate z": x_z,
-            }
+    # Save the vtk file
+    file_save = (file.parent / name).with_suffix(".vtk")
 
-        # Save the vtk file
-        file_save = (file.parent / name).with_suffix(".vtk")
-
-        create_vtk(graph, data, file_save)
+    create_vtk(graph, data, file_save)
 
 
 if __name__ == "__main__":
     from utils.config import read_config
+
     configuration = read_config(Path("configs"))
-    read_pt_batch_results(r"data/light/test_output/0.pt", configuration)
+    read_pt_batch_results(r"E:\Leopold\Chapitre 6 - AMGNN\Results\Sweep 3orq1jm6 Cubes and lambda variation\checkpoints\2023_04_18_17_47_simple_conv_0.33_0.33_0.33lr_1e-03\last full simulation\AM_Layer\CubeX16X250WX1750mmsX10umX3um_at_step_00365.pt",
+                          configuration)
